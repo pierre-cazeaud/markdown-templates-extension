@@ -7,7 +7,9 @@
   const items = undefined;
 </script>
 
-<main class="flex flex-col gap-4 min-h-[600px] min-w-[600px] p-4 bg-slate-100">
+<main
+  class="flex flex-col gap-4 min-h-[600px] min-w-[600px] p-4 bg-background text-on-background"
+>
   <header class="ml-auto">
     <Button
       colorVariant="secondary"
