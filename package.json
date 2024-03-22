@@ -1,6 +1,6 @@
 {
   "name": "markdown-templates",
-  "description": "manifest.json description",
+  "description": "Save markdown templates to quickly copy/paste them when you need it!",
   "private": true,
   "version": "0.0.0",
   "scripts": {
