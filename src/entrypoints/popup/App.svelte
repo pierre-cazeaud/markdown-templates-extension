@@ -1,5 +1,6 @@
 <script lang="ts">
   import Button from '@/lib/components/Button.svelte';
+  import Container from '@/lib/layouts/Container.svelte';
   import NoTemplate from '@/lib/layouts/NoTemplate.svelte';
   import { ArrowDownToLineIcon, CogIcon, PlusIcon } from 'lucide-svelte';
   // import svelteLogo from '../../assets/svelte.svg';
@@ -7,9 +8,7 @@
   const items = undefined;
 </script>
 
-<main
-  class="flex flex-col gap-4 min-h-[600px] min-w-[600px] p-4 bg-background text-on-background"
->
+<Container>
   <header class="ml-auto">
     <Button
       colorVariant="secondary"
@@ -32,4 +31,4 @@
       >Create template</Button
     >
   </footer>
-</main>
+</Container>
