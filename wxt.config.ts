@@ -11,6 +11,9 @@ export default defineConfig({
       manifest.options_ui.open_in_tab = true;
     },
   },
+  manifest: {
+    permissions: ['storage'],
+  },
   manifestVersion: 3,
   vite: () => ({
     plugins: [
