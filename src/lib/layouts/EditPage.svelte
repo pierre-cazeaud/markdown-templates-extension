@@ -12,19 +12,21 @@
   import Button from '../components/Button.svelte';
   import { store } from '../utils/store.svelte';
   import type { Template, UUID } from '../types';
+  import EditTemplateForm from '../components/EditTemplateForm.svelte';
 
   type Props = {
     onBackClick: () => void;
     templateId?: UUID;
+    templateGroupId?: string;
   };
 
-  let { onBackClick, templateId }: Props = $props();
+  let { onBackClick, templateId, templateGroupId }: Props = $props();
 
   const templatesStore = store();
-
   let loadedTemplate = templateId
     ? templatesStore.readTemplate(templateId)
     : undefined;
+
   let content: Template['content'] = $state(loadedTemplate?.content || '');
   let title: Template['title'] = $state(loadedTemplate?.title || '');
   let variables: Template['variables'] = $state(loadedTemplate?.variables);
@@ -32,13 +34,15 @@
   let isShowingVariables = $state(false);
   let isSidebarOpen = $state(false);
 
-  const handleTitleKeyDown = (event: KeyboardEvent) => {
-    // console.log(event?.target?.textContent);
+  const onCancelClick = () => {
+    onBackClick();
   };
 
-  const handleTitleKeyUp = () => {};
-  const onCancelClick = () => {};
-  const onDeleteClick = () => {};
+  const onDeleteClick = () => {
+    if (templateId && templateGroupId)
+      templatesStore.deleteTemplate(templateId, templateGroupId);
+  };
+
   const onSaveClick = () => {
     if (!templateId)
       templatesStore.createTemplate({
@@ -73,12 +77,14 @@
       </div>
 
       <div class="flex gap-2">
-        <Button
-          colorVariant="destructive"
-          icon={Trash2Icon}
-          onClick={onDeleteClick}
-          title="Delete template"
-        />
+        {#if templateId}
+          <Button
+            colorVariant="destructive"
+            icon={Trash2Icon}
+            onClick={onDeleteClick}
+            title="Delete template"
+          />
+        {/if}
 
         <Button
           colorVariant="interactive"
@@ -96,25 +102,7 @@
       </div>
     </header>
 
-    <!-- Title -->
-    <p
-      aria-multiline="false"
-      class="title border border-on-background bg-surface text-on-surface rounded text-2xl p-2"
-      contenteditable="true"
-      placeholder="Title"
-      onKeydown={handleTitleKeyDown}
-      onKeyup={handleTitleKeyUp}
-    >
-      {title}
-    </p>
-
-    <!-- Content -->
-    <code
-      aria-multiline="true"
-      class="content border border-on-background bg-surface text-on-surface rounded text-base p-2 min-h-80"
-      contenteditable="true"
-      placeholder="Markdown content for your template">{content}</code
-    >
+    <EditTemplateForm bind:content bind:title />
 
     <footer class="flex justify-center gap-4 mt-auto">
       <Button icon={XIcon} onClick={onCancelClick} colorVariant={'destructive'}
