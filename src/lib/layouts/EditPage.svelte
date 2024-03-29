@@ -10,20 +10,18 @@
     XIcon,
   } from 'lucide-svelte';
   import Button from '../components/Button.svelte';
-  import { store } from '../utils/store.svelte';
-  import type { Template, UUID } from '../types';
+  import type { Template } from '../types';
   import EditTemplateForm from '../components/EditTemplateForm.svelte';
   import { appStore } from '../stores/appStore.svelte';
+  import { templatesStore } from '../stores/templatesStore.svelte';
 
   const { editPageTemplateProps, renderListPage } = appStore;
-  const templatesStore = store();
+  const { createTemplate, deleteTemplate, readTemplate, updateTemplate } =
+    templatesStore;
 
   const templateId = editPageTemplateProps?.templateId;
   const templateGroupId = editPageTemplateProps?.templateGroupId;
-
-  let loadedTemplate = templateId
-    ? templatesStore.readTemplate(templateId)
-    : undefined;
+  let loadedTemplate = templateId ? readTemplate(templateId) : undefined;
 
   let content: Template['content'] = $state(loadedTemplate?.content || '');
   let title: Template['title'] = $state(loadedTemplate?.title || '');
@@ -42,18 +40,18 @@
 
   const onDeleteClick = () => {
     if (templateId && templateGroupId)
-      templatesStore.deleteTemplate(templateId, templateGroupId);
+      deleteTemplate(templateId, templateGroupId);
   };
 
   const onSaveClick = () => {
     if (!templateId)
-      templatesStore.createTemplate({
+      createTemplate({
         content: 'test',
         title: 'Title',
         variables,
       });
     else {
-      templatesStore.updateTemplate(templateId, {
+      updateTemplate(templateId, {
         content,
         title,
         variables,

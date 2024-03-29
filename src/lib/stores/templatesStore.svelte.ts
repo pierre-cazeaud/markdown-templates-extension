@@ -1,12 +1,13 @@
-import { saveTemplatesToStorage, templatesStorage } from './storage';
+import { saveTemplatesToStorage, templatesStorage } from '../utils/storage';
 import type { StoredTemplatesData, Template, UUID } from '../types';
+import { onMount } from 'svelte';
 
 const removeItemFromArray = (array: any[] | undefined, itemValue: any) => {
   if (!array) return;
   array.splice(array.indexOf(itemValue), 1);
 };
 
-export const store = () => {
+const initTemplatesStore = async () => {
   let isLoading = $state(true);
   let data = $state<StoredTemplatesData>({
     favorites: [],
@@ -18,13 +19,9 @@ export const store = () => {
     templates: {},
   });
 
-  $effect(() => {
-    (async () => {
-      const newData = await templatesStorage.getValue();
-      if (newData) data = newData;
-      isLoading = false;
-    })();
-  });
+  const newData = await templatesStorage.getValue();
+  if (newData) data = newData;
+  isLoading = false;
 
   return {
     get isLoading() {
@@ -74,3 +71,5 @@ export const store = () => {
     },
   };
 };
+
+export const templatesStore = await initTemplatesStore();
