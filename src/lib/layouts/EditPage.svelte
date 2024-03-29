@@ -13,16 +13,14 @@
   import { store } from '../utils/store.svelte';
   import type { Template, UUID } from '../types';
   import EditTemplateForm from '../components/EditTemplateForm.svelte';
+  import { appStore } from '../stores/appStore.svelte';
 
-  type Props = {
-    onBackClick: () => void;
-    templateId?: UUID;
-    templateGroupId?: string;
-  };
-
-  let { onBackClick, templateId, templateGroupId }: Props = $props();
-
+  const { editPageTemplateProps, renderListPage } = appStore;
   const templatesStore = store();
+
+  const templateId = editPageTemplateProps?.templateId;
+  const templateGroupId = editPageTemplateProps?.templateGroupId;
+
   let loadedTemplate = templateId
     ? templatesStore.readTemplate(templateId)
     : undefined;
@@ -34,8 +32,12 @@
   let isShowingVariables = $state(false);
   let isSidebarOpen = $state(false);
 
+  const onBackClick = () => {
+    renderListPage();
+  };
+
   const onCancelClick = () => {
-    onBackClick();
+    renderListPage();
   };
 
   const onDeleteClick = () => {

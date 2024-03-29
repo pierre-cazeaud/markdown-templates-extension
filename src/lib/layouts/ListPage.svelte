@@ -3,15 +3,16 @@
   import NoTemplate from '@/lib/layouts/NoTemplate.svelte';
   import { ArrowDownToLineIcon, PlusIcon } from 'lucide-svelte';
   import { store } from '../utils/store.svelte.ts';
+  import { appStore } from '../stores/appStore.svelte.js';
 
-  type Props = {
-    onCreateClick: () => void;
-    onImportClick: () => void;
-  };
-
+  const { renderEditPage } = appStore;
   let templatesStore = store();
 
-  let { onCreateClick, onImportClick }: Props = $props();
+  const onCreateClick = () => {
+    renderEditPage();
+  };
+
+  const onImportClick = () => {};
 </script>
 
 {#if templatesStore.isLoading}
