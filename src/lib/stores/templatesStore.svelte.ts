@@ -1,6 +1,5 @@
 import { saveTemplatesToStorage, templatesStorage } from '../utils/storage';
 import type { StoredTemplatesData, Template, UUID } from '../types';
-import { onMount } from 'svelte';
 
 const removeItemFromArray = (array: any[] | undefined, itemValue: any) => {
   if (!array) return;
@@ -62,12 +61,12 @@ const initTemplatesStore = async () => {
     },
 
     updateTemplate(templateId: UUID, newTemplateData: Partial<Template>) {
-      if (!data?.templates?.[templateId]) return;
-
       data.templates[templateId] = {
         ...data.templates[templateId],
         ...newTemplateData,
       };
+
+      saveTemplatesToStorage(data);
     },
   };
 };

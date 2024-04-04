@@ -1,12 +1,12 @@
 <script lang="ts">
   import Button from '@/lib/components/Button.svelte';
   import NoTemplate from '@/lib/layouts/NoTemplate.svelte';
-  import { ArrowDownToLineIcon, PlusIcon } from 'lucide-svelte';
+  import { ArrowDownToLineIcon, Edit2Icon, PlusIcon } from 'lucide-svelte';
   import { appStore } from '../stores/appStore.svelte.js';
   import { templatesStore } from '../stores/templatesStore.svelte.js';
 
   const { renderEditPage } = appStore;
-  const { data, isLoading } = templatesStore;
+  const { data, isLoading, readTemplate } = templatesStore;
   const hasTemplates = Object.keys(data?.templates).length > 0;
 
   const onCreateClick = () => {
@@ -23,11 +23,24 @@
 {:else}
   <h1 class="text-xl">Templates</h1>
 
-  <section class="grid grid-cols-4 gap-3">
-    {#each Object.keys(data.templates) as templateId}
-      <span>{templateId}</span>
-    {/each}
-  </section>
+  {#each Object.keys(data.templateGroups) as templateGroupId}
+    {@const templateGroup = data.templateGroups[templateGroupId]}
+
+    <section class="grid grid-cols-4 gap-3">
+      {#if templateGroup?.templatesId && Object.keys(templateGroup?.templatesId).length > 0}
+        {#each Object.values(templateGroup.templatesId) as templateId}
+          <div>
+            <span>{readTemplate(templateId).title}</span>
+            <button
+              onclick={() => renderEditPage({ templateGroupId, templateId })}
+            >
+              <Edit2Icon />
+            </button>
+          </div>
+        {/each}
+      {/if}
+    </section>
+  {/each}
 {/if}
 
 <footer class="flex justify-center gap-4 mt-auto">
