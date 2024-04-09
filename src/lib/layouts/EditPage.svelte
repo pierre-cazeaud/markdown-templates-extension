@@ -39,15 +39,17 @@
   };
 
   const onDeleteClick = () => {
-    if (templateId && templateGroupId)
+    if (templateId && templateGroupId) {
       deleteTemplate(templateId, templateGroupId);
+      renderListPage();
+    }
   };
 
   const onSaveClick = () => {
     if (!templateId)
       createTemplate({
-        content: 'test',
-        title: 'Title',
+        content,
+        title,
         variables,
       });
     else {
@@ -57,6 +59,8 @@
         variables,
       });
     }
+
+    renderListPage();
   };
 </script>
 
