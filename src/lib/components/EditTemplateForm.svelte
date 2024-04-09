@@ -6,7 +6,7 @@
     title: Template['title'];
   };
 
-  let { content, title }: Props = $props();
+  let { content = $bindable(), title = $bindable() }: Props = $props();
 
   const handleTitleKeyDown = (event: KeyboardEvent) => {
     if (event.code === 'Enter') {
