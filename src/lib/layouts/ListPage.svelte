@@ -10,6 +10,7 @@
   const hasTemplates = Object.keys(data?.templates).length > 0;
 
   const onCreateClick = () => {
+    appStore.editPageTemplateProps = undefined;
     renderEditPage();
   };
 

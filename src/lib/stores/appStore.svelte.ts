@@ -30,6 +30,10 @@ const initAppStore = () => {
       return editPageProps;
     },
 
+    set editPageTemplateProps(newValue) {
+      editPageProps = newValue;
+    },
+
     get Page() {
       return Page;
     },
