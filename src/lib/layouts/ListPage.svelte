@@ -4,9 +4,11 @@
   import { ArrowDownToLineIcon, Edit2Icon, PlusIcon } from 'lucide-svelte';
   import { appStore } from '../stores/appStore.svelte.js';
   import { templatesStore } from '../stores/templatesStore.svelte.js';
+  import TemplateCard from '../components/TemplateCard.svelte';
+  import type { UUID } from '../types/index.js';
 
   const { renderEditPage } = appStore;
-  const { data, isLoading, readTemplate } = templatesStore;
+  const { data, isLoading } = templatesStore;
   const hasTemplates = Object.keys(data?.templates).length > 0;
 
   const onCreateClick = () => {
@@ -24,20 +26,11 @@
 {:else}
   <h1 class="text-xl">Templates</h1>
 
-  {#each Object.keys(data.templateGroups) as templateGroupId}
-    {@const templateGroup = data.templateGroups[templateGroupId]}
-
+  {#each Object.entries(data.templateGroups) as [templateGroupId, templateGroup]}
     <section class="grid grid-cols-4 gap-3">
-      {#if templateGroup?.templatesId && Object.keys(templateGroup?.templatesId).length > 0}
-        {#each Object.values(templateGroup.templatesId) as templateId}
-          <div>
-            <span>{readTemplate(templateId).title}</span>
-            <button
-              onclick={() => renderEditPage({ templateGroupId, templateId })}
-            >
-              <Edit2Icon />
-            </button>
-          </div>
+      {#if templateGroup?.templatesId && templateGroup?.templatesId?.length > 0}
+        {#each templateGroup.templatesId as templateId}
+          <TemplateCard templateGroupId={(templateGroupId as UUID)} {templateId} />
         {/each}
       {/if}
     </section>
