@@ -66,7 +66,19 @@ const initTemplatesStore = async () => {
         ...newTemplateData,
       };
 
-      saveTemplatesToStorage(data);
+    // Favorites
+    createFavorite(templateId: UUID) {
+      data.favorites.push(templateId);
+      // saveTemplatesToStorage(data);
+    },
+
+    deleteFavorite(templateId: UUID) {
+      data.favorites.splice(data.favorites.indexOf(templateId), 1);
+      // saveTemplatesToStorage(data);
+    },
+
+    readIsFavorite(templateId: UUID) {
+      return data.favorites?.includes(templateId);
     },
   };
 };
