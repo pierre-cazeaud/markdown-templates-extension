@@ -141,15 +141,3 @@
     </header>
   </sidebar>
 </section>
-
-<style>
-  .title:empty:not(:focus):before {
-    content: attr(placeholder);
-    opacity: 0.5;
-  }
-
-  .content:empty:not(:focus):before {
-    content: attr(placeholder);
-    opacity: 0.5;
-  }
-</style>

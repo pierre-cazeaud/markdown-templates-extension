@@ -5,7 +5,7 @@ import ListPage from '../layouts/ListPage.svelte';
 import { UUID } from '../types';
 
 type EditPageProps = {
-  templateGroupId: string;
+  templateGroupId: UUID | 'default';
   templateId: UUID;
 };
 
