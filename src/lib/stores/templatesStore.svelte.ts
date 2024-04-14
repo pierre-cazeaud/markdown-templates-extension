@@ -1,4 +1,4 @@
-import { saveTemplatesToStorage, templatesStorage } from '../utils/storage';
+import { getTemplatesStorage, setTemplatesStorage } from '../utils/storage';
 import type { StoredTemplatesData, Template, UUID } from '../types';
 
 const removeItemFromArray = (array: any[] | undefined, itemValue: any) => {
@@ -18,7 +18,8 @@ const initTemplatesStore = async () => {
     templates: {},
   });
 
-  const newData = await templatesStorage.getValue();
+  const newData = await getTemplatesStorage();
+
   if (newData) data = newData;
   isLoading = false;
 
@@ -39,21 +40,24 @@ const initTemplatesStore = async () => {
       data = newValue;
     },
 
-    createTemplate(newTemplate: Template, templateGroupId = 'default') {
+    // Templates
+    createTemplate(newTemplate: Template, templateGroupId: UUID | 'default' = 'default') {
       const id = crypto.randomUUID();
       data.templates[id] = newTemplate;
       data.templateGroups?.[templateGroupId].templatesId?.push(id);
 
-      saveTemplatesToStorage(data);
+      setTemplatesStorage(data);
     },
 
-    deleteTemplate(templateId: UUID, templateGroupId = 'default') {
+    deleteTemplate(templateId: UUID, templateGroupId: UUID | 'default' = 'default') {
       delete data?.templates?.[templateId];
 
       removeItemFromArray(
         data?.templateGroups?.[templateGroupId]?.templatesId,
         templateId
       );
+
+      setTemplatesStorage(data);
     },
 
     readTemplate(templateId: UUID) {
@@ -66,15 +70,18 @@ const initTemplatesStore = async () => {
         ...newTemplateData,
       };
 
+      setTemplatesStorage(data);
+    },
+
     // Favorites
     createFavorite(templateId: UUID) {
       data.favorites.push(templateId);
-      // saveTemplatesToStorage(data);
+      setTemplatesStorage(data);
     },
 
     deleteFavorite(templateId: UUID) {
       data.favorites.splice(data.favorites.indexOf(templateId), 1);
-      // saveTemplatesToStorage(data);
+      setTemplatesStorage(data);
     },
 
     readIsFavorite(templateId: UUID) {
