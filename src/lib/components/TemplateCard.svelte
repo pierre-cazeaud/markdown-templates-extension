@@ -23,13 +23,16 @@
 
   const content = readTemplate(templateId).content;
   const title = readTemplate(templateId).title;
-  const contentExerpt = `${content.substring(0, 150)}...`;
 
   const copyContentToClipBoard = async () => {
     const type = 'text/plain';
     const blob = new Blob([content], { type });
     const data = [new ClipboardItem({ [type]: blob })];
     await navigator.clipboard.write(data);
+  };
+
+  const getContentExerpt = (content: string) => {
+    return content.replaceAll('\n', '<br>');
   };
 
   const toggleFavorite = () => {
@@ -44,14 +47,14 @@
 </script>
 
 <article
-  class="flex flex-col gap-2 bg-surface text-on-surface border border-on-surface rounded p-3 shadow"
+  class="flex flex-col gap-2 bg-surface text-on-surface border rounded p-3"
 >
   <header class="text-lg">
     {title}
   </header>
 
-  <p class="line-clamp-3">
-    {contentExerpt}
+  <p aria-multiline="true" class="line-clamp-3">
+    {@html getContentExerpt(content)}
   </p>
 
   <footer class="flex border-t border-slate-200 pt-2">
