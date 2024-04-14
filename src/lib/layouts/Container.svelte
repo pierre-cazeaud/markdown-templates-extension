@@ -9,7 +9,7 @@
 </script>
 
 <main
-  class="flex flex-col gap-4 min-h-[600px] min-w-[600px] max-w-screen-2xl mx-auto w-full p-4"
+  class="flex flex-col gap-4 min-h-[600px] min-w-[600px] max-w-screen-2xl mx-auto w-full p-4 px-8"
   class:min-h-screen={isFullWidth}
 >
   <slot />
