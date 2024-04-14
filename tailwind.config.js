@@ -17,7 +17,7 @@ module.exports = {
         'hover-on-secondary': colors.slate[50],
 
         background: colors.slate[100],
-        'on-background': colors.slate[400],
+        'on-background': colors.slate[600],
 
         surface: colors.white,
         'on-surface': colors.slate[600],
