@@ -1,8 +1,10 @@
 import colors from 'tailwindcss/colors';
+import { COLOR_PICKER_LIST } from './src/lib/constants';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,svelte,tsx}'],
+  safelist: ['bg-white', ...COLOR_PICKER_LIST.map(color => `bg-${color}-300`)],
   theme: {
     extend: {
       colors: {
