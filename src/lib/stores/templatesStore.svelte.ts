@@ -91,7 +91,7 @@ const initTemplatesStore = async () => {
       return data.templateGroups?.[groupId];
     },
 
-    updateTemplateGroup(groupId: UUID | 'default', newGroupData: Partial<Template>) {
+    updateTemplateGroup(groupId: UUID | 'default', newGroupData: Partial<TemplateGroup>) {
       data.templateGroups[groupId] = {
         ...data.templateGroups[groupId],
         ...newGroupData,
