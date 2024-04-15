@@ -14,8 +14,9 @@ export type Template = {
 };
 
 export type TemplateGroup = {
+  color?: string;
   icon?: string;
-  templatesId?: UUID[];
+  templatesId: UUID[];
   title?: string;
 };
 

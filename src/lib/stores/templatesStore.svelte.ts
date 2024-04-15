@@ -1,5 +1,5 @@
 import { getTemplatesStorage, setTemplatesStorage } from '../utils/storage';
-import type { StoredTemplatesData, Template, UUID } from '../types';
+import type { StoredTemplatesData, Template, TemplateGroup, UUID } from '../types';
 
 const removeItemFromArray = (array: any[] | undefined, itemValue: any) => {
   if (!array) return;
@@ -68,6 +68,33 @@ const initTemplatesStore = async () => {
       data.templates[templateId] = {
         ...data.templates[templateId],
         ...newTemplateData,
+      };
+
+      setTemplatesStorage(data);
+    },
+
+    // Templates groups
+    createTemplateGroup(newGroup: TemplateGroup) {
+      const id = crypto.randomUUID();
+      data.templateGroups[id] = newGroup;
+
+      setTemplatesStorage(data);
+    },
+
+    deleteTemplateGroup(groupId: UUID | 'default') {
+      delete data?.templateGroups?.[groupId];
+
+      setTemplatesStorage(data);
+    },
+
+    readTemplateGroup(groupId: UUID | 'default') {
+      return data.templateGroups?.[groupId];
+    },
+
+    updateTemplateGroup(groupId: UUID | 'default', newGroupData: Partial<Template>) {
+      data.templateGroups[groupId] = {
+        ...data.templateGroups[groupId],
+        ...newGroupData,
       };
 
       setTemplatesStorage(data);
