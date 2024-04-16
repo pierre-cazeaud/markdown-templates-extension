@@ -1,24 +1,31 @@
 import { SvelteComponent } from 'svelte';
 
 import EditPage from '../layouts/EditPage.svelte';
+import EditTemplateGroupPage from '../layouts/EditTemplateGroupPage.svelte';
 import ListPage from '../layouts/ListPage.svelte';
 import { UUID } from '../types';
 
-type EditPageProps = {
+type EditTemplatePageProps = {
   templateGroupId: UUID | 'default';
   templateId: UUID;
 };
 
-type Routes = 'edit' | 'list';
+type EditTemplateGroupPageProps = {
+  templateGroupId: UUID | 'default';
+};
+
+type Routes = 'editTemplate' | 'editTemplateGroup' | 'list';
 
 export const ROUTES_COMPONENT: Record<Routes, typeof SvelteComponent<any>> = {
-  edit: EditPage,
+  editTemplate: EditPage,
+  editTemplateGroup: EditTemplateGroupPage,
   list: ListPage,
 };
 
 const initAppStore = () => {
   let activeRoute: Routes = $state('list');
-  let editPageProps: EditPageProps | undefined = $state();
+  let editTemplatePageProps: EditTemplatePageProps | undefined = $state();
+  let editTemplateGroupPageProps: EditTemplateGroupPageProps | undefined = $state();
   let Page = $derived(ROUTES_COMPONENT[activeRoute]);
 
   return {
@@ -27,20 +34,33 @@ const initAppStore = () => {
     },
 
     get editPageTemplateProps() {
-      return editPageProps;
+      return editTemplatePageProps;
+    },
+
+    get editPageTemplateGroupProps() {
+      return editTemplateGroupPageProps;
     },
 
     set editPageTemplateProps(newValue) {
-      editPageProps = newValue;
+      editTemplatePageProps = newValue;
+    },
+
+    set editPageTemplateGroupProps(newValue) {
+      editTemplateGroupPageProps = newValue;
     },
 
     get Page() {
       return Page;
     },
 
-    renderEditPage: (pageProps?: EditPageProps) => {
-      activeRoute = 'edit';
-      if (pageProps) editPageProps = pageProps;
+    renderEditTemplatePage: (pageProps?: EditTemplatePageProps) => {
+      activeRoute = 'editTemplate';
+      if (pageProps) editTemplatePageProps = pageProps;
+    },
+
+    renderEditTemplateGroupPage: (pageProps?: EditTemplateGroupPageProps) => {
+      activeRoute = 'editTemplateGroup';
+      if (pageProps) editTemplateGroupPageProps = pageProps;
     },
 
     renderListPage: () => {

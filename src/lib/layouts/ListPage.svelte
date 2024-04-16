@@ -1,19 +1,24 @@
 <script lang="ts">
   import Button from '@/lib/components/Button.svelte';
   import NoTemplate from '@/lib/layouts/NoTemplate.svelte';
-  import { ArrowDownToLineIcon, Edit2Icon, PlusIcon } from 'lucide-svelte';
+  import { ArrowBigDownDashIcon, FilePlusIcon, PackagePlusIcon } from 'lucide-svelte';
   import { appStore } from '../stores/appStore.svelte.js';
   import { templatesStore } from '../stores/templatesStore.svelte.js';
   import TemplateCard from '../components/TemplateCard.svelte';
   import type { UUID } from '../types/index.js';
 
-  const { renderEditPage } = appStore;
+  const { renderEditTemplatePage, renderEditTemplateGroupPage } = appStore;
   const { data, isLoading } = templatesStore;
   const hasTemplates = Object.keys(data?.templates).length > 0;
 
   const onCreateClick = () => {
     appStore.editPageTemplateProps = undefined;
-    renderEditPage();
+    renderEditTemplatePage();
+  };
+
+  const onCreateGroupClick = () => {
+    appStore.editPageTemplateGroupProps = undefined;
+    renderEditTemplateGroupPage();
   };
 
   const onImportClick = () => {};
@@ -38,8 +43,9 @@
 {/if}
 
 <footer class="flex justify-center gap-4 mt-auto">
-  <Button icon={ArrowDownToLineIcon} onClick={onImportClick}
+  <Button icon={ArrowBigDownDashIcon} onClick={onImportClick}
     >Import template</Button
   >
-  <Button icon={PlusIcon} onClick={onCreateClick}>Create template</Button>
+  <Button icon={FilePlusIcon} onClick={onCreateClick}>Create template</Button>
+  <Button icon={PackagePlusIcon} onClick={onCreateGroupClick}>Create group</Button>
 </footer>

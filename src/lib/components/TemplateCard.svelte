@@ -9,6 +9,7 @@
   import type { UUID } from '../types';
   import { appStore } from '../stores/appStore.svelte';
   import Button from './Button.svelte';
+  import Label from './Label.svelte';
 
   type Props = {
     templateGroupId: UUID;
@@ -16,7 +17,7 @@
   };
 
   let { templateGroupId, templateId }: Props = $props();
-  const { renderEditPage } = appStore;
+  const { renderEditTemplatePage } = appStore;
   const { createFavorite, deleteFavorite, readIsFavorite, readTemplate } =
     templatesStore;
   let isFavorite = $state(readIsFavorite(templateId));
@@ -49,15 +50,17 @@
 <article
   class="flex flex-col gap-2 bg-surface text-on-surface border rounded p-3"
 >
-  <header class="text-lg">
-    {title}
+  <header>
+    <Label>
+      {title}
+    </Label>
   </header>
 
   <p aria-multiline="true" class="line-clamp-3">
     {@html getContentExerpt(content)}
   </p>
 
-  <footer class="flex border-t border-slate-200 pt-2">
+  <footer class="flex border-t border-slate-200 pt-2 mt-auto">
     <Button
       colorVariant="secondary"
       icon={ClipboardIcon}
@@ -75,7 +78,7 @@
     <Button
       colorVariant="secondary"
       icon={Edit2Icon}
-      onClick={() => renderEditPage({ templateGroupId, templateId })}
+      onClick={() => renderEditTemplatePage({ templateGroupId, templateId })}
       sizeVariant="small"
     />
   </footer>
