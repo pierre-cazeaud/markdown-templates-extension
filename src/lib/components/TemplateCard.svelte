@@ -12,11 +12,10 @@
   import Label from './Label.svelte';
 
   type Props = {
-    templateGroupId: UUID;
     templateId: UUID;
   };
 
-  let { templateGroupId, templateId }: Props = $props();
+  let { templateId }: Props = $props();
   const { renderEditTemplatePage } = appStore;
   const { createFavorite, deleteFavorite, readIsFavorite, readTemplate } =
     templatesStore;
@@ -78,7 +77,7 @@
     <Button
       colorVariant="secondary"
       icon={Edit2Icon}
-      onClick={() => renderEditTemplatePage({ templateGroupId, templateId })}
+      onClick={() => renderEditTemplatePage({ templateId })}
       sizeVariant="small"
     />
   </footer>

@@ -20,7 +20,6 @@
     templatesStore;
 
   const templateId = editPageTemplateProps?.templateId;
-  const templateGroupId = editPageTemplateProps?.templateGroupId;
   let loadedTemplate = templateId ? readTemplate(templateId) : undefined;
 
   let content: Template['content'] = $state(loadedTemplate?.content || '');
@@ -39,8 +38,8 @@
   };
 
   const onDeleteClick = () => {
-    if (templateId && templateGroupId) {
-      deleteTemplate(templateId, templateGroupId);
+    if (templateId) {
+      deleteTemplate(templateId);
       renderListPage();
     }
   };

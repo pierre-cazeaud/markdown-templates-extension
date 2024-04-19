@@ -1,7 +1,8 @@
 export type StoredTemplatesData = {
-  templateGroups: Record<UUID | 'default', TemplateGroup>;
-  templates: Record<UUID, Template>;
   favorites: UUID[];
+  templateGroups: Record<UUID, TemplateGroup>;
+  templates: Record<UUID, Template>;
+  ungroupedTemplates: UUID[];
 };
 
 export type Template = {

@@ -20,8 +20,6 @@
     appStore.editPageTemplateGroupProps = undefined;
     renderEditTemplateGroupPage();
   };
-
-  const onImportClick = () => {};
 </script>
 
 {#if isLoading}
@@ -31,11 +29,17 @@
 {:else}
   <h1 class="text-xl">Templates</h1>
 
+  {#each data.ungroupedTemplates as templateId}
+    <section class="grid grid-cols-4 gap-3">
+      <TemplateCard {templateId} />
+    </section>
+  {/each}
+
   {#each Object.entries(data.templateGroups) as [templateGroupId, templateGroup]}
     <section class="grid grid-cols-4 gap-3">
       {#if templateGroup?.templatesId && templateGroup?.templatesId?.length > 0}
         {#each templateGroup.templatesId as templateId}
-          <TemplateCard templateGroupId={(templateGroupId as UUID)} {templateId} />
+          <TemplateCard {templateId} />
         {/each}
       {/if}
     </section>
@@ -44,5 +48,7 @@
 
 <footer class="flex justify-center gap-4 mt-auto">
   <Button icon={FilePlusIcon} onClick={onCreateClick}>Create template</Button>
-  <Button icon={PackagePlusIcon} onClick={onCreateGroupClick}>Create group</Button>
+  <Button icon={PackagePlusIcon} onClick={onCreateGroupClick}
+    >Create group</Button
+  >
 </footer>

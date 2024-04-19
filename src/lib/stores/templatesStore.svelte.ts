@@ -1,5 +1,10 @@
 import { getTemplatesStorage, setTemplatesStorage } from '../utils/storage';
-import type { StoredTemplatesData, Template, TemplateGroup, UUID } from '../types';
+import type {
+  StoredTemplatesData,
+  Template,
+  TemplateGroup,
+  UUID,
+} from '../types';
 
 const removeItemFromArray = (array: any[] | undefined, itemValue: any) => {
   if (!array) return;
@@ -10,12 +15,9 @@ const initTemplatesStore = async () => {
   let isLoading = $state(true);
   let data = $state<StoredTemplatesData>({
     favorites: [],
-    templateGroups: {
-      default: {
-        templatesId: [],
-      },
-    },
+    templateGroups: {},
     templates: {},
+    ungroupedTemplates: [],
   });
 
   const newData = await getTemplatesStorage();
@@ -41,21 +43,38 @@ const initTemplatesStore = async () => {
     },
 
     // Templates
-    createTemplate(newTemplate: Template, templateGroupId: UUID | 'default' = 'default') {
+    createTemplate(newTemplate: Template, templateGroupId?: UUID) {
       const id = crypto.randomUUID();
       data.templates[id] = newTemplate;
-      data.templateGroups?.[templateGroupId].templatesId?.push(id);
+
+      templateGroupId
+        ? data.templateGroups?.[templateGroupId].templatesId?.push(id)
+        : data.ungroupedTemplates.push(id);
 
       setTemplatesStorage(data);
     },
 
-    deleteTemplate(templateId: UUID, templateGroupId: UUID | 'default' = 'default') {
+    deleteTemplate(templateId: UUID) {
       delete data?.templates?.[templateId];
 
-      removeItemFromArray(
-        data?.templateGroups?.[templateGroupId]?.templatesId,
-        templateId
-      );
+      if (data.ungroupedTemplates.includes(templateId)) {
+        removeItemFromArray(data.ungroupedTemplates, templateId);
+        setTemplatesStorage(data);
+        return;
+      }
+
+      let targetGroupId;
+      for (const id of Object.keys(data.templateGroups)) {
+        if (data.templateGroups[id as UUID].templatesId?.includes(templateId))
+          targetGroupId = id as UUID;
+      }
+
+      if (targetGroupId) {
+        removeItemFromArray(
+          data?.templateGroups?.[targetGroupId]?.templatesId,
+          templateId
+        );
+      }
 
       setTemplatesStorage(data);
     },
@@ -81,17 +100,17 @@ const initTemplatesStore = async () => {
       setTemplatesStorage(data);
     },
 
-    deleteTemplateGroup(groupId: UUID | 'default') {
+    deleteTemplateGroup(groupId: UUID) {
       delete data?.templateGroups?.[groupId];
 
       setTemplatesStorage(data);
     },
 
-    readTemplateGroup(groupId: UUID | 'default') {
+    readTemplateGroup(groupId: UUID) {
       return data.templateGroups?.[groupId];
     },
 
-    updateTemplateGroup(groupId: UUID | 'default', newGroupData: Partial<TemplateGroup>) {
+    updateTemplateGroup(groupId: UUID, newGroupData: Partial<TemplateGroup>) {
       data.templateGroups[groupId] = {
         ...data.templateGroups[groupId],
         ...newGroupData,

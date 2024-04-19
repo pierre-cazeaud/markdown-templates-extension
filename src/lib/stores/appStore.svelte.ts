@@ -6,12 +6,11 @@ import ListPage from '../layouts/ListPage.svelte';
 import { UUID } from '../types';
 
 type EditTemplatePageProps = {
-  templateGroupId: UUID | 'default';
   templateId: UUID;
 };
 
 type EditTemplateGroupPageProps = {
-  templateGroupId: UUID | 'default';
+  templateGroupId: UUID;
 };
 
 type Routes = 'editTemplate' | 'editTemplateGroup' | 'list';
@@ -25,7 +24,8 @@ export const ROUTES_COMPONENT: Record<Routes, typeof SvelteComponent<any>> = {
 const initAppStore = () => {
   let activeRoute: Routes = $state('list');
   let editTemplatePageProps: EditTemplatePageProps | undefined = $state();
-  let editTemplateGroupPageProps: EditTemplateGroupPageProps | undefined = $state();
+  let editTemplateGroupPageProps: EditTemplateGroupPageProps | undefined =
+    $state();
   let Page = $derived(ROUTES_COMPONENT[activeRoute]);
 
   return {
