@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from '@/lib/components/Button.svelte';
   import NoTemplate from '@/lib/layouts/NoTemplate.svelte';
-  import { ArrowBigDownDashIcon, FilePlusIcon, PackagePlusIcon } from 'lucide-svelte';
+  import { FilePlusIcon, PackagePlusIcon } from 'lucide-svelte';
   import { appStore } from '../stores/appStore.svelte.js';
   import { templatesStore } from '../stores/templatesStore.svelte.js';
   import TemplateCard from '../components/TemplateCard.svelte';
@@ -43,9 +43,6 @@
 {/if}
 
 <footer class="flex justify-center gap-4 mt-auto">
-  <Button icon={ArrowBigDownDashIcon} onClick={onImportClick}
-    >Import template</Button
-  >
   <Button icon={FilePlusIcon} onClick={onCreateClick}>Create template</Button>
   <Button icon={PackagePlusIcon} onClick={onCreateGroupClick}>Create group</Button>
 </footer>
