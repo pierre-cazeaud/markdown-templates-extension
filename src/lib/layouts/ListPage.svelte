@@ -37,8 +37,8 @@
 
   {#each Object.entries(data.templateGroups) as [templateGroupId, templateGroup]}
     <section class="grid grid-cols-4 gap-3">
-      {#if templateGroup?.templatesId && templateGroup?.templatesId?.length > 0}
-        {#each templateGroup.templatesId as templateId}
+      {#if templateGroup?.templateIds && templateGroup?.templateIds?.length > 0}
+        {#each templateGroup.templateIds as templateId}
           <TemplateCard {templateId} />
         {/each}
       {/if}

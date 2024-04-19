@@ -48,7 +48,7 @@ const initTemplatesStore = async () => {
       data.templates[id] = newTemplate;
 
       templateGroupId
-        ? data.templateGroups?.[templateGroupId].templatesId?.push(id)
+        ? data.templateGroups?.[templateGroupId].templateIds?.push(id)
         : data.ungroupedTemplates.push(id);
 
       setTemplatesStorage(data);
@@ -65,13 +65,13 @@ const initTemplatesStore = async () => {
 
       let targetGroupId;
       for (const id of Object.keys(data.templateGroups)) {
-        if (data.templateGroups[id as UUID].templatesId?.includes(templateId))
+        if (data.templateGroups[id as UUID].templateIds?.includes(templateId))
           targetGroupId = id as UUID;
       }
 
       if (targetGroupId) {
         removeItemFromArray(
-          data?.templateGroups?.[targetGroupId]?.templatesId,
+          data?.templateGroups?.[targetGroupId]?.templateIds,
           templateId
         );
       }
