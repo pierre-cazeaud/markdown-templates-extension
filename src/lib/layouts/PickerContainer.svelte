@@ -11,7 +11,7 @@
 <div
   class="flex flex-col gap-4 p-4 rounded-lg bg-surface text-on-surface border"
 >
-  <Label class="grow">{title}</Label>
+  <Label>{title}</Label>
 
   <div class="flex flex-wrap gap-4">
     <slot />

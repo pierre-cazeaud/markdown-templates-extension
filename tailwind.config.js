@@ -4,7 +4,10 @@ import { COLOR_PICKER_LIST } from './src/lib/constants';
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,svelte,tsx}'],
-  safelist: ['bg-white', ...COLOR_PICKER_LIST.map(color => `bg-${color}-300`)],
+  safelist: [
+    'bg-white',
+    ...COLOR_PICKER_LIST.map((color) => `bg-${color}-300`),
+  ],
   theme: {
     extend: {
       colors: {
@@ -34,10 +37,13 @@ module.exports = {
         'on-interactive': colors.slate[700],
         'hover-interactive': colors.cyan[400],
         'hover-on-interactive': colors.slate[800],
+
+        successful: colors.green[200],
+        'on-successful': colors.slate[700],
+        'hover-successful': colors.green[400],
+        'hover-on-successful': colors.slate[800],
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [require('@tailwindcss/typography')],
 };

@@ -8,6 +8,7 @@
   import TextInput from '../components/TextInput.svelte';
   import type { TemplateGroup } from '../types';
   import type { FormEventHandler } from 'svelte/elements';
+  import IconPicker from '../components/IconPicker.svelte';
 
   const { editPageTemplateProps, renderListPage } = appStore;
   const {
@@ -96,9 +97,9 @@
         <TextInput onchange={onTitleChange} />
       </div>
 
-
       <div class="grid grid-cols-2 gap-4">
         <ColorPicker activeColor={color} onChooseColor={(newColor: string) => color = newColor} />
+        <IconPicker activeIcon={icon} onChooseIcon={(newIcon: string) => icon = newIcon} />
       </div>
     </section>
 

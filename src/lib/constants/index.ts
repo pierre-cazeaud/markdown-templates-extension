@@ -14,4 +14,3 @@ export const COLOR_PICKER_LIST = [
   'violet',
   'fuchsia',
 ];
-
