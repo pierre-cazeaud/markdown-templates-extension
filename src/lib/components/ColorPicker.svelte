@@ -6,10 +6,9 @@
 
   type Props = {
     activeColor?: string;
-    onChooseColor: (newColor: string) => void;
   };
 
-  let { activeColor, onChooseColor }: Props = $props();
+  let { activeColor = $bindable() }: Props = $props();
 </script>
 
 <PickerContainer title="Color">
@@ -17,13 +16,14 @@
     <div class="relative">
       <button
         class={`${color === 'white' ? 'bg-white' : `bg-${color}-300`} border rounded-full size-8`}
-        onclick={() => onChooseColor(color)}
+        disabled={activeColor === color}
+        onclick={() => (activeColor = color)}
       ></button>
 
       {#if activeColor === color}
         <span
           class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white"
-          class:text-slate-300={activeColor === 'white'}
+          class:!text-slate-300={activeColor === 'white'}
           transition:fade={{ duration: 200 }}
         >
           <CheckIcon size="20" />

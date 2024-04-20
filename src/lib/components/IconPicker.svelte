@@ -6,17 +6,19 @@
 
   type Props = {
     activeIcon?: string;
-    onChooseIcon: (newIcon: string) => void;
   };
 
   const icons = Object.keys(iconsStore.list);
-  let { activeIcon, onChooseIcon }: Props = $props();
+  let { activeIcon = $bindable() }: Props = $props();
 </script>
 
 <PickerContainer title="Icons">
   {#each icons as icon}
     <div class="relative">
-      <button onclick={() => onChooseIcon(icon)}>
+      <button
+        disabled={activeIcon === icon}
+        onclick={() => (activeIcon = icon)}
+      >
         <svelte:component
           this={iconsStore.list[icon]}
           size="32"

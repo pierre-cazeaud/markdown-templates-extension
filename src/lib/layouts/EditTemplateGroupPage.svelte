@@ -98,8 +98,8 @@
       </div>
 
       <div class="grid grid-cols-2 gap-4">
-        <ColorPicker activeColor={color} onChooseColor={(newColor: string) => color = newColor} />
-        <IconPicker activeIcon={icon} onChooseIcon={(newIcon: string) => icon = newIcon} />
+        <ColorPicker bind:activeColor={color} />
+        <IconPicker bind:activeIcon={icon} />
       </div>
     </section>
 
