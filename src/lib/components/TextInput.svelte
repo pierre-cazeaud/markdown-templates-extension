@@ -7,7 +7,7 @@
 </script>
 
 <input
-  class={`border bg-surface text-on-surface rounded text-base p-2  ${classes}`}
+  class={`border bg-surface text-on-surface rounded text-base p-2  ${classes || ''}`}
   type="text"
   {...props}
 />
