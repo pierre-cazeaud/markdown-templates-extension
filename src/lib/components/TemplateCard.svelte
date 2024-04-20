@@ -6,16 +6,23 @@
     StarOffIcon,
   } from 'lucide-svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
-  import type { UUID } from '../types';
   import { appStore } from '../stores/appStore.svelte';
   import Button from './Button.svelte';
   import Label from './Label.svelte';
+  import type { HTMLAttributes } from 'svelte/elements';
+  import type { UUID } from '../types';
 
-  type Props = {
+  type Props = HTMLAttributes<HTMLElement> & {
+    hasActions?: boolean;
     templateId: UUID;
   };
 
-  let { templateId }: Props = $props();
+  let {
+    class: classes,
+    hasActions = true,
+    templateId,
+    ...props
+  }: Props = $props();
   const { renderEditTemplatePage } = appStore;
   const { createFavorite, deleteFavorite, readIsFavorite, readTemplate } =
     templatesStore;
@@ -47,7 +54,7 @@
 </script>
 
 <article
-  class="flex flex-col gap-2 bg-surface text-on-surface border rounded p-3"
+  class={`flex flex-col gap-2 bg-surface text-on-surface border rounded p-3 ${classes || ''}`}
 >
   <header>
     <Label>
@@ -59,26 +66,28 @@
     {@html getContentExerpt(content)}
   </p>
 
-  <footer class="flex border-t border-slate-200 pt-2 mt-auto">
-    <Button
-      colorVariant="secondary"
-      icon={ClipboardIcon}
-      onClick={copyContentToClipBoard}
-      sizeVariant="small"
-    />
+  {#if hasActions}
+    <footer class="flex border-t border-slate-200 pt-2 mt-auto">
+      <Button
+        colorVariant="secondary"
+        icon={ClipboardIcon}
+        onClick={copyContentToClipBoard}
+        sizeVariant="small"
+      />
 
-    <Button
-      colorVariant="secondary"
-      icon={isFavorite ? StarOffIcon : StarIcon}
-      onClick={toggleFavorite}
-      sizeVariant="small"
-    />
+      <Button
+        colorVariant="secondary"
+        icon={isFavorite ? StarOffIcon : StarIcon}
+        onClick={toggleFavorite}
+        sizeVariant="small"
+      />
 
-    <Button
-      colorVariant="secondary"
-      icon={Edit2Icon}
-      onClick={() => renderEditTemplatePage({ templateId })}
-      sizeVariant="small"
-    />
-  </footer>
+      <Button
+        colorVariant="secondary"
+        icon={Edit2Icon}
+        onClick={() => renderEditTemplatePage({ templateId })}
+        sizeVariant="small"
+      />
+    </footer>
+  {/if}
 </article>
