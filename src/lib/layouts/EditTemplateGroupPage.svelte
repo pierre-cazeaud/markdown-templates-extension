@@ -1,16 +1,17 @@
 <script lang="ts">
   import { ArrowLeftIcon, CheckIcon, Trash2Icon, XIcon } from 'lucide-svelte';
-  import Button from '../components/Button.svelte';
   import { appStore } from '../stores/appStore.svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
+  import Button from '../components/Button.svelte';
   import ColorPicker from '../components/ColorPicker.svelte';
+  import IconPicker from '../components/IconPicker.svelte';
   import Label from '../components/Label.svelte';
   import TextInput from '../components/TextInput.svelte';
-  import type { TemplateGroup } from '../types';
+  import TemplatePicker from '../components/TemplatePicker.svelte';
+  import type { TemplateGroup, UUID } from '../types';
   import type { FormEventHandler } from 'svelte/elements';
-  import IconPicker from '../components/IconPicker.svelte';
 
-  const { editPageTemplateProps, renderListPage } = appStore;
+  const { editPageTemplateGroupProps, renderListPage } = appStore;
   const {
     createTemplateGroup,
     deleteTemplateGroup,
@@ -18,15 +19,17 @@
     updateTemplateGroup,
   } = templatesStore;
 
-  const templateGroupId = editPageTemplateProps?.templateGroupId;
-  console.log(templateGroupId);
-  
+  const templateGroupId = editPageTemplateGroupProps?.templateGroupId;
+
   let loadedTemplateGroup = templateGroupId
     ? readTemplateGroup(templateGroupId)
     : undefined;
 
-  let color: TemplateGroup['color'] = $state(loadedTemplateGroup?.title || 'white');
+  let color: TemplateGroup['color'] = $state(
+    loadedTemplateGroup?.title || 'white'
+  );
   let icon: TemplateGroup['icon'] = $state(loadedTemplateGroup?.title || '');
+  let templateIds: UUID[] = $state(loadedTemplateGroup?.templateIds || []);
   let title: TemplateGroup['title'] = $state(loadedTemplateGroup?.title || '');
 
   const onBackClick = () => {
@@ -49,12 +52,14 @@
       createTemplateGroup({
         color,
         icon,
+        templateIds,
         title,
       });
     else {
       updateTemplateGroup(templateGroupId, {
         color,
         icon,
+        templateIds,
         title,
       });
     }
@@ -62,9 +67,11 @@
     renderListPage();
   };
 
-  const onTitleChange: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
+  const onTitleChange: FormEventHandler<HTMLInputElement> = ({
+    currentTarget,
+  }) => {
     title = currentTarget?.value;
-  }
+  };
 </script>
 
 <section class="relative">
@@ -101,6 +108,8 @@
         <ColorPicker bind:activeColor={color} />
         <IconPicker bind:activeIcon={icon} />
       </div>
+
+      <TemplatePicker bind:groupedTemplateIds={templateIds} />
     </section>
 
     <footer class="flex justify-center gap-4 mt-auto">
