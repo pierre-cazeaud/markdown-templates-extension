@@ -8,12 +8,14 @@
   let { title }: Props = $props();
 </script>
 
-<div
-  class="flex flex-col gap-4 p-4 rounded-lg bg-surface text-on-surface border"
->
+<section class="flex flex-col gap-2">
   <Label>{title}</Label>
 
-  <div class="flex flex-wrap gap-4">
-    <slot />
+  <div
+    class="flex flex-col gap-4 h-full p-4 rounded-lg bg-surface text-on-surface border"
+  >
+    <div class="flex flex-wrap gap-4">
+      <slot />
+    </div>
   </div>
-</div>
+</section>
