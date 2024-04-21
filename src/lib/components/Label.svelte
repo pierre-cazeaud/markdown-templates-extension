@@ -1,16 +1,26 @@
-<script lang="ts">
+<script lang="ts" >
   import type { HTMLAttributes } from 'svelte/elements';
+  import type { Snippet } from 'svelte';
+
+  type Variant = 'small' | 'default' | 'large';
 
   type Props = HTMLAttributes<HTMLParagraphElement> & {
-    variant?: 'small';
+    children: Snippet;
+    variant?: Variant;
   };
 
-  let { class: classes, variant, ...props }: Props = $props();
+  const variantClasses: Record<Variant, string> = {
+    small: 'text-sm',
+    default: 'text-base',
+    large: 'text-lg',
+  };
+
+  let { children, class: classes, variant = 'default', ...props }: Props = $props();
 </script>
 
 <p
-  class={`font-semibold ${classes || ''} ${variant === 'small' ? 'text-sm' : 'text-base'}`}
+  class={`font-semibold ${classes || ''} ${variantClasses[variant]}`}
   {...props}
 >
-  <slot />
+  {@render children()}
 </p>
