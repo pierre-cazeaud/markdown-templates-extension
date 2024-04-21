@@ -11,6 +11,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Hack to have bg-white-100 and bg-white-300 available
+        'white-300': colors.white,
+        'white-100': colors.white,
         primary: colors.purple[600],
         'on-primary': colors.slate[50],
         'hover-primary': colors.purple[700],

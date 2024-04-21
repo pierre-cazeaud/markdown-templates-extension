@@ -15,7 +15,7 @@
   {#each COLOR_PICKER_LIST as color}
     <div class="relative">
       <button
-        class={`${color === 'white' ? 'bg-white' : `bg-${color}-300`} border rounded-full size-8`}
+        class={`bg-${color}-300 border rounded-full size-8`}
         disabled={activeColor === color}
         onclick={() => (activeColor = color)}
       ></button>
