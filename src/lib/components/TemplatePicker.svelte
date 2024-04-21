@@ -1,8 +1,8 @@
 <script lang="ts">
   import { CheckIcon, XIcon } from 'lucide-svelte';
-  import { templatesStore } from '../stores/templatesStore.svelte';
   import Label from './Label.svelte';
   import TemplateCard from './TemplateCard.svelte';
+  import { removeItemFromArray } from '../utils/array';
   import type { UUID } from '../types';
 
   type Props = {
@@ -19,12 +19,14 @@
   let groupedTemplates = $state(groupedTemplateIds);
 
   const addTemplate = (templateId: UUID) => {
-    ungroupedTemplates = ungroupedTemplates.filter((id) => id !== templateId);
+    // ungroupedTemplates = ungroupedTemplates.filter((id) => id !== templateId); // Seems like filter creates a new ref of the array and it breaks the bond created with the parent?
+    removeItemFromArray(ungroupedTemplates, templateId);
     groupedTemplates.push(templateId);
   };
 
   const removeTemplate = (templateId: UUID) => {
-    groupedTemplates = groupedTemplates.filter((id) => id !== templateId);
+    // groupedTemplates = groupedTemplates.filter((id) => id !== templateId); // Seems like filter creates a new ref of the array and it breaks the bond created with the parent?
+    removeItemFromArray(groupedTemplates, templateId);
     ungroupedTemplates.push(templateId);
   };
 </script>

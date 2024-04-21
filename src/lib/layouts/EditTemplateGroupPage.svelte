@@ -14,9 +14,11 @@
   const { editPageTemplateGroupProps, renderListPage } = appStore;
   const {
     createTemplateGroup,
+    data,
     deleteTemplateGroup,
     readTemplateGroup,
     updateTemplateGroup,
+    updateUngroupedTemplates,
   } = templatesStore;
 
   const templateGroupId = editPageTemplateGroupProps?.templateGroupId;
@@ -26,11 +28,12 @@
     : undefined;
 
   let color: TemplateGroup['color'] = $state(
-    loadedTemplateGroup?.title || 'white'
+    loadedTemplateGroup?.color || 'white'
   );
-  let icon: TemplateGroup['icon'] = $state(loadedTemplateGroup?.title || '');
+  let icon: TemplateGroup['icon'] = $state(loadedTemplateGroup?.icon || '');
   let templateIds: UUID[] = $state(loadedTemplateGroup?.templateIds || []);
   let title: TemplateGroup['title'] = $state(loadedTemplateGroup?.title || '');
+  let ungroupedTemplateIds: UUID[] = $state(data.ungroupedTemplates || []);
 
   const onBackClick = () => {
     renderListPage();
@@ -64,6 +67,7 @@
       });
     }
 
+    updateUngroupedTemplates(ungroupedTemplateIds);
     renderListPage();
   };
 
@@ -109,7 +113,10 @@
         <IconPicker bind:activeIcon={icon} />
       </div>
 
-      <TemplatePicker bind:groupedTemplateIds={templateIds} />
+      <TemplatePicker
+        bind:groupedTemplateIds={templateIds}
+        bind:ungroupedTemplateIds
+      />
     </section>
 
     <footer class="flex justify-center gap-4 mt-auto">

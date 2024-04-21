@@ -1,15 +1,11 @@
 import { getTemplatesStorage, setTemplatesStorage } from '../utils/storage';
+import { removeItemFromArray } from '../utils/array';
 import type {
   StoredTemplatesData,
   Template,
   TemplateGroup,
   UUID,
 } from '../types';
-
-const removeItemFromArray = (array: any[] | undefined, itemValue: any) => {
-  if (!array) return;
-  array.splice(array.indexOf(itemValue), 1);
-};
 
 const initTemplatesStore = async () => {
   let isLoading = $state(true);
@@ -132,6 +128,13 @@ const initTemplatesStore = async () => {
 
     readIsFavorite(templateId: UUID) {
       return data.favorites?.includes(templateId);
+    },
+
+    // Ungrouped Templates
+    updateUngroupedTemplates(newUngroupedTemplates: UUID[]) {
+      console.log(JSON.stringify(newUngroupedTemplates));
+      data.ungroupedTemplates = newUngroupedTemplates;
+      setTemplatesStorage(data);
     },
   };
 };
