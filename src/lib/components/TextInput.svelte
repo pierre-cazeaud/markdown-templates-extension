@@ -1,13 +1,16 @@
 <script lang="ts">
   import type { HTMLAttributes } from 'svelte/elements';
 
-  type Props = HTMLAttributes<HTMLInputElement>;
+  type Props = HTMLAttributes<HTMLInputElement> & {
+    value: string;
+  };
 
-  let { class: classes, ...props }: Props = $props();
+  let { class: classes, value = $bindable(), ...props }: Props = $props();
 </script>
 
 <input
-  class={`border bg-surface text-on-surface rounded text-base p-2  ${classes || ''}`}
+  class={`border bg-surface text-on-surface rounded text-base p-2 ${classes || ''}`}
   type="text"
+  {value}
   {...props}
 />

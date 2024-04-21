@@ -105,7 +105,7 @@
     <section class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
         <Label>Title</Label>
-        <TextInput onchange={onTitleChange} />
+        <TextInput onchange={onTitleChange} bind:value={title} />
       </div>
 
       <div class="grid grid-cols-2 gap-4">
