@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { ComponentType } from 'svelte';
   import type { Icon } from 'lucide-svelte';
+  import type { ComponentType, Snippet } from 'svelte';
 
   type ButtonColorVariant =
     | 'primary'
@@ -9,6 +9,7 @@
     | 'interactive';
 
   type Props = {
+    children?: Snippet,
     colorVariant?: ButtonColorVariant;
     icon?: ComponentType<Icon>;
     onClick: () => void;
@@ -17,6 +18,7 @@
   };
 
   let {
+    children,
     colorVariant = 'primary',
     icon,
     onClick,
@@ -38,9 +40,12 @@
 
 <button
   onclick={onClick}
-  class={`flex items-center gap-1 rounded transition  ${colorClasses[colorVariant]}`}
+  class={`flex items-center gap-1 rounded transition ${colorClasses[colorVariant]}`}
   {title}
 >
   <svelte:component this={icon} size={sizeVariant === 'small' ? 16 : 20} />
-  <slot />
+  
+  {#if children}
+    {@render children()}
+  {/if}
 </button>
