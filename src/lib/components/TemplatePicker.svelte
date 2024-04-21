@@ -6,13 +6,16 @@
   import type { UUID } from '../types';
 
   type Props = {
+    ungroupedTemplateIds: UUID[];
     groupedTemplateIds: UUID[];
   };
 
-  let { groupedTemplateIds = $bindable() }: Props = $props();
+  let {
+    ungroupedTemplateIds = $bindable(),
+    groupedTemplateIds = $bindable(),
+  }: Props = $props();
 
-  const { data } = templatesStore;
-  let ungroupedTemplates = $state(data.ungroupedTemplates);
+  let ungroupedTemplates = $state(ungroupedTemplateIds);
   let groupedTemplates = $state(groupedTemplateIds);
 
   const addTemplate = (templateId: UUID) => {
@@ -21,7 +24,7 @@
   };
 
   const removeTemplate = (templateId: UUID) => {
-    groupedTemplates = ungroupedTemplates.filter((id) => id !== templateId);
+    groupedTemplates = groupedTemplates.filter((id) => id !== templateId);
     ungroupedTemplates.push(templateId);
   };
 </script>
@@ -36,12 +39,15 @@
       <div
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"
       >
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-3 gap-2 items-start">
           {#if groupedTemplates}
-            {#each groupedTemplates as id}
-              <button class="relative group" onclick={() => removeTemplate(id)}>
+            {#each groupedTemplates as id (id)}
+              <button
+                class="relative h-full text-start group"
+                onclick={() => removeTemplate(id)}
+              >
                 <TemplateCard
-                  class="transition-opacity opacity-100 group-hover:opacity-50"
+                  class="h-full transition-opacity opacity-100 group-hover:opacity-50"
                   hasActions={false}
                   templateId={id}
                 />
@@ -62,12 +68,15 @@
       <div
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"
       >
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-3 gap-2 items-start">
           {#if ungroupedTemplates}
-            {#each ungroupedTemplates as id}
-              <button class="relative group" onclick={() => addTemplate(id)}>
+            {#each ungroupedTemplates as id (id)}
+              <button
+                class="relative h-full text-start group"
+                onclick={() => addTemplate(id)}
+              >
                 <TemplateCard
-                  class="transition-opacity opacity-100 group-hover:opacity-50"
+                  class="h-full transition-opacity opacity-100 group-hover:opacity-50"
                   hasActions={false}
                   templateId={id}
                 />
