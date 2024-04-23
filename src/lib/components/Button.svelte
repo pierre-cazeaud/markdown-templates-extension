@@ -46,7 +46,7 @@
 
 <button
   onclick={onClick}
-  class={`flex items-center gap-1 rounded transition ${colorClasses[colorVariant]}`}
+  class={`flex items-center gap-1 rounded transition select-none ${colorClasses[colorVariant]}`}
   {title}
 >
   <svelte:component this={icon} size={sizeVariant === 'small' ? 16 : 20} />
