@@ -14,6 +14,7 @@
   import EditTemplateForm from '../components/EditTemplateForm.svelte';
   import { appStore } from '../stores/appStore.svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
+  import Page from '../layouts/Page.svelte';
 
   const { editPageTemplateProps, renderListPage } = appStore;
   const { createTemplate, deleteTemplate, readTemplate, updateTemplate } =
@@ -63,7 +64,7 @@
   };
 </script>
 
-<section class="relative">
+<Page class="relative">
   <!-- Main -->
   <div
     class="flex flex-col gap-4 pr-0 transition-[padding]"
@@ -139,4 +140,4 @@
       </div>
     </header>
   </sidebar>
-</section>
+</Page>

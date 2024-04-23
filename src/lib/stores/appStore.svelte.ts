@@ -1,9 +1,8 @@
 import { SvelteComponent } from 'svelte';
-
-import EditPage from '../layouts/EditPage.svelte';
-import EditTemplateGroupPage from '../layouts/EditTemplateGroupPage.svelte';
-import ListPage from '../layouts/ListPage.svelte';
-import { UUID } from '../types';
+import EditTemplate from '../pages/EditTemplate.svelte';
+import EditTemplateGroup from '../pages/EditTemplateGroup.svelte';
+import List from '../pages/List.svelte';
+import type { UUID } from '../types';
 
 type EditTemplatePageProps = {
   templateId: UUID;
@@ -16,9 +15,9 @@ type EditTemplateGroupPageProps = {
 type Routes = 'editTemplate' | 'editTemplateGroup' | 'list';
 
 export const ROUTES_COMPONENT: Record<Routes, typeof SvelteComponent<any>> = {
-  editTemplate: EditPage,
-  editTemplateGroup: EditTemplateGroupPage,
-  list: ListPage,
+  editTemplate: EditTemplate,
+  editTemplateGroup: EditTemplateGroup,
+  list: List,
 };
 
 const initAppStore = () => {

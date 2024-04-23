@@ -6,6 +6,7 @@
   import ColorPicker from '../components/ColorPicker.svelte';
   import IconPicker from '../components/IconPicker.svelte';
   import Label from '../components/Label.svelte';
+  import Page from '../layouts/Page.svelte';
   import TextInput from '../components/TextInput.svelte';
   import TemplatePicker from '../components/TemplatePicker.svelte';
   import type { TemplateGroup, UUID } from '../types';
@@ -78,7 +79,7 @@
   };
 </script>
 
-<section class="relative">
+<Page class="relative">
   <div class="flex flex-col gap-4 pr-0 transition-[padding]">
     <header class="flex justify-between">
       <div>
@@ -130,4 +131,4 @@
       >
     </footer>
   </div>
-</section>
+</Page>
