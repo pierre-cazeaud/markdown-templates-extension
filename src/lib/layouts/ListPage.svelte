@@ -5,6 +5,7 @@
   import { appStore } from '../stores/appStore.svelte.js';
   import { templatesStore } from '../stores/templatesStore.svelte.js';
   import TemplateCard from '../components/TemplateCard.svelte';
+  import TemplateGroupCard from '../components/TemplateGroupCard.svelte';
   import type { UUID } from '../types/index.js';
 
   const { renderEditTemplatePage, renderEditTemplateGroupPage } = appStore;
@@ -27,23 +28,17 @@
 {:else if !hasTemplates}
   <NoTemplate />
 {:else}
-  <h1 class="text-xl">Templates</h1>
-
-  {#each data.ungroupedTemplates as templateId}
-    <section class="grid grid-cols-4 gap-3">
+  <section class="grid grid-cols-4 gap-3">
+    {#each data.ungroupedTemplates as templateId}
       <TemplateCard {templateId} />
-    </section>
-  {/each}
+    {/each}
+  </section>
 
-  {#each Object.entries(data.templateGroups) as [templateGroupId, templateGroup]}
-    <section class="grid grid-cols-4 gap-3">
-      {#if templateGroup?.templateIds && templateGroup?.templateIds?.length > 0}
-        {#each templateGroup.templateIds as templateId}
-          <TemplateCard {templateId} />
-        {/each}
-      {/if}
-    </section>
-  {/each}
+  <section class="grid grid-cols-2 gap-3">
+    {#each Object.entries(data.templateGroups) as [templateGroupId, templateGroup]}
+      <TemplateGroupCard {templateGroup} templateGroupId={templateGroupId as UUID} />
+    {/each}
+  </section>
 {/if}
 
 <footer class="flex justify-center gap-4 mt-auto">

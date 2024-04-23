@@ -6,11 +6,13 @@
     | 'primary'
     | 'secondary'
     | 'destructive'
+    | 'dynamic'
     | 'interactive';
 
   type Props = {
     children?: Snippet,
     colorVariant?: ButtonColorVariant;
+    dynamicColor?: string;
     icon?: ComponentType<Icon>;
     onClick: () => void;
     sizeVariant?: 'small';
@@ -20,11 +22,14 @@
   let {
     children,
     colorVariant = 'primary',
+    dynamicColor,
     icon,
     onClick,
     sizeVariant,
     title,
   }: Props = $props();
+
+  if(colorVariant === 'dynamic' && !dynamicColor) console.error('colorVariant property was passed as "dynamic" but the property dynamicColor was not')
 
   const colorClasses: Record<ButtonColorVariant, string> = {
     primary:
@@ -33,6 +38,7 @@
       'p-2 text-secondary hover:bg-hover-secondary hover:text-hover-on-secondary',
     destructive:
       'p-2 bg-destructive text-on-destructive hover:bg-hover-destructive hover:text-hover-on-destructive',
+    dynamic: `p-2 text-${dynamicColor}-600 hover:bg-${dynamicColor}-500 hover:text-white`,
     interactive:
       'p-2 bg-interactive text-on-interactive hover:bg-hover-interactive hover:text-hover-on-interactive',
   };
@@ -44,7 +50,7 @@
   {title}
 >
   <svelte:component this={icon} size={sizeVariant === 'small' ? 16 : 20} />
-  
+
   {#if children}
     {@render children()}
   {/if}

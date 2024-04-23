@@ -5,8 +5,10 @@ import { COLOR_PICKER_LIST } from './src/lib/constants';
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,svelte,tsx}'],
   safelist: [
-    'bg-white',
+    ...COLOR_PICKER_LIST.map((color) => `text-${color}-600`),
+    ...COLOR_PICKER_LIST.map((color) => `hover:bg-${color}-500`),
     ...COLOR_PICKER_LIST.map((color) => `bg-${color}-300`),
+    ...COLOR_PICKER_LIST.map((color) => `bg-${color}-100`),
   ],
   theme: {
     extend: {
@@ -14,6 +16,7 @@ module.exports = {
         // Hack to have bg-white-100 and bg-white-300 available
         'white-300': colors.white,
         'white-100': colors.white,
+
         primary: colors.purple[600],
         'on-primary': colors.slate[50],
         'hover-primary': colors.purple[700],

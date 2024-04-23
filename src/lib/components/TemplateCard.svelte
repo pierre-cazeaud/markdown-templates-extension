@@ -54,7 +54,7 @@
 </script>
 
 <article
-  class={`flex flex-col gap-2 bg-surface text-on-surface border rounded p-3 ${classes || ''}`}
+  class={`flex flex-col gap-2 bg-surface text-on-surface border rounded-md p-3 ${classes || ''}`}
 >
   <header>
     <Label>
