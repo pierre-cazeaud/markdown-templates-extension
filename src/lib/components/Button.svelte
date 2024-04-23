@@ -3,14 +3,15 @@
   import type { ComponentType, Snippet } from 'svelte';
 
   type ButtonColorVariant =
-    | 'primary'
-    | 'secondary'
+    | 'interactive'
     | 'destructive'
     | 'dynamic'
-    | 'interactive';
+    | 'primary'
+    | 'secondary'
+    | 'successful';
 
   type Props = {
-    children?: Snippet,
+    children?: Snippet;
     colorVariant?: ButtonColorVariant;
     dynamicColor?: string;
     icon?: ComponentType<Icon>;
@@ -29,7 +30,10 @@
     title,
   }: Props = $props();
 
-  if(colorVariant === 'dynamic' && !dynamicColor) console.error('colorVariant property was passed as "dynamic" but the property dynamicColor was not')
+  if (colorVariant === 'dynamic' && !dynamicColor)
+    console.error(
+      'colorVariant property was passed as "dynamic" but the property dynamicColor was not'
+    );
 
   const colorClasses: Record<ButtonColorVariant, string> = {
     primary:
@@ -38,6 +42,8 @@
       'p-2 text-secondary hover:bg-hover-secondary hover:text-hover-on-secondary',
     destructive:
       'p-2 bg-destructive text-on-destructive hover:bg-hover-destructive hover:text-hover-on-destructive',
+    successful:
+      'p-2 bg-successful text-on-successful hover:bg-hover-successful hover:text-hover-on-successful',
     dynamic: `p-2 text-${dynamicColor}-600 hover:bg-${dynamicColor}-500 hover:text-white`,
     interactive:
       'p-2 bg-interactive text-on-interactive hover:bg-hover-interactive hover:text-hover-on-interactive',

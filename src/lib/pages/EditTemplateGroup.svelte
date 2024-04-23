@@ -124,10 +124,8 @@
       <Button icon={XIcon} onClick={onCancelClick} colorVariant={'destructive'}
         >Cancel changes</Button
       >
-      <Button
-        icon={CheckIcon}
-        onClick={onSaveClick}
-        colorVariant={'interactive'}>Save changes</Button
+      <Button icon={CheckIcon} onClick={onSaveClick} colorVariant={'successful'}
+        >Save changes</Button
       >
     </footer>
   </div>
