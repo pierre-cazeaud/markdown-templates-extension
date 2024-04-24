@@ -12,7 +12,7 @@
     <Button
       colorVariant="secondary"
       icon={CogIcon}
-      onClick={() => console.log('Settings')}
+      onClick={() => browser.runtime.openOptionsPage()}
     />
   </header>
 
