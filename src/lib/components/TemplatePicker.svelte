@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { CheckIcon, XIcon } from 'lucide-svelte';
+  import { CheckIcon, FilePlus2Icon, XIcon } from 'lucide-svelte';
   import Label from './Label.svelte';
   import TemplateCard from './TemplateCard.svelte';
   import { removeItemFromArray } from '../utils/array';
   import type { UUID } from '../types';
+  import Button from './Button.svelte';
+  import { appStore } from '../stores/appStore.svelte';
 
   type Props = {
     ungroupedTemplateIds: UUID[];
@@ -17,6 +19,7 @@
 
   let ungroupedTemplates = $state(ungroupedTemplateIds);
   let groupedTemplates = $state(groupedTemplateIds);
+  const { renderEditTemplatePage } = appStore;
 
   const addTemplate = (templateId: UUID) => {
     // ungroupedTemplates = ungroupedTemplates.filter((id) => id !== templateId); // Seems like filter creates a new ref of the array and it breaks the bond created with the parent?
@@ -32,11 +35,11 @@
 </script>
 
 <section class="flex flex-col gap-2">
-  <Label>Templates</Label>
+  <Label variant="large">Templates</Label>
 
   <div class="grid grid-cols-2 gap-4">
     <div class="flex flex-col gap-2">
-      <Label variant="small">In this group</Label>
+      <Label>In this group</Label>
 
       <div
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"
@@ -65,13 +68,13 @@
     </div>
 
     <div class="flex flex-col gap-2">
-      <Label variant="small">Ungrouped</Label>
+      <Label>Ungrouped</Label>
 
       <div
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"
       >
-        <div class="grid grid-cols-3 gap-2 items-start">
-          {#if ungroupedTemplates}
+        {#if ungroupedTemplates.length > 0}
+          <div class="grid grid-cols-3 gap-2 items-start">
             {#each ungroupedTemplates as id (id)}
               <button
                 class="relative h-full text-start group"
@@ -88,8 +91,22 @@
                 />
               </button>
             {/each}
-          {/if}
-        </div>
+          </div>
+        {:else}
+          <div class="flex flex-col items-center gap-4 py-8 my-auto">
+            <p class="text-sm text-center text-slate-500">
+              There are no ungrouped template.
+            </p>
+
+            <Button
+              colorVariant="secondary"
+              icon={FilePlus2Icon}
+              onClick={() => renderEditTemplatePage()}
+            >
+              Create a template
+            </Button>
+          </div>
+        {/if}
       </div>
     </div>
   </div>
