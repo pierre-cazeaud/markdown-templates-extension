@@ -54,7 +54,7 @@
 </script>
 
 <article
-  class={`flex flex-col gap-2 bg-surface text-on-surface border rounded-md p-3 ${classes || ''}`}
+  class={`template-card flex flex-col gap-2 bg-surface text-on-surface border rounded-md p-3 ${classes || ''}`}
   {...props}
 >
   <header>

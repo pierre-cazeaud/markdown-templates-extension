@@ -31,7 +31,7 @@
     <NoTemplate />
   {:else}
     {#if data.ungroupedTemplates.length > 0}
-      <section class="grid grid-cols-4 gap-3">
+      <section class="grid grid-cols-4 gap-4">
         {#each data.ungroupedTemplates as templateId}
           <TemplateCard {templateId} />
         {/each}
@@ -39,9 +39,9 @@
     {/if}
     
     {#if Object.entries(data.templateGroups).length > 0}
-      <section class="grid grid-cols-2 gap-3">
+      <section class="grid grid-cols-4 gap-4">
         {#each Object.entries(data.templateGroups) as [templateGroupId, templateGroup]}
-        <TemplateGroupCard {templateGroup} templateGroupId={templateGroupId as UUID} />
+          <TemplateGroupCard {templateGroup} templateGroupId={templateGroupId as UUID} />
         {/each}
       </section>
     {/if}

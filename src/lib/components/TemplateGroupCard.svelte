@@ -26,7 +26,7 @@
 </script>
 
 <article
-  class={`flex flex-col gap-4 p-3 bg-${templateGroup.color}-100 rounded border`}
+  class={`flex flex-col gap-2 p-3 bg-${templateGroup.color}-100 rounded border has-[.template-card:nth-last-child(n+2)]:col-span-2 has-[.template-card:nth-last-child(n+4)]:col-span-4`}
   {...props}
 >
   <header class="flex items-center justify-between">
@@ -55,13 +55,18 @@
   </header>
 
   {#if templateGroup.templateIds && templateGroup.templateIds?.length > 0}
-    <div class="grid grid-cols-3 gap-2 items-start h-full">
+    <div
+      class="grid grid-cols-1 has-[.template-card:nth-last-child(n+2)]:grid-cols-3 gap-2 h-full"
+    >
       {#each templateGroup.templateIds as templateId}
-        <TemplateCard class="border-0" {templateId} />
+        <TemplateCard
+          class={`${templateGroup.color !== 'white' && 'border-0'}`}
+          {templateId}
+        />
       {/each}
     </div>
   {:else}
-    <div class={`flex flex-col gap-4 p-12 grow items-center justify-center`}>
+    <div class={`flex flex-col gap-4 py-12 grow items-center justify-center`}>
       <p class="text-sm text-center text-slate-500">
         No template is linked to this group.
       </p>
