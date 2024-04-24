@@ -132,7 +132,6 @@ const initTemplatesStore = async () => {
 
     // Ungrouped Templates
     updateUngroupedTemplates(newUngroupedTemplates: UUID[]) {
-      console.log(JSON.stringify(newUngroupedTemplates));
       data.ungroupedTemplates = newUngroupedTemplates;
       setTemplatesStorage(data);
     },

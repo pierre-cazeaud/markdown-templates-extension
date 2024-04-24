@@ -18,7 +18,7 @@ export type TemplateGroup = {
   color?: string;
   icon?: string;
   templateIds?: UUID[];
-  title?: string;
+  title: string;
 };
 
 export type UUID = `${string}-${string}-${string}-${string}-${string}`;
