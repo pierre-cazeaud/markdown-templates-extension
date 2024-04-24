@@ -97,8 +97,10 @@ const initTemplatesStore = async () => {
     },
 
     deleteTemplateGroup(groupId: UUID) {
-      delete data?.templateGroups?.[groupId];
+      const { templateIds } = data.templateGroups[groupId];
+      if (templateIds) data.ungroupedTemplates = [...data.ungroupedTemplates, ...templateIds];
 
+      delete data?.templateGroups?.[groupId];
       setTemplatesStorage(data);
     },
 
