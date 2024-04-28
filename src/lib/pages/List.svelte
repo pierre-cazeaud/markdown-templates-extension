@@ -7,7 +7,6 @@
   import TemplateCard from '../components/TemplateCard.svelte';
   import TemplateGroupCard from '../components/TemplateGroupCard.svelte';
   import Page from '../layouts/Page.svelte';
-  import type { UUID } from '../types/index.js';
 
   const { renderEditTemplatePage, renderEditTemplateGroupPage } = appStore;
   const { data, isLoading } = templatesStore;
@@ -29,28 +28,22 @@
     Loading
   {:else if !hasTemplates}
     <NoTemplate />
-  {:else}
-    {#if data.ungroupedTemplates.length > 0}
-      <section class="grid grid-cols-4 gap-4">
-        {#each data.ungroupedTemplates as templateId}
-          <TemplateCard {templateId} />
-        {/each}
-      </section>
-    {/if}
-    
-    {#if Object.entries(data.templateGroups).length > 0}
-      <section class="grid grid-cols-4 gap-4">
-        {#each Object.entries(data.templateGroups) as [templateGroupId, templateGroup]}
-          <TemplateGroupCard {templateGroup} templateGroupId={templateGroupId as UUID} />
-        {/each}
-      </section>
-    {/if}
+  {:else if data.orderedTemplateList.length > 0}
+    <section class="grid grid-cols-4 gap-4">
+      {#each data.orderedTemplateList as { id, type }}
+        {#if type === 'template'}
+          <TemplateCard templateId={id} />
+        {:else}
+          <TemplateGroupCard templateGroupId={id} />
+        {/if}
+      {/each}
+    </section>
   {/if}
 
   <footer class="flex justify-center gap-4 mt-auto">
     <Button icon={FilePlusIcon} onClick={onCreateClick}>Create template</Button>
     <Button icon={PackagePlusIcon} onClick={onCreateGroupClick}
-    >Create group</Button
+      >Create group</Button
     >
   </footer>
 </Page>

@@ -4,23 +4,20 @@
   import Button from './Button.svelte';
   import Label from './Label.svelte';
   import type { HTMLAttributes } from 'svelte/elements';
-  import type { TemplateGroup, UUID } from '../types';
+  import type { UUID } from '../types';
   import TemplateCard from './TemplateCard.svelte';
   import { iconsStore } from '../stores/iconsStore.svelte';
+  import { templatesStore } from '../stores/templatesStore.svelte';
 
   type Props = HTMLAttributes<HTMLElement> & {
-    templateGroup: TemplateGroup;
     templateGroupId: UUID;
   };
 
-  let {
-    class: classes,
-    templateGroup,
-    templateGroupId,
-    ...props
-  }: Props = $props();
-
+  let { class: classes, templateGroupId, ...props }: Props = $props();
   const { renderEditTemplateGroupPage } = appStore;
+  const { readTemplateGroup } = templatesStore;
+
+  const templateGroup = readTemplateGroup(templateGroupId);
   const dynamicColor =
     templateGroup.color === 'white' ? 'slate' : templateGroup.color;
 </script>

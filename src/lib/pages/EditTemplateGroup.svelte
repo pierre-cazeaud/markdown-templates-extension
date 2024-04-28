@@ -9,7 +9,7 @@
   import Page from '../layouts/Page.svelte';
   import TextInput from '../components/TextInput.svelte';
   import TemplatePicker from '../components/TemplatePicker.svelte';
-  import type { TemplateGroup, UUID } from '../types';
+  import type { StoredTemplatesData, TemplateGroup, UUID } from '../types';
   import type { FormEventHandler } from 'svelte/elements';
 
   const { editPageTemplateGroupProps, renderListPage } = appStore;
@@ -17,9 +17,10 @@
     createTemplateGroup,
     data,
     deleteTemplateGroup,
+    getUngroupedTemplates,
     readTemplateGroup,
     updateTemplateGroup,
-    updateUngroupedTemplates,
+    updateOrderedTemplateList,
   } = templatesStore;
 
   const templateGroupId = editPageTemplateGroupProps?.templateGroupId;
@@ -32,9 +33,11 @@
     loadedTemplateGroup?.color || 'white'
   );
   let icon: TemplateGroup['icon'] = $state(loadedTemplateGroup?.icon || '');
+  let newOrderedTemplateList: StoredTemplatesData['orderedTemplateList'] =
+    $state(data.orderedTemplateList || []);
   let templateIds: UUID[] = $state(loadedTemplateGroup?.templateIds || []);
   let title: TemplateGroup['title'] = $state(loadedTemplateGroup?.title || '');
-  let ungroupedTemplateIds: UUID[] = $state(data.ungroupedTemplates || []);
+  let ungroupedTemplateIds: UUID[] = $state(getUngroupedTemplates());
 
   const onBackClick = () => {
     renderListPage();
@@ -68,7 +71,7 @@
       });
     }
 
-    updateUngroupedTemplates(ungroupedTemplateIds);
+    updateOrderedTemplateList(newOrderedTemplateList);
     renderListPage();
   };
 
@@ -77,6 +80,25 @@
   }) => {
     title = currentTarget?.value;
   };
+
+  $effect(() => {
+    // Push ungrouped templates back to newOrderedTemplateList
+    for (const id of ungroupedTemplateIds) {
+      if (!newOrderedTemplateList.some((item) => item.id === id))
+        newOrderedTemplateList.push({
+          id,
+          type: 'template',
+        });
+    }
+
+    // Remove grouped templates from newOrderedTemplateList
+    for (const id of templateIds) {
+      const templateIndex = newOrderedTemplateList.findIndex(
+        (item) => item.id === id
+      );
+      if (templateIndex > -1) newOrderedTemplateList.splice(templateIndex, 1);
+    }
+  });
 </script>
 
 <Page class="relative">

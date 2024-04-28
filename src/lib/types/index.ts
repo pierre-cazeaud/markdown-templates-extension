@@ -1,7 +1,10 @@
 export type StoredTemplatesData = {
+  orderedTemplateList: {
+    id: UUID
+    type: 'template' | 'templateGroup';
+  }[];
   templateGroups: Record<UUID, TemplateGroup>;
   templates: Record<UUID, Template>;
-  ungroupedTemplates: UUID[];
 };
 
 export type Template = {
