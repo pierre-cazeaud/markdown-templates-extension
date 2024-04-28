@@ -10,7 +10,6 @@ import type {
 const initTemplatesStore = async () => {
   let isLoading = $state(true);
   let data = $state<StoredTemplatesData>({
-    favorites: [],
     templateGroups: {},
     templates: {},
     ungroupedTemplates: [],
@@ -115,21 +114,6 @@ const initTemplatesStore = async () => {
       };
 
       setTemplatesStorage(data);
-    },
-
-    // Favorites
-    createFavorite(templateId: UUID) {
-      data.favorites.push(templateId);
-      setTemplatesStorage(data);
-    },
-
-    deleteFavorite(templateId: UUID) {
-      data.favorites.splice(data.favorites.indexOf(templateId), 1);
-      setTemplatesStorage(data);
-    },
-
-    readIsFavorite(templateId: UUID) {
-      return data.favorites?.includes(templateId);
     },
 
     // Ungrouped Templates

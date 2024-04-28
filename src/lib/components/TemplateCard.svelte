@@ -24,10 +24,7 @@
     ...props
   }: Props = $props();
   const { renderEditTemplatePage } = appStore;
-  const { createFavorite, deleteFavorite, readIsFavorite, readTemplate } =
-    templatesStore;
-  let isFavorite = $state(readIsFavorite(templateId));
-
+  const { readTemplate } = templatesStore;
   const content = readTemplate(templateId).content;
   const title = readTemplate(templateId).title;
 
@@ -40,16 +37,6 @@
 
   const getContentExerpt = (content: string) => {
     return content.replaceAll('\n', '<br>');
-  };
-
-  const toggleFavorite = () => {
-    if (isFavorite) {
-      deleteFavorite(templateId);
-      isFavorite = false;
-    } else {
-      createFavorite(templateId);
-      isFavorite = true;
-    }
   };
 </script>
 
@@ -73,13 +60,6 @@
         colorVariant="secondary"
         icon={ClipboardIcon}
         onClick={copyContentToClipBoard}
-        sizeVariant="small"
-      />
-
-      <Button
-        colorVariant="secondary"
-        icon={isFavorite ? StarOffIcon : StarIcon}
-        onClick={toggleFavorite}
         sizeVariant="small"
       />
 
