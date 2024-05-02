@@ -23,7 +23,7 @@
 </script>
 
 <article
-  class={`flex flex-col gap-2 p-3 bg-${templateGroup.color}-100 rounded border has-[.template-card:nth-last-child(n+2)]:col-span-2 has-[.template-card:nth-last-child(n+4)]:col-span-4`}
+  class={`flex flex-col gap-2 p-3 bg-${templateGroup.color}-100 rounded border has-[.template-card:nth-last-child(n+2)]:col-span-2 has-[.template-card:nth-last-child(n+4)]:col-span-4 ${classes || ''}`}
   {...props}
 >
   <header class="flex items-center justify-between">
