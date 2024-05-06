@@ -3,6 +3,8 @@
   import markdownit from 'markdown-it';
   import Button from './Button.svelte';
   import { FileCodeIcon, ScrollTextIcon } from 'lucide-svelte';
+  import { fade } from 'svelte/transition';
+  import MarkdownWidgetBar from './MarkdownWidgetBar.svelte';
 
   type Props = {
     content: Template['content'];
@@ -13,9 +15,10 @@
   let originalContent = content.replaceAll('\n', '<br>');
   let originalTitle = title;
 
+  let codeRef = $state<HTMLElement>();
   let hasMissingContentError = $state(false);
   let hasMissingTitleError = $state(false);
-  let showRenderedContent = $state(false);
+  let showRenderedContent = $state(true);
 
   const md = markdownit();
 
@@ -52,6 +55,12 @@
 
     content = target.innerText;
   };
+
+  $effect(() => {
+    if (hasMissingContentError || hasMissingTitleError)
+      console.log('Unable to save');
+    else console.log('Able to save');
+  });
 </script>
 
 <section class="flex flex-col gap-4">
@@ -60,7 +69,7 @@
 
     <p
       aria-multiline="false"
-      class="border border-on-background bg-surface text-on-surface rounded text-base p-2"
+      class="border bg-surface text-on-surface rounded text-base p-2"
       contenteditable="true"
       onkeydown={handleTitleKeyDown}
       oninput={handleTitleInput}
@@ -69,7 +78,7 @@
     </p>
 
     {#if hasMissingTitleError}
-      <p class="text-on-destructive bg-destructive p-2 rounded">
+      <p class="text-on-destructive bg-destructive p-2 rounded" transition:fade>
         Title is mandatory
       </p>
     {/if}
@@ -86,25 +95,32 @@
       />
     </div>
 
-    <div class="grid" class:grid-cols-2={showRenderedContent}>
-      <code
-        aria-multiline="true"
-        class="border border-on-background bg-surface text-on-surface rounded text-base p-4 min-h-80 transition-all"
-        class:rounded-tr-none={showRenderedContent}
-        class:rounded-br-none={showRenderedContent}
-        contenteditable="true"
-        oninput={handleContentInput}>{@html originalContent}</code
-      >
+    <div class="grid gap-4" class:grid-cols-2={showRenderedContent}>
+      <div class="bg-surface border text-on-surface rounded">
+        {#if codeRef}
+          <MarkdownWidgetBar textEditorRef={codeRef} />
+        {/if}
+
+        <code
+          aria-multiline="true"
+          bind:this={codeRef}
+          class="flex p-4 min-h-80 text-base transition-all outline-hover-surface outline-1"
+          contenteditable="true"
+          oninput={handleContentInput}
+        >
+          {@html originalContent}
+        </code>
+      </div>
 
       {#if showRenderedContent}
-        <aside class="p-4 bg-surface prose rounded-tr rounded-br break-words">
+        <aside class="p-4 bg-surface border prose rounded break-words">
           {@html md.render(content)}
         </aside>
       {/if}
     </div>
 
     {#if hasMissingContentError}
-      <p class="text-on-destructive bg-destructive p-2 rounded">
+      <p class="text-on-destructive bg-destructive p-2 rounded" transition:fade>
         Content is mandatory
       </p>
     {/if}

@@ -32,6 +32,7 @@ module.exports = {
 
         surface: colors.white,
         'on-surface': colors.slate[600],
+        'hover-surface': colors.slate[400],
 
         // Status
         destructive: colors.red[200],

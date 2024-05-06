@@ -28,19 +28,21 @@
   };
 
   $effect(() => {
-    Sortable.create(listRef, {
-      animation: 150,
-      easing: 'cubic-bezier(1, 0, 0, 1)',
-      ghostClass: 'ring-2',
+    if (listRef) {
+      Sortable.create(listRef, {
+        animation: 150,
+        easing: 'cubic-bezier(1, 0, 0, 1)',
+        ghostClass: 'ring-2',
 
-      // Changed sorting within list
-      onUpdate: function (event: SortableEvent) {
-        const { oldIndex, newIndex } = event;
-        const newOrderTemplateList = [...data.orderedTemplateList];
-        moveItemInArray(newOrderTemplateList, oldIndex, newIndex);
-        updateOrderedTemplateList(newOrderTemplateList);
-      },
-    });
+        // Changed sorting within list
+        onUpdate: function (event: SortableEvent) {
+          const { oldIndex, newIndex } = event;
+          const newOrderTemplateList = [...data.orderedTemplateList];
+          moveItemInArray(newOrderTemplateList, oldIndex, newIndex);
+          updateOrderedTemplateList(newOrderTemplateList);
+        },
+      });
+    }
   });
 </script>
 
