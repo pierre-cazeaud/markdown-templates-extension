@@ -65,7 +65,6 @@
 </script>
 
 <Page class="relative">
-  <!-- Main -->
   <div
     class="flex flex-col gap-4 pr-0 transition-[padding]"
     class:!pr-96={isSidebarOpen}
@@ -89,20 +88,6 @@
             title="Delete template"
           />
         {/if}
-
-        <Button
-          colorVariant="interactive"
-          icon={isShowingVariables ? EyeOffIcon : EyeIcon}
-          onClick={() => (isShowingVariables = !isShowingVariables)}
-          title="Toggle variables visibility"
-        />
-
-        <Button
-          colorVariant="secondary"
-          icon={isSidebarOpen ? PanelRightCloseIcon : PanelRightOpenIcon}
-          onClick={() => (isSidebarOpen = !isSidebarOpen)}
-          title="Toggle variables panel visibility"
-        />
       </div>
     </header>
 
@@ -119,25 +104,4 @@
       >
     </footer>
   </div>
-
-  <!-- Sidebar -->
-  <sidebar
-    class="fixed top-0 right-0 flex flex-col gap-4 border border-on-background rounded-tl-lg rounded-bl-lg w-96 h-full p-4 shadow-lg translate-x-96 transition"
-    class:!translate-x-0={isSidebarOpen}
-  >
-    <header class="flex items-center justify-between">
-      <div>
-        <p class="text-lg">Variables</p>
-      </div>
-
-      <div class="flex gap-2">
-        <Button
-          colorVariant="secondary"
-          icon={XIcon}
-          onClick={() => (isSidebarOpen = false)}
-          title="Close variables panel"
-        />
-      </div>
-    </header>
-  </sidebar>
 </Page>
