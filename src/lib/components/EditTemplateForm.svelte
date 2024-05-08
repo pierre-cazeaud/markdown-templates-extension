@@ -12,7 +12,7 @@
   };
 
   let { content = $bindable(), title = $bindable() }: Props = $props();
-  let originalContent = content.replaceAll('\n', '<br>');
+  let originalContent = content;
   let originalTitle = title;
 
   let codeRef = $state<HTMLElement>();
@@ -45,6 +45,7 @@
 
   const handleContentInput = (event: Event) => {
     const target = event.currentTarget as HTMLElement;
+    // console.log(target.innerHTML);
 
     if (!target.innerText) {
       hasMissingContentError = true;
@@ -101,14 +102,15 @@
           <MarkdownWidgetBar textEditorRef={codeRef} />
         {/if}
 
+        <!-- whitespace-pre helps rendering the code content that contains linebreaks and white spaces -->
         <code
           aria-multiline="true"
           bind:this={codeRef}
-          class="flex p-4 min-h-80 text-base transition-all outline-hover-surface outline-1"
+          class="flex p-4 min-h-80 text-base transition-all outline-hover-surface outline-1 whitespace-pre"
           contenteditable="true"
           oninput={handleContentInput}
         >
-          {@html originalContent}
+          {originalContent}
         </code>
       </div>
 
