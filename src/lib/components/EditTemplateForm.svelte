@@ -2,7 +2,7 @@
   import type { Template } from '../types';
   import markdownit from 'markdown-it';
   import Button from './Button.svelte';
-  import { FileCodeIcon, ScrollTextIcon } from 'lucide-svelte';
+  import { EyeIcon, EyeOffIcon } from 'lucide-svelte';
   import { fade } from 'svelte/transition';
   import MarkdownWidgetBar from './MarkdownWidgetBar.svelte';
 
@@ -90,7 +90,7 @@
       <p class="text-base">Content</p>
 
       <Button
-        icon={showRenderedContent ? FileCodeIcon : ScrollTextIcon}
+        icon={showRenderedContent ? EyeOffIcon : EyeIcon}
         colorVariant="secondary"
         onClick={() => (showRenderedContent = !showRenderedContent)}
       />
