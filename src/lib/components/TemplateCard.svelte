@@ -9,6 +9,7 @@
   import { appStore } from '../stores/appStore.svelte';
   import Button from './Button.svelte';
   import Label from './Label.svelte';
+  import markdownit from 'markdown-it';
   import type { HTMLAttributes } from 'svelte/elements';
   import type { UUID } from '../types';
 
@@ -27,6 +28,7 @@
   const { readTemplate } = templatesStore;
   const content = readTemplate(templateId).content;
   const title = readTemplate(templateId).title;
+  const md = markdownit();
 
   const copyContentToClipBoard = async () => {
     const type = 'text/plain';
@@ -41,7 +43,7 @@
 </script>
 
 <article
-  class={`template-card flex flex-col gap-2 bg-surface text-on-surface border rounded-md p-3 ${classes || ''}`}
+  class={`template-card flex flex-col gap-3 bg-surface text-on-surface border rounded-md p-3 ${classes || ''}`}
   {...props}
 >
   <header>
@@ -50,12 +52,19 @@
     </Label>
   </header>
 
-  <p aria-multiline="true" class="line-clamp-3">
-    {@html getContentExerpt(content)}
-  </p>
+  {#if content}
+    <div class="flex justify-center items-center p-4 rounded border">
+      <p
+        class="prose contrast-75 line-clamp-5 [&>pre]:whitespace-pre-wrap"
+        style="zoom: 40%"
+      >
+        {@html md.render(content)}
+      </p>
+    </div>
+  {/if}
 
   {#if hasActions}
-    <footer class="flex border-t border-slate-200 pt-2 mt-auto">
+    <footer class="flex mt-auto">
       <Button
         colorVariant="secondary"
         icon={ClipboardIcon}
