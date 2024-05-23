@@ -106,7 +106,7 @@
         <code
           aria-multiline="true"
           bind:this={codeRef}
-          class="flex p-4 min-h-80 text-base transition-all outline-hover-surface outline-1 whitespace-pre"
+          class="flex p-4 min-h-80 text-base transition-all outline-hover-surface outline-1 whitespace-pre-wrap"
           contenteditable="true"
           oninput={handleContentInput}
         >
@@ -115,7 +115,9 @@
       </div>
 
       {#if showRenderedContent}
-        <aside class="p-4 bg-surface border prose rounded break-words">
+        <aside
+          class="p-4 bg-surface border prose rounded break-words [&>pre]:whitespace-pre-wrap"
+        >
           {@html md.render(content)}
         </aside>
       {/if}
