@@ -23,7 +23,7 @@
 </script>
 
 <article
-  class={`flex flex-col gap-2 p-3 bg-${templateGroup.color}-100 rounded border has-[.template-card:nth-last-child(n+2)]:col-span-2 has-[.template-card:nth-last-child(n+4)]:col-span-4 ${classes || ''}`}
+  class={`flex flex-col gap-2 p-3 bg-${templateGroup.color}-100 rounded border sm:has-[.template-card:nth-last-child(n+2)]:col-span-2 md:has-[.template-card:nth-last-child(n+3)]:col-span-3 lg:has-[.template-card:nth-last-child(n+4)]:col-span-4 ${classes || ''}`}
   {...props}
 >
   <header class="flex items-center justify-between">
@@ -53,7 +53,7 @@
 
   {#if templateGroup.templateIds && templateGroup.templateIds?.length > 0}
     <div
-      class="grid grid-cols-1 has-[.template-card:nth-last-child(n+2)]:grid-cols-3 gap-2 h-full"
+      class="grid grid-cols-1 sm:has-[.template-card:nth-last-child(n+2)]:grid-cols-2 md:has-[.template-card:nth-last-child(n+3)]:grid-cols-3 lg:has-[.template-card:nth-last-child(n+4)]:grid-cols-4 gap-2 h-full"
     >
       {#each templateGroup.templateIds as templateId}
         <TemplateCard

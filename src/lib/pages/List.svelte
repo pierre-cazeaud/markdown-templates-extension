@@ -52,7 +52,10 @@
   {:else if !hasTemplates}
     <NoTemplate />
   {:else if data.orderedTemplateList.length > 0}
-    <section class="grid grid-cols-4 gap-4" bind:this={listRef}>
+    <section
+      class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      bind:this={listRef}
+    >
       {#each data.orderedTemplateList as { id, type } (id)}
         {#if type === 'template'}
           <TemplateCard class="transition-shadow" templateId={id} />
