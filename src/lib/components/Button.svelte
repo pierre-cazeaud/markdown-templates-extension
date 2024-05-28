@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Icon } from 'lucide-svelte';
   import type { ComponentType, Snippet } from 'svelte';
+  import type { HTMLButtonAttributes } from 'svelte/elements';
 
   type ButtonColorVariant =
     | 'interactive'
@@ -10,7 +11,7 @@
     | 'secondary'
     | 'successful';
 
-  type Props = {
+  type Props = HTMLButtonAttributes & {
     children?: Snippet;
     colorVariant?: ButtonColorVariant;
     dynamicColor?: string;
@@ -28,6 +29,7 @@
     onClick,
     sizeVariant,
     title,
+    ...props
   }: Props = $props();
 
   if (colorVariant === 'dynamic' && !dynamicColor)
@@ -53,7 +55,10 @@
 <button
   onclick={onClick}
   class={`flex items-center gap-1 rounded transition select-none ${colorClasses[colorVariant]}`}
+  class:cursor-not-allowed={props.disabled}
+  class:opacity-50={props.disabled}
   {title}
+  {...props}
 >
   <svelte:component this={icon} size={sizeVariant === 'small' ? 16 : 20} />
 
