@@ -10,10 +10,6 @@ export type StoredTemplatesData = {
 export type Template = {
   content: string;
   title: string;
-  variables?: {
-    key: string;
-    value: string;
-  }[];
 };
 
 export type TemplateGroup = {

@@ -25,10 +25,6 @@
 
   let content: Template['content'] = $state(loadedTemplate?.content || '');
   let title: Template['title'] = $state(loadedTemplate?.title || '');
-  let variables: Template['variables'] = $state(loadedTemplate?.variables);
-
-  let isShowingVariables = $state(false);
-  let isSidebarOpen = $state(false);
 
   const onBackClick = () => {
     renderListPage();
@@ -65,10 +61,7 @@
 </script>
 
 <Page class="relative">
-  <div
-    class="flex flex-col gap-4 pr-0 transition-[padding]"
-    class:!pr-96={isSidebarOpen}
-  >
+  <div class="flex flex-col gap-4 pr-0 transition-[padding]">
     <header class="flex justify-between">
       <div>
         <Button
