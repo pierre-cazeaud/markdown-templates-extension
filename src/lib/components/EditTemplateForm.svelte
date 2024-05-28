@@ -45,14 +45,28 @@
 
   const handleContentInput = (event: Event) => {
     const target = event.currentTarget as HTMLElement;
-    // console.log(target.innerHTML);
+    content = target.innerText;
+  };
+  const handleContentPaste = (event: ClipboardEvent) => {
+    event.preventDefault();
+    const target = event.currentTarget as HTMLElement;
 
-    if (!target.innerText) {
-      hasMissingContentError = true;
-      return;
-    }
+    const pastedText = event.clipboardData?.getData('text');
+    if (!pastedText) return;
 
-    if (hasMissingContentError) hasMissingContentError = false;
+    const range = document.getSelection()?.getRangeAt(0);
+    if (!range) return;
+    range.deleteContents();
+
+    const textNode = document.createTextNode(pastedText);
+    range.insertNode(textNode);
+    range.selectNodeContents(textNode);
+    range.collapse(false);
+
+    const selection = window.getSelection();
+    if (!selection) return;
+    selection.removeAllRanges();
+    selection.addRange(range);
 
     content = target.innerText;
   };
@@ -72,8 +86,8 @@
       aria-multiline="false"
       class="border bg-surface text-on-surface rounded text-base p-2"
       contenteditable="true"
-      onkeydown={handleTitleKeyDown}
       oninput={handleTitleInput}
+      onkeydown={handleTitleKeyDown}
     >
       {originalTitle}
     </p>
