@@ -24,6 +24,7 @@
   let loadedTemplate = templateId ? readTemplate(templateId) : undefined;
 
   let content: Template['content'] = $state(loadedTemplate?.content || '');
+  let isSaveDisabled = $state(true);
   let title: Template['title'] = $state(loadedTemplate?.title || '');
 
   const onBackClick = () => {
@@ -46,13 +47,11 @@
       createTemplate({
         content,
         title,
-        variables,
       });
     else {
       updateTemplate(templateId, {
         content,
         title,
-        variables,
       });
     }
 
@@ -84,16 +83,17 @@
       </div>
     </header>
 
-    <EditTemplateForm bind:content bind:title />
+    <EditTemplateForm bind:content bind:isSaveDisabled bind:title />
 
     <footer class="flex justify-center gap-4 mt-auto">
       <Button icon={XIcon} onClick={onCancelClick} colorVariant={'destructive'}
         >Cancel changes</Button
       >
       <Button
+        colorVariant={'interactive'}
+        disabled={isSaveDisabled}
         icon={CheckIcon}
-        onClick={onSaveClick}
-        colorVariant={'interactive'}>Save changes</Button
+        onClick={onSaveClick}>Save changes</Button
       >
     </footer>
   </div>

@@ -8,30 +8,35 @@
 
   type Props = {
     content: Template['content'];
+    isSaveDisabled: boolean;
     title: Template['title'];
   };
 
-  let { content = $bindable(), title = $bindable() }: Props = $props();
+  let {
+    content = $bindable(),
+    isSaveDisabled = $bindable(),
+    title = $bindable(),
+  }: Props = $props();
   let originalContent = content;
   let originalTitle = title;
 
   let codeRef = $state<HTMLElement>();
-  let hasMissingContentError = $state(false);
-  let hasMissingTitleError = $state(false);
   let showRenderedContent = $state(true);
+
+  let hasContentInputBeenTouched = $state(false);
+  let hasTitleInputBeenTouched = $state(false);
+  let hasMissingContentError = $derived.by(
+    () => hasContentInputBeenTouched && content === ''
+  );
+  let hasMissingTitleError = $derived.by(
+    () => hasTitleInputBeenTouched && title === ''
+  );
 
   const md = markdownit();
 
   const handleTitleInput = (event: Event) => {
     const target = event.currentTarget as HTMLElement;
-
-    if (!target.innerText) {
-      hasMissingTitleError = true;
-      return;
-    }
-
-    if (hasMissingTitleError) hasMissingTitleError = false;
-
+    if (!hasTitleInputBeenTouched) hasTitleInputBeenTouched = true;
     title = target.innerText;
   };
 
@@ -45,8 +50,10 @@
 
   const handleContentInput = (event: Event) => {
     const target = event.currentTarget as HTMLElement;
+    if (!hasContentInputBeenTouched) hasContentInputBeenTouched = true;
     content = target.innerText;
   };
+
   const handleContentPaste = (event: ClipboardEvent) => {
     event.preventDefault();
     const target = event.currentTarget as HTMLElement;
@@ -72,9 +79,7 @@
   };
 
   $effect(() => {
-    if (hasMissingContentError || hasMissingTitleError)
-      console.log('Unable to save');
-    else console.log('Able to save');
+    isSaveDisabled = hasMissingContentError || hasMissingTitleError;
   });
 </script>
 
