@@ -106,9 +106,10 @@
         <code
           aria-multiline="true"
           bind:this={codeRef}
-          class="flex p-4 min-h-80 text-base transition-all outline-hover-surface outline-1 whitespace-pre-wrap"
+          class="flex p-4 min-h-80 text-base transition-all outline-hover-surface outline-1 whitespace-pre-wrap overflow-x-auto"
           contenteditable="true"
           oninput={handleContentInput}
+          onpaste={handleContentPaste}
         >
           {originalContent}
         </code>
@@ -116,7 +117,7 @@
 
       {#if showRenderedContent}
         <aside
-          class="p-4 bg-surface border prose rounded break-words [&>pre]:whitespace-pre-wrap"
+          class="max-w-none p-4 bg-surface border prose rounded break-words [&>pre]:whitespace-pre-wrap"
         >
           {@html md.render(content)}
         </aside>
