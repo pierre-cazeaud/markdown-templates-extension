@@ -79,7 +79,11 @@
   };
 
   $effect(() => {
-    isSaveDisabled = hasMissingContentError || hasMissingTitleError;
+    isSaveDisabled =
+      content === '' ||
+      title === '' ||
+      hasMissingContentError ||
+      hasMissingTitleError;
   });
 </script>
 
