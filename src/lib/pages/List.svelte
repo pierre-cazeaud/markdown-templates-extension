@@ -14,6 +14,7 @@
   const { renderEditTemplatePage, renderEditTemplateGroupPage } = appStore;
   const { data, isLoading, updateOrderedTemplateList } = templatesStore;
   const hasTemplates = Object.keys(data?.templates).length > 0;
+  const hasTemplateGroups = Object.keys(data?.templateGroups).length > 0;
 
   let listRef = $state<HTMLElement>();
 
@@ -49,7 +50,7 @@
 <Page>
   {#if isLoading}
     Loading
-  {:else if !hasTemplates}
+  {:else if !hasTemplates && !hasTemplateGroups}
     <NoTemplate />
   {:else if data.orderedTemplateList.length > 0}
     <section
