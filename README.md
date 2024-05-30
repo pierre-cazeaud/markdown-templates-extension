@@ -1,7 +1,15 @@
-# WXT + Svelte
+# Markdown Template
 
-This template should help get you started developing with Svelte in WXT.
+Easily write, access, or copy and paste templates in a Markdown format.
 
-## Recommended IDE Setup
+Whether you're creating a ticket in project management software or detailing a new merge request, this extension provides quick access to your library of templates.
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+Features:
+
+- Use a Markdown editor to write and preview templates
+- Reorder and group templates
+- Copy the content of a template to your clipboard for pasting
+
+---
+
+Built using [Svelte](https://svelte.dev/) and [WXT](https://wxt.dev/).
