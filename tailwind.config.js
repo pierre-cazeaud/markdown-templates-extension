@@ -50,6 +50,9 @@ module.exports = {
         'hover-successful': colors.green[400],
         'hover-on-successful': colors.slate[800],
       },
+      screens: {
+        sm: '600px',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],
