@@ -16,4 +16,4 @@ Features:
 
 ---
 
-Built using [Svelte](https://svelte.dev/) and [WXT](https://wxt.dev/).
+Built using [Svelte](https://svelte.dev/), [WXT](https://wxt.dev/) and [Lucide](https://lucide.dev/).
