@@ -1,4 +1,8 @@
-# Markdown Template
+<div align="center">
+  <img alt="Markdown Templates Icon" src='src/public/icon/128.png' />
+</div>
+
+# Markdown Templates
 
 Easily write, access, or copy and paste templates in a Markdown format.
 
