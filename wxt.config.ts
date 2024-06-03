@@ -12,6 +12,7 @@ export default defineConfig({
   },
   manifest: {
     permissions: ['storage'],
+    name: 'Markdown Templates',
   },
   manifestVersion: 3,
   vite: () => ({
