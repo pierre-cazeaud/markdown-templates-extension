@@ -119,7 +119,10 @@
       />
     </div>
 
-    <div class="grid gap-4" class:grid-cols-2={showRenderedContent}>
+    <div
+      class="grid grid-cols-1 gap-4"
+      class:md:grid-cols-2={showRenderedContent}
+    >
       <div class="bg-surface border text-on-surface rounded">
         {#if codeRef}
           <MarkdownWidgetBar textEditorRef={codeRef} />

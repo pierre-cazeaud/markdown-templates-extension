@@ -37,14 +37,14 @@
 <section class="flex flex-col gap-2">
   <Label variant="large">Templates</Label>
 
-  <div class="grid grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="flex flex-col gap-2">
       <Label>In this group</Label>
 
       <div
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"
       >
-        <div class="grid grid-cols-3 gap-2 items-start">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-start">
           {#if groupedTemplates}
             {#each groupedTemplates as id (id)}
               <button
@@ -74,7 +74,7 @@
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"
       >
         {#if ungroupedTemplates.length > 0}
-          <div class="grid grid-cols-3 gap-2 items-start">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 items-start">
             {#each ungroupedTemplates as id (id)}
               <button
                 class="relative h-full text-start group"
