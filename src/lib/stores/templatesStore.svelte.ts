@@ -38,16 +38,25 @@ const initTemplatesStore = async () => {
     },
 
     // Templates
-    createTemplate(newTemplate: Template, templateGroupId?: UUID) {
+    createTemplate(
+      newTemplate: Omit<Template, 'creationTimestamp' | 'editTimestamp'>,
+      templateGroupId?: UUID
+    ) {
       const id = crypto.randomUUID();
-      data.templates[id] = newTemplate;
-      if (templateGroupId) data.templateGroups?.[templateGroupId].templateIds?.push(id)
+      const timestamp = Date.now();
+      data.templates[id] = {
+        ...newTemplate,
+        creationTimestamp: timestamp,
+        editTimestamp: timestamp,
+      };
+
+      if (templateGroupId)
+        data.templateGroups?.[templateGroupId].templateIds?.push(id);
 
       data.orderedTemplateList.push({
         id,
-        type: 'template'
+        type: 'template',
       });
-
 
       setTemplatesStorage(data);
     },
@@ -81,19 +90,27 @@ const initTemplatesStore = async () => {
       data.templates[templateId] = {
         ...data.templates[templateId],
         ...newTemplateData,
+        editTimestamp: Date.now(),
       };
 
       setTemplatesStorage(data);
     },
 
     // Templates groups
-    createTemplateGroup(newGroup: TemplateGroup) {
+    createTemplateGroup(
+      newGroup: Omit<TemplateGroup, 'creationTimestamp' | 'editTimestamp'>
+    ) {
       const id = crypto.randomUUID();
-      data.templateGroups[id] = newGroup;
+      const timestamp = Date.now();
+      data.templateGroups[id] = {
+        ...newGroup,
+        creationTimestamp: timestamp,
+        editTimestamp: timestamp,
+      };
 
       data.orderedTemplateList.push({
         id,
-        type: 'templateGroup'
+        type: 'templateGroup',
       });
 
       setTemplatesStorage(data);
@@ -106,7 +123,9 @@ const initTemplatesStore = async () => {
       delete data?.templateGroups?.[groupId];
 
       if (templateIds) {
-        templateIds.forEach(id => data.orderedTemplateList.push({ id, type: 'template' }))
+        templateIds.forEach((id) =>
+          data.orderedTemplateList.push({ id, type: 'template' })
+        );
       }
 
       setTemplatesStorage(data);
@@ -120,6 +139,7 @@ const initTemplatesStore = async () => {
       data.templateGroups[groupId] = {
         ...data.templateGroups[groupId],
         ...newGroupData,
+        editTimestamp: Date.now(),
       };
 
       setTemplatesStorage(data);
@@ -127,22 +147,25 @@ const initTemplatesStore = async () => {
 
     // Ordered template list
     deleteOrderedTemplateItem(id: UUID) {
-      const templateIndex = data.orderedTemplateList.findIndex(item => item.id === id);
+      const templateIndex = data.orderedTemplateList.findIndex(
+        (item) => item.id === id
+      );
       if (templateIndex > -1) data.orderedTemplateList.splice(templateIndex, 1);
     },
 
     getUngroupedTemplates() {
       const ungroupedTemplates: UUID[] = [];
 
-      data.orderedTemplateList.forEach(item => {
-        if (item.type === 'template')
-          ungroupedTemplates.push(item.id);
-      })
+      data.orderedTemplateList.forEach((item) => {
+        if (item.type === 'template') ungroupedTemplates.push(item.id);
+      });
 
       return ungroupedTemplates;
     },
 
-    updateOrderedTemplateList(newOrderedTemplateList: StoredTemplatesData['orderedTemplateList']) {
+    updateOrderedTemplateList(
+      newOrderedTemplateList: StoredTemplatesData['orderedTemplateList']
+    ) {
       data.orderedTemplateList = newOrderedTemplateList;
       setTemplatesStorage(data);
     },

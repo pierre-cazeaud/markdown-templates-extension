@@ -1,6 +1,6 @@
 export type StoredTemplatesData = {
   orderedTemplateList: {
-    id: UUID
+    id: UUID;
     type: 'template' | 'templateGroup';
   }[];
   templateGroups: Record<UUID, TemplateGroup>;
@@ -9,14 +9,20 @@ export type StoredTemplatesData = {
 
 export type Template = {
   content: string;
+  creationTimestamp: Timestamp;
+  editTimestamp: Timestamp;
   title: string;
 };
 
 export type TemplateGroup = {
   color?: string;
+  creationTimestamp: Timestamp;
+  editTimestamp: Timestamp;
   icon?: string;
   templateIds?: UUID[];
   title: string;
 };
+
+type Timestamp = number;
 
 export type UUID = `${string}-${string}-${string}-${string}-${string}`;
