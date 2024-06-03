@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="Markdown Templates Icon" src='src/public/icon/128.png' />
+  <img alt="Markdown Templates Icon" src='src/public/icon/256.png' width="128px" height="auto" />
 </div>
 
 # Markdown Templates
