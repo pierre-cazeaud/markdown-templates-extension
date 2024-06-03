@@ -16,6 +16,9 @@ export default defineConfig({
   },
   manifestVersion: 3,
   vite: () => ({
+    build: {
+      target: 'esnext',
+    },
     plugins: [
       svelte({
         // Using a svelte.config.js file causes a segmentation fault when importing the file
