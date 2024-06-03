@@ -1,6 +1,5 @@
 import { defineConfig } from 'wxt';
 import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import { readFile, writeFile } from 'fs';
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({

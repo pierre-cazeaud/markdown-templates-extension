@@ -2,7 +2,7 @@
   "name": "markdown-templates",
   "description": "Save markdown templates to quickly copy/paste them when you need it!",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
