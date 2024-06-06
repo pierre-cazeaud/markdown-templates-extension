@@ -4,6 +4,10 @@
 
 # Markdown Templates
 
+<div>
+  <img alt="Markdown Templates Icon" src='https://lh3.googleusercontent.com/uH3lNBZzJkBQ_TnHgH7HP9FV6fjgdTuqhvl--R1YzIBCHGoMI_pLrMACNbAN-XrWTKB5kxX_ArdMUKQYlXOglaTDbtE=s1280-w1280-h800' />
+</div>
+
 Easily write, access, or copy and paste templates in a Markdown format.
 
 Whether you're creating a ticket in project management software or detailing a new merge request, this extension provides quick access to your library of templates.
