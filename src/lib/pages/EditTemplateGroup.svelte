@@ -34,8 +34,12 @@
   );
   let icon: TemplateGroup['icon'] = $state(loadedTemplateGroup?.icon || '');
   let newOrderedTemplateList: StoredTemplatesData['orderedTemplateList'] =
-    $state(data.orderedTemplateList || []);
-  let templateIds: UUID[] = $state(loadedTemplateGroup?.templateIds || []);
+    $state([...data.orderedTemplateList] || []);
+  let templateIds: UUID[] = $state(
+    loadedTemplateGroup?.templateIds
+      ? [...loadedTemplateGroup?.templateIds]
+      : []
+  );
   let title: TemplateGroup['title'] = $state(loadedTemplateGroup?.title || '');
   let ungroupedTemplateIds: UUID[] = $state(getUngroupedTemplates());
 
@@ -71,7 +75,13 @@
       });
     }
 
-    updateOrderedTemplateList(newOrderedTemplateList);
+    // Ensure ungroupedTemplateIds as changed compared to the original data before saving to storage
+    if (
+      JSON.stringify(ungroupedTemplateIds) !==
+      JSON.stringify(getUngroupedTemplates())
+    )
+      updateOrderedTemplateList(newOrderedTemplateList);
+
     renderListPage();
   };
 
