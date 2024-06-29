@@ -1,6 +1,5 @@
 {
   "name": "markdown-templates",
-  "description": "Save markdown templates to quickly copy/paste them when you need it!",
   "private": true,
   "version": "1.0.1",
   "scripts": {
