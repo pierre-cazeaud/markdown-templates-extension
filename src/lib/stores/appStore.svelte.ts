@@ -4,6 +4,8 @@ import EditTemplateGroup from '../pages/EditTemplateGroup.svelte';
 import List from '../pages/List.svelte';
 import type { UUID } from '../types';
 
+type AppOrigin = 'popup';
+
 type EditTemplatePageProps = {
   templateId: UUID;
 };
@@ -22,12 +24,24 @@ export const ROUTES_COMPONENT: Record<Routes, typeof SvelteComponent<any>> = {
 
 const initAppStore = () => {
   let activeRoute: Routes = $state('list');
+  let appOrigin: AppOrigin | undefined = $state();
   let editTemplatePageProps: EditTemplatePageProps | undefined = $state();
   let editTemplateGroupPageProps: EditTemplateGroupPageProps | undefined =
     $state();
   let Page = $derived(ROUTES_COMPONENT[activeRoute]);
 
+
+  const scrollUp = () => {
+    window.scrollTo({
+      top: 0
+    })
+  }
+
   return {
+    get appOrigin(): AppOrigin | undefined {
+      return appOrigin;
+    },
+
     get activeRoute() {
       return activeRoute;
     },
@@ -38,6 +52,10 @@ const initAppStore = () => {
 
     get editPageTemplateGroupProps() {
       return editTemplateGroupPageProps;
+    },
+
+    set appOrigin(value: AppOrigin) {
+      appOrigin = value;
     },
 
     set editPageTemplateProps(newValue) {
@@ -55,11 +73,13 @@ const initAppStore = () => {
     renderEditTemplatePage: (pageProps?: EditTemplatePageProps) => {
       activeRoute = 'editTemplate';
       if (pageProps) editTemplatePageProps = pageProps;
+      scrollUp()
     },
 
     renderEditTemplateGroupPage: (pageProps?: EditTemplateGroupPageProps) => {
       activeRoute = 'editTemplateGroup';
       if (pageProps) editTemplateGroupPageProps = pageProps;
+      scrollUp()
     },
 
     renderListPage: () => {
