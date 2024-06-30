@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from '@/lib/components/Button.svelte';
   import NoTemplate from '@/lib/layouts/NoTemplate.svelte';
-  import { FilePlusIcon, PackagePlusIcon } from 'lucide-svelte';
+  import { FilePlusIcon, Maximize2Icon, PackagePlusIcon } from 'lucide-svelte';
   import Sortable, { type SortableEvent } from 'sortablejs';
 
   import { appStore } from '../stores/appStore.svelte.js';
@@ -11,7 +11,7 @@
   import Page from '../layouts/Page.svelte';
   import { moveItemInArray } from '../utils/array.js';
 
-  const { renderEditTemplatePage, renderEditTemplateGroupPage } = appStore;
+  const { appOrigin, renderEditTemplatePage, renderEditTemplateGroupPage } = appStore;
   const { data, isLoading, updateOrderedTemplateList } = templatesStore;
   const hasTemplates = Object.keys(data?.templates).length > 0;
   const hasTemplateGroups = Object.keys(data?.templateGroups).length > 0;
@@ -48,6 +48,17 @@
 </script>
 
 <Page>
+  {#snippet header()}    
+    {#if appOrigin === 'popup'}
+      <Button
+        class='ml-auto'
+        colorVariant="secondary"
+        icon={Maximize2Icon}
+        onClick={() => browser.runtime.openOptionsPage()}
+      />
+    {/if}
+  {/snippet}
+
   {#if isLoading}
     Loading
   {:else if !hasTemplates && !hasTemplateGroups}
@@ -66,11 +77,11 @@
       {/each}
     </section>
   {/if}
-
-  <footer class="flex justify-center gap-4 mt-auto">
+  
+  {#snippet footer()}    
     <Button icon={FilePlusIcon} onClick={onCreateClick}>Create template</Button>
     <Button icon={PackagePlusIcon} onClick={onCreateGroupClick}
       >Create group</Button
     >
-  </footer>
+  {/snippet}
 </Page>

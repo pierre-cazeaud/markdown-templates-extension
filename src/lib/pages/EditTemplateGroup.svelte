@@ -111,54 +111,53 @@
   });
 </script>
 
-<Page class="relative">
-  <div class="flex flex-col gap-4 pr-0 transition-[padding]">
-    <header class="flex justify-between">
-      <div>
-        <Button
-          colorVariant="secondary"
-          icon={ArrowLeftIcon}
-          onClick={onBackClick}
-          title="Go back"
-        />
-      </div>
-
-      <div class="flex gap-2">
-        {#if templateGroupId}
-          <Button
-            colorVariant="destructive"
-            icon={Trash2Icon}
-            onClick={onDeleteClick}
-            title="Delete template"
-          />
-        {/if}
-      </div>
-    </header>
-
-    <section class="flex flex-col gap-4">
-      <div class="flex flex-col gap-2">
-        <Label>Title</Label>
-        <TextInput onchange={onTitleChange} bind:value={title} />
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ColorPicker bind:activeColor={color} />
-        <IconPicker bind:activeIcon={icon} />
-      </div>
-
-      <TemplatePicker
-        bind:groupedTemplateIds={templateIds}
-        bind:ungroupedTemplateIds
+<Page>
+  {#snippet header()}
+    <div>
+      <Button
+        colorVariant="secondary"
+        icon={ArrowLeftIcon}
+        onClick={onBackClick}
+        title="Go back"
       />
-    </section>
+    </div>
 
-    <footer class="flex justify-center gap-4 mt-auto">
-      <Button icon={XIcon} onClick={onCancelClick} colorVariant={'destructive'}
-        >Cancel changes</Button
-      >
-      <Button icon={CheckIcon} onClick={onSaveClick} colorVariant={'successful'}
-        >Save changes</Button
-      >
-    </footer>
-  </div>
+    <div class="flex gap-2">
+      {#if templateGroupId}
+        <Button
+          colorVariant="destructive"
+          icon={Trash2Icon}
+          onClick={onDeleteClick}
+          title="Delete template"
+        />
+      {/if}
+    </div>
+  {/snippet}
+
+  <section class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
+      <Label>Title</Label>
+      <TextInput onchange={onTitleChange} bind:value={title} />
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <ColorPicker bind:activeColor={color} />
+      <IconPicker bind:activeIcon={icon} />
+    </div>
+
+    <TemplatePicker
+      bind:groupedTemplateIds={templateIds}
+      bind:ungroupedTemplateIds
+    />
+  </section>
+
+
+  {#snippet footer()}
+    <Button icon={XIcon} onClick={onCancelClick} colorVariant={'destructive'}
+      >Cancel changes</Button
+    >
+    <Button icon={CheckIcon} onClick={onSaveClick} colorVariant={'successful'}
+      >Save changes</Button
+    >
+  {/snippet}
 </Page>

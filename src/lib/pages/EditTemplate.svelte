@@ -2,10 +2,6 @@
   import {
     ArrowLeftIcon,
     CheckIcon,
-    EyeIcon,
-    EyeOffIcon,
-    PanelRightCloseIcon,
-    PanelRightOpenIcon,
     Trash2Icon,
     XIcon,
   } from 'lucide-svelte';
@@ -59,42 +55,40 @@
   };
 </script>
 
-<Page class="relative">
-  <div class="flex flex-col gap-4 pr-0 transition-[padding]">
-    <header class="flex justify-between">
-      <div>
-        <Button
-          colorVariant="secondary"
-          icon={ArrowLeftIcon}
-          onClick={onBackClick}
-          title="Go back"
-        />
-      </div>
-
-      <div class="flex gap-2">
-        {#if templateId}
-          <Button
-            colorVariant="destructive"
-            icon={Trash2Icon}
-            onClick={onDeleteClick}
-            title="Delete template"
-          />
-        {/if}
-      </div>
-    </header>
-
-    <EditTemplateForm bind:content bind:isSaveDisabled bind:title />
-
-    <footer class="flex justify-center gap-4 mt-auto">
-      <Button icon={XIcon} onClick={onCancelClick} colorVariant={'destructive'}
-        >Cancel changes</Button
-      >
+<Page>
+  {#snippet header()}
+    <div>
       <Button
-        colorVariant={'interactive'}
-        disabled={isSaveDisabled}
-        icon={CheckIcon}
-        onClick={onSaveClick}>Save changes</Button
-      >
-    </footer>
-  </div>
+        colorVariant="secondary"
+        icon={ArrowLeftIcon}
+        onClick={onBackClick}
+        title="Go back"
+      />
+    </div>
+
+    <div class="flex gap-2">
+      {#if templateId}
+        <Button
+          colorVariant="destructive"
+          icon={Trash2Icon}
+          onClick={onDeleteClick}
+          title="Delete template"
+        />
+      {/if}
+    </div>
+  {/snippet}
+
+  <EditTemplateForm bind:content bind:isSaveDisabled bind:title />
+
+  {#snippet footer()}
+    <Button icon={XIcon} onClick={onCancelClick} colorVariant={'destructive'}
+      >Cancel changes</Button
+    >
+    <Button
+      colorVariant={'interactive'}
+      disabled={isSaveDisabled}
+      icon={CheckIcon}
+      onClick={onSaveClick}>Save changes</Button
+    >
+  {/snippet}
 </Page>
