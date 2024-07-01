@@ -13,6 +13,11 @@ export default defineConfig({
   manifest: {
     permissions: ['storage'],
     name: 'Markdown Templates',
+    browser_specific_settings: {
+      gecko: {
+        id: '{bef69f19-0394-48b8-ae0b-b263bcb3c447}'
+      }
+    }
   },
   manifestVersion: 3,
   vite: () => ({
