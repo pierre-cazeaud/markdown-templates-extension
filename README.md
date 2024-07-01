@@ -18,6 +18,8 @@ Features:
 - Reorder and group templates
 - Copy the content of a template to your clipboard for pasting
 
+Available on the [Chrome web store](https://chromewebstore.google.com/detail/markdown-templates/kegciajfmipmaooiooimicmgipnfpien).
+
 ---
 
 Built using [Svelte](https://svelte.dev/), [WXT](https://wxt.dev/) and [Lucide](https://lucide.dev/).
