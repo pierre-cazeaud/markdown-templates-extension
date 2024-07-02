@@ -18,7 +18,7 @@ Features:
 - Reorder and group templates
 - Copy the content of a template to your clipboard for pasting
 
-Available on the [Chrome web store](https://chromewebstore.google.com/detail/markdown-templates/kegciajfmipmaooiooimicmgipnfpien).
+Available on [Chrome web store](https://chromewebstore.google.com/detail/markdown-templates/kegciajfmipmaooiooimicmgipnfpien) and [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/markdown-templates/).
 
 ---
 
