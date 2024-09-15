@@ -1,13 +1,13 @@
 <script lang="ts">
+  import type { HTMLAttributes } from 'svelte/elements';
+  import type { UUID } from '../types';
   import { Edit2Icon, FilePlus2Icon } from 'lucide-svelte';
   import { appStore } from '../stores/appStore.svelte';
   import Button from './Button.svelte';
-  import Label from './Label.svelte';
-  import type { HTMLAttributes } from 'svelte/elements';
-  import type { UUID } from '../types';
   import TemplateCard from './TemplateCard.svelte';
   import { iconsStore } from '../stores/iconsStore.svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
+  import Title from './Text/Title.svelte';
 
   type Props = HTMLAttributes<HTMLElement> & {
     templateGroupId: UUID;
@@ -27,10 +27,7 @@
   {...props}
 >
   <header class="flex items-center justify-between">
-    <Label
-      class={`flex items-center gap-2 text-${dynamicColor}-600`}
-      variant="large"
-    >
+    <div class={`flex items-center gap-2 text-${dynamicColor}-600`}>
       {#if templateGroup.icon}
         <svelte:component
           this={iconsStore.list[templateGroup.icon]}
@@ -39,8 +36,8 @@
         />
       {/if}
 
-      {templateGroup.title}
-    </Label>
+      <Title text={templateGroup.title} variant="large" />
+    </div>
 
     <Button
       colorVariant="dynamic"

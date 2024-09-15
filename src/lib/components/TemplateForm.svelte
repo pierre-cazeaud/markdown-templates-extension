@@ -1,10 +1,13 @@
 <script lang="ts">
+  import type { State } from './Form/types';
   import type { Template } from '../types';
   import markdownit from 'markdown-it';
   import Button from './Button.svelte';
   import { EyeIcon, EyeOffIcon } from 'lucide-svelte';
   import { fade } from 'svelte/transition';
   import MarkdownWidgetBar from './MarkdownWidgetBar.svelte';
+  import TextField from './TextField.svelte';
+  import Title from './Text/Title.svelte';
 
   type Props = {
     content: Template['content'];
@@ -19,33 +22,22 @@
   }: Props = $props();
   let originalContent = content;
   let originalTitle = title;
+  let titleInputState = $state<State>('neutral');
 
   let codeRef = $state<HTMLElement>();
   let showRenderedContent = $state(true);
 
   let hasContentInputBeenTouched = $state(false);
-  let hasTitleInputBeenTouched = $state(false);
   let hasMissingContentError = $derived.by(
     () => hasContentInputBeenTouched && content === ''
-  );
-  let hasMissingTitleError = $derived.by(
-    () => hasTitleInputBeenTouched && title === ''
   );
 
   const md = markdownit();
 
-  const handleTitleInput = (event: Event) => {
-    const target = event.currentTarget as HTMLElement;
-    if (!hasTitleInputBeenTouched) hasTitleInputBeenTouched = true;
-    title = target.innerText;
-  };
-
-  const handleTitleKeyDown = (event: KeyboardEvent) => {
-    if (event.code === 'Enter') {
-      // Prevent key insertion
-      event.preventDefault();
-      return false;
-    }
+  const handleTitleInput = (
+    event: Event & { target: EventTarget & HTMLInputElement }
+  ) => {
+    title = event.target.value;
   };
 
   const handleContentInput = (event: Event) => {
@@ -83,34 +75,25 @@
       content === '' ||
       title === '' ||
       hasMissingContentError ||
-      hasMissingTitleError;
+      titleInputState === 'invalid';
   });
 </script>
 
 <section class="flex flex-col gap-4">
-  <div class="flex flex-col gap-2">
-    <p class="text-base">Title</p>
-
-    <p
-      aria-multiline="false"
-      class="border bg-surface text-on-surface rounded text-base p-2"
-      contenteditable="true"
-      oninput={handleTitleInput}
-      onkeydown={handleTitleKeyDown}
-    >
-      {originalTitle}
-    </p>
-
-    {#if hasMissingTitleError}
-      <p class="text-on-destructive bg-destructive p-2 rounded" transition:fade>
-        Title is mandatory
-      </p>
-    {/if}
-  </div>
+  <TextField
+    input={{
+      oninput: handleTitleInput,
+      value: originalTitle,
+      required: true,
+    }}
+    inputErrorMessage="Please enter a valid title"
+    bind:inputState={titleInputState}
+    label={{ text: 'Title' }}
+  />
 
   <div class="flex flex-col gap-1">
     <div class="flex items-center justify-between">
-      <p class="text-base">Content</p>
+      <Title text="Content" />
 
       <Button
         icon={showRenderedContent ? EyeOffIcon : EyeIcon}
@@ -152,7 +135,7 @@
 
     {#if hasMissingContentError}
       <p class="text-on-destructive bg-destructive p-2 rounded" transition:fade>
-        Content is mandatory
+        Please provide some content
       </p>
     {/if}
   </div>

@@ -5,7 +5,7 @@
   import Button from '../components/Button.svelte';
   import ColorPicker from '../components/ColorPicker.svelte';
   import IconPicker from '../components/IconPicker.svelte';
-  import Label from '../components/Label.svelte';
+  import Label from '../components/Form/Label.svelte';
   import Page from '../layouts/Page.svelte';
   import TextInput from '../components/TextInput.svelte';
   import TemplatePicker from '../components/TemplatePicker.svelte';
@@ -136,7 +136,7 @@
 
   <section class="flex flex-col gap-4">
     <div class="flex flex-col gap-2">
-      <Label>Title</Label>
+      <Label text='Title' />
       <TextInput onchange={onTitleChange} bind:value={title} />
     </div>
 

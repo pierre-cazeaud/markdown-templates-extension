@@ -7,7 +7,7 @@
   } from 'lucide-svelte';
   import Button from '../components/Button.svelte';
   import type { Template } from '../types';
-  import EditTemplateForm from '../components/EditTemplateForm.svelte';
+  import TemplateForm from '../components/TemplateForm.svelte';
   import { appStore } from '../stores/appStore.svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
   import Page from '../layouts/Page.svelte';
@@ -78,7 +78,7 @@
     </div>
   {/snippet}
 
-  <EditTemplateForm bind:content bind:isSaveDisabled bind:title />
+  <TemplateForm bind:content bind:isSaveDisabled bind:title />
 
   {#snippet footer()}
     <Button icon={XIcon} onClick={onCancelClick} colorVariant={'destructive'}

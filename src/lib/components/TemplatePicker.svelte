@@ -1,11 +1,12 @@
 <script lang="ts">
   import { CheckIcon, FilePlus2Icon, XIcon } from 'lucide-svelte';
-  import Label from './Label.svelte';
+  import Label from './Form/Label.svelte';
   import TemplateCard from './TemplateCard.svelte';
   import { removeItemFromArray } from '../utils/array';
   import type { UUID } from '../types';
   import Button from './Button.svelte';
   import { appStore } from '../stores/appStore.svelte';
+  import Title from './Text/Title.svelte';
 
   type Props = {
     ungroupedTemplateIds: UUID[];
@@ -35,11 +36,11 @@
 </script>
 
 <section class="flex flex-col gap-2">
-  <Label variant="large">Templates</Label>
+  <Title text="Templates" variant="large" />
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="flex flex-col gap-2">
-      <Label>In this group</Label>
+      <Label text="In this group" />
 
       <div
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"
@@ -68,7 +69,7 @@
     </div>
 
     <div class="flex flex-col gap-2">
-      <Label>Ungrouped</Label>
+      <Label text="Ungrouped" />
 
       <div
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"

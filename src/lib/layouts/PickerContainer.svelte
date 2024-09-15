@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Label from '../components/Label.svelte';
+  import Label from '../components/Form/Label.svelte';
 
   type Props = {
     title: string;
@@ -9,7 +9,7 @@
 </script>
 
 <section class="flex flex-col gap-2">
-  <Label>{title}</Label>
+  <Label text={title} />
 
   <div
     class="flex flex-col gap-4 h-full p-4 rounded-lg bg-surface text-on-surface border"
