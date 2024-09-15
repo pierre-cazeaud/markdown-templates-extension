@@ -1,17 +1,12 @@
 <script lang="ts">
-  import {
-    ClipboardIcon,
-    Edit2Icon,
-    StarIcon,
-    StarOffIcon,
-  } from 'lucide-svelte';
+  import type { HTMLAttributes } from 'svelte/elements';
+  import type { UUID } from '../types';
+  import { ClipboardIcon, Edit2Icon } from 'lucide-svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
   import { appStore } from '../stores/appStore.svelte';
   import Button from './Button.svelte';
-  import Label from './Label.svelte';
   import markdownit from 'markdown-it';
-  import type { HTMLAttributes } from 'svelte/elements';
-  import type { UUID } from '../types';
+  import Title from './Text/Title.svelte';
 
   type Props = HTMLAttributes<HTMLElement> & {
     hasActions?: boolean;
@@ -36,10 +31,6 @@
     const data = [new ClipboardItem({ [type]: blob })];
     await navigator.clipboard.write(data);
   };
-
-  const getContentExerpt = (content: string) => {
-    return content.replaceAll('\n', '<br>');
-  };
 </script>
 
 <article
@@ -47,13 +38,12 @@
   {...props}
 >
   <header>
-    <Label>
-      {title}
-    </Label>
+    <Title text={title} />
   </header>
 
   {#if content}
-    <div class="flex justify-center items-center p-4 rounded border">
+    <!-- Use inert to prevent focus and clicks on the rendered template -->
+    <div class="flex justify-center items-center p-4 rounded border" inert>
       <p
         class="prose contrast-75 line-clamp-5 [&>pre]:whitespace-pre-wrap"
         style="zoom: 40%"
