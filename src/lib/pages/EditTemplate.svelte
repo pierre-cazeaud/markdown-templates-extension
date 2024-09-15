@@ -7,7 +7,7 @@
   } from 'lucide-svelte';
   import Button from '../components/Button.svelte';
   import type { Template } from '../types';
-  import TemplateForm from '../components/TemplateForm.svelte';
+  import TemplateForm from '../components/Form/TemplateForm.svelte';
   import { appStore } from '../stores/appStore.svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
   import Page from '../layouts/Page.svelte';

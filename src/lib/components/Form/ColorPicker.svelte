@@ -1,8 +1,8 @@
 <script lang="ts">
   import { CheckIcon } from 'lucide-svelte';
-  import { COLOR_PICKER_LIST } from '../constants';
+  import { COLOR_PICKER_LIST } from '../../constants';
   import { fade } from 'svelte/transition';
-  import PickerContainer from '../layouts/PickerContainer.svelte';
+  import PickerContainer from '../../layouts/PickerContainer.svelte';
 
   type Props = {
     activeColor?: string;

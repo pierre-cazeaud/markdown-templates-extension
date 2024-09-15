@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { State } from './Form/types';
-  import type { Template } from '../types';
+  import type { State } from './types';
+  import type { Template } from '../../types';
   import markdownit from 'markdown-it';
-  import Button from './Button.svelte';
+  import Button from '../Button.svelte';
   import { EyeIcon, EyeOffIcon } from 'lucide-svelte';
   import { fade } from 'svelte/transition';
-  import MarkdownWidgetBar from './MarkdownWidgetBar.svelte';
+  import MarkdownWidgetBar from '../MarkdownWidgetBar.svelte';
   import TextField from './TextField.svelte';
-  import Title from './Text/Title.svelte';
+  import Title from '../Text/Title.svelte';
 
   type Props = {
     content: Template['content'];

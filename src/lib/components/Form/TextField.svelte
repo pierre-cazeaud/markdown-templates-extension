@@ -1,10 +1,10 @@
 <script lang="ts">
   import InputError from './InputError.svelte';
-  import Label from './Form/Label.svelte';
+  import Label from './Label.svelte';
   import TextInput from './TextInput.svelte';
   import { fly } from 'svelte/transition';
-  import type { LabelProps } from './Form/Label.svelte';
-  import type { State } from './Form/types';
+  import type { LabelProps } from './Label.svelte';
+  import type { State } from './types';
   import type { TextInputProps } from './TextInput.svelte';
 
   type Props = {

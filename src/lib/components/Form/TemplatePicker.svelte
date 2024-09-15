@@ -1,12 +1,12 @@
 <script lang="ts">
   import { CheckIcon, FilePlus2Icon, XIcon } from 'lucide-svelte';
-  import Label from './Form/Label.svelte';
-  import TemplateCard from './TemplateCard.svelte';
-  import { removeItemFromArray } from '../utils/array';
-  import type { UUID } from '../types';
-  import Button from './Button.svelte';
-  import { appStore } from '../stores/appStore.svelte';
-  import Title from './Text/Title.svelte';
+  import Label from './Label.svelte';
+  import TemplateCard from '../TemplateCard.svelte';
+  import { removeItemFromArray } from '../../utils/array';
+  import type { UUID } from '../../types';
+  import Button from '../Button.svelte';
+  import { appStore } from '../../stores/appStore.svelte';
+  import Title from '../Text/Title.svelte';
 
   type Props = {
     ungroupedTemplateIds: UUID[];

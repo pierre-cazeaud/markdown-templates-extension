@@ -1,6 +1,6 @@
 <script module lang="ts">
   import type { HTMLInputAttributes } from 'svelte/elements';
-  import type { State } from './Form/types';
+  import type { State } from './types';
 
   export type TextInputProps = HTMLInputAttributes & {
     ref?: HTMLInputElement;

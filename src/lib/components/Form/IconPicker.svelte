@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
-  import PickerContainer from '../layouts/PickerContainer.svelte';
-  import { iconsStore } from '../stores/iconsStore.svelte';
+  import PickerContainer from '../../layouts/PickerContainer.svelte';
+  import { iconsStore } from '../../stores/iconsStore.svelte';
   import { CheckIcon } from 'lucide-svelte';
 
   type Props = {

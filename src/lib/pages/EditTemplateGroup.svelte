@@ -3,12 +3,12 @@
   import { appStore } from '../stores/appStore.svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
   import Button from '../components/Button.svelte';
-  import ColorPicker from '../components/ColorPicker.svelte';
-  import IconPicker from '../components/IconPicker.svelte';
+  import ColorPicker from '../components/Form/ColorPicker.svelte';
+  import IconPicker from '../components/Form/IconPicker.svelte';
   import Label from '../components/Form/Label.svelte';
   import Page from '../layouts/Page.svelte';
-  import TextInput from '../components/TextInput.svelte';
-  import TemplatePicker from '../components/TemplatePicker.svelte';
+  import TextInput from '../components/Form/TextInput.svelte';
+  import TemplatePicker from '../components/Form/TemplatePicker.svelte';
   import type { StoredTemplatesData, TemplateGroup, UUID } from '../types';
   import type { FormEventHandler } from 'svelte/elements';
 
