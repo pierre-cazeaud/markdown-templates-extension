@@ -17,6 +17,9 @@ module.exports = {
         'white-300': colors.white,
         'white-100': colors.white,
 
+        background: colors.slate[100],
+        'on-background': colors.slate[600],
+
         primary: colors.purple[600],
         'on-primary': colors.slate[50],
         'hover-primary': colors.purple[700],
@@ -26,9 +29,6 @@ module.exports = {
         'on-secondary': colors.slate[50],
         'hover-secondary': colors.slate[400],
         'hover-on-secondary': colors.slate[50],
-
-        background: colors.slate[100],
-        'on-background': colors.slate[600],
 
         surface: colors.white,
         'on-surface': colors.slate[600],
@@ -44,6 +44,11 @@ module.exports = {
         'on-interactive': colors.slate[700],
         'hover-interactive': colors.cyan[400],
         'hover-on-interactive': colors.slate[800],
+
+        neutral: colors.slate[200],
+        'on-neutral': colors.slate[700],
+        'hover-neutral': colors.slate[400],
+        'hover-on-neutral': colors.slate[800],
 
         successful: colors.green[200],
         'on-successful': colors.slate[700],
