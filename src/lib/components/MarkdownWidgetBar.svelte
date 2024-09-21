@@ -23,7 +23,7 @@
   } from '../utils/markdownSyntaxInjector';
 
   type Props = {
-    textEditorRef: HTMLElement;
+    textEditorRef: HTMLTextAreaElement;
   };
 
   let { textEditorRef }: Props = $props();
@@ -32,7 +32,11 @@
     injectMarkdown(textEditorRef, element);
 
     // Ensure the content is updated
-    textEditorRef.dispatchEvent(new Event('input'));
+    textEditorRef.dispatchEvent(
+      new Event('input', {
+        bubbles: true,
+      })
+    );
   };
 </script>
 

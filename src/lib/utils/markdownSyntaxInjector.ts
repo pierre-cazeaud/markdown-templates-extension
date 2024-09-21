@@ -1,4 +1,4 @@
-const SELECTED_CONTENT_MARKER = '0';
+const CONTENT_INSERTION_MARKER = '[-><-]';
 
 export enum MarkdownElement {
   'bold',
@@ -15,105 +15,116 @@ export enum MarkdownElement {
   'list',
   'quote',
   'strikethrough',
-  'table'
+  'table',
 }
 
-const replaceSelectedText = (textEditorRef: HTMLElement, replacementText: string) => {
-  const selection = window.getSelection();
-  if (!selection || !selection.rangeCount) return;
+const replaceSelectedText = (
+  textEditorRef: HTMLTextAreaElement,
+  replacementText: string
+) => {
+  const isSelectionCaret =
+    textEditorRef.selectionStart === textEditorRef.selectionEnd;
+  const beforeSelectionContent = textEditorRef.value.slice(
+    0,
+    textEditorRef.selectionStart
+  );
+  const afterSelectionContent = textEditorRef.value.slice(
+    textEditorRef.selectionEnd,
+    textEditorRef.value.length
+  );
 
-  const selectedElement = selection.focusNode;
-  if (selectedElement !== textEditorRef && selectedElement?.parentElement !== textEditorRef) return;
-
-  const range = selection.getRangeAt(0);
-
-  if (selection.type === 'Caret') {
-    const selectedContentIndex = replacementText.indexOf(SELECTED_CONTENT_MARKER);
-    const newContent = replacementText.replace(SELECTED_CONTENT_MARKER, '');
-
-    const node = document.createTextNode(newContent)
-    range.insertNode(node);
-    range.setStart(node, selectedContentIndex);
-    range.setEnd(node, selectedContentIndex);
+  if (isSelectionCaret) {
+    const newContent = replacementText.replace(CONTENT_INSERTION_MARKER, '');
+    textEditorRef.value = `${beforeSelectionContent}${newContent}${afterSelectionContent}`;
+    textEditorRef.focus();
+    textEditorRef.selectionEnd =
+      `${beforeSelectionContent}${newContent}`.length;
+  } else {
+    const selectedContent = textEditorRef.value.slice(
+      textEditorRef.selectionStart,
+      textEditorRef.selectionEnd
+    );
+    const newContent = replacementText.replace(
+      CONTENT_INSERTION_MARKER,
+      selectedContent
+    );
+    textEditorRef.value = `${beforeSelectionContent}${newContent}${afterSelectionContent}`;
+    textEditorRef.focus();
+    textEditorRef.selectionEnd =
+      `${beforeSelectionContent}${newContent}`.length;
   }
-  else {
-    const oldContent = range.toString();
-    const replacedContent = replacementText.replace(SELECTED_CONTENT_MARKER, oldContent);
-    const newContent = oldContent.replace(oldContent, replacedContent);
+};
 
-    const selectedContentIndex = newContent.indexOf(oldContent) + oldContent.length;
-    const node = document.createTextNode(newContent)
-    range.deleteContents();
-    range.insertNode(node);
-    range.setStart(node, selectedContentIndex);
-    range.setEnd(node, selectedContentIndex);
-  }
+const injectBold = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `**${CONTENT_INSERTION_MARKER}**`);
+};
 
-  textEditorRef.focus();
-}
+const injectCode = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `\`${CONTENT_INSERTION_MARKER}\``);
+};
 
+const injectCodeMultiline = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(
+    textEditorRef,
+    `\n${'```'}\n${CONTENT_INSERTION_MARKER}\n${'```'}\n`
+  );
+};
 
-const injectBold = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `**${SELECTED_CONTENT_MARKER}**`);
-}
+const injectH1 = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `# ${CONTENT_INSERTION_MARKER}`);
+};
 
-const injectCode = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `\`${SELECTED_CONTENT_MARKER}\``);
-}
+const injectH2 = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `## ${CONTENT_INSERTION_MARKER}`);
+};
 
-const injectCodeMultiline = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `\n\n${'```'}\n${SELECTED_CONTENT_MARKER}\n${'```'}\n`);
-}
+const injectH3 = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `### ${CONTENT_INSERTION_MARKER}`);
+};
 
-const injectH1 = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `# ${SELECTED_CONTENT_MARKER}`);
-}
+const injectH4 = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `#### ${CONTENT_INSERTION_MARKER}`);
+};
 
-const injectH2 = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `## ${SELECTED_CONTENT_MARKER}`);
-}
+const injectH5 = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `##### ${CONTENT_INSERTION_MARKER}`);
+};
 
-const injectH3 = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `### ${SELECTED_CONTENT_MARKER}`);
-}
+const injectH6 = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `###### ${CONTENT_INSERTION_MARKER}`);
+};
 
-const injectH4 = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `#### ${SELECTED_CONTENT_MARKER}`);
-}
+const injectItalic = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `*${CONTENT_INSERTION_MARKER}*`);
+};
 
-const injectH5 = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `##### ${SELECTED_CONTENT_MARKER}`);
-}
+const injectLink = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `[${CONTENT_INSERTION_MARKER}]()`);
+};
 
-const injectH6 = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `###### ${SELECTED_CONTENT_MARKER}`);
-}
+const injectList = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `\n- ${CONTENT_INSERTION_MARKER}`);
+};
 
-const injectItalic = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `*${SELECTED_CONTENT_MARKER}*`);
-}
+const injectQuote = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `\n> ${CONTENT_INSERTION_MARKER}`);
+};
 
-const injectLink = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `[${SELECTED_CONTENT_MARKER}]()*`);
-}
+const injectStrikethrough = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(textEditorRef, `~~${CONTENT_INSERTION_MARKER}~~`);
+};
 
-const injectList = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `\n- ${SELECTED_CONTENT_MARKER}`);
-}
+const injectTable = (textEditorRef: HTMLTextAreaElement) => {
+  replaceSelectedText(
+    textEditorRef,
+    `\n| ${CONTENT_INSERTION_MARKER}      | Description |\n| ----------- | ----------- |\n| Header      | Title       |\n| Paragraph   | Text        |\n`
+  );
+};
 
-const injectQuote = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `> ${SELECTED_CONTENT_MARKER}`);
-}
-
-const injectStrikethrough = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `~~${SELECTED_CONTENT_MARKER}~~`);
-}
-
-const injectTable = (textEditorRef: HTMLElement) => {
-  replaceSelectedText(textEditorRef, `\n\n| ${SELECTED_CONTENT_MARKER}      | Description |\n| ----------- | ----------- |\n| Header      | Title       |\n| Paragraph   | Text        |\n`);
-}
-
-const markdownFactory: Record<MarkdownElement, (textEditorRef: HTMLElement) => void> = {
+const markdownFactory: Record<
+  MarkdownElement,
+  (textEditorRef: HTMLTextAreaElement) => void
+> = {
   [MarkdownElement.bold]: injectBold,
   [MarkdownElement.code]: injectCode,
   [MarkdownElement.codeMultiline]: injectCodeMultiline,
@@ -129,8 +140,11 @@ const markdownFactory: Record<MarkdownElement, (textEditorRef: HTMLElement) => v
   [MarkdownElement.quote]: injectQuote,
   [MarkdownElement.strikethrough]: injectStrikethrough,
   [MarkdownElement.table]: injectTable,
-}
+};
 
-export const injectMarkdown = (textEditorRef: HTMLElement, type: MarkdownElement) => {
+export const injectMarkdown = (
+  textEditorRef: HTMLTextAreaElement,
+  type: MarkdownElement
+) => {
   return markdownFactory[type](textEditorRef);
-}
+};
