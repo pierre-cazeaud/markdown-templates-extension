@@ -36,9 +36,9 @@ const replaceSelectedText = (
   if (isSelectionCaret) {
     const newContent = replacementText.replace(CONTENT_INSERTION_MARKER, '');
     textEditorRef.value = `${beforeSelectionContent}${newContent}${afterSelectionContent}`;
-    textEditorRef.focus();
     textEditorRef.selectionEnd =
       `${beforeSelectionContent}${newContent}`.length;
+    textEditorRef.focus();
   } else {
     const selectedContent = textEditorRef.value.slice(
       textEditorRef.selectionStart,
@@ -49,9 +49,9 @@ const replaceSelectedText = (
       selectedContent
     );
     textEditorRef.value = `${beforeSelectionContent}${newContent}${afterSelectionContent}`;
-    textEditorRef.focus();
     textEditorRef.selectionEnd =
       `${beforeSelectionContent}${newContent}`.length;
+    textEditorRef.focus();
   }
 };
 
