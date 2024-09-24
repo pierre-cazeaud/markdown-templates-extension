@@ -19,12 +19,16 @@
   };
 
   let { formState = $bindable(), inputs = $bindable() }: Props = $props();
+  let changesCounter = $state<number>(0);
   let inputsState = $state<State[]>([]);
+  let originalFormData = $state<FormData>();
+  let ref = $state<HTMLFormElement>();
 
   const handleFormInput = (event: Event) => {
     formState = (event.currentTarget as HTMLFormElement).checkValidity()
       ? 'valid'
       : 'invalid';
+    updateChangesCounter();
   };
 
   const handleFormSubmit = (event: Event) => {
@@ -39,9 +43,24 @@
       ? 'valid'
       : 'invalid';
   };
+
+  const updateChangesCounter = () => {
+    let newChangesCounter = 0;
+    const currentFormData = new FormData(ref);
+    currentFormData.keys().forEach((key) => {
+      if (currentFormData.get(key) !== originalFormData?.get(key))
+        newChangesCounter++;
+    });
+    changesCounter = newChangesCounter;
+  };
+
+  $effect(() => {
+    if (!originalFormData && ref) originalFormData = new FormData(ref);
+  });
 </script>
 
 <form
+  bind:this={ref}
   class="flex flex-col gap-4"
   oninput={handleFormInput}
   onsubmit={handleFormSubmit}
@@ -53,12 +72,14 @@
       {#if input.type === 'markdown'}
         <MarkdownEditor
           inputState={inputsState[index]}
+          name={input.label}
           onInput={(event) => handleInputInput(event, index)}
           required={input.required}
           value={input.value}
         />
       {:else if input.type === 'text'}
         <TextInput
+          name={input.label}
           oninput={(event) => handleInputInput(event, index)}
           state={inputsState[index]}
           required={input.required}

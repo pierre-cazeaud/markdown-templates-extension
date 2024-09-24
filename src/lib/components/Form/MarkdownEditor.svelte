@@ -2,6 +2,7 @@
   import type { State } from './types';
   export type MardkownEditorProps = {
     inputState?: State;
+    name: string;
     onInput: (event: Event) => void;
     required: boolean;
     value: string;
@@ -12,7 +13,7 @@
   import markdownit from 'markdown-it';
   import MarkdownWidgetBar from '../MarkdownWidgetBar.svelte';
 
-  let { inputState = 'neutral', onInput, required, value }: MardkownEditorProps = $props();
+  let { inputState = 'neutral', name, onInput, required, value }: MardkownEditorProps = $props();
   let codeRef = $state<HTMLTextAreaElement>();
   let showRenderedContent = $state(true);
   let updatedValue = $state(value);
@@ -36,6 +37,7 @@
     <textarea
       bind:this={codeRef}
       class={`flex p-4 min-h-80 text-base transition-all outline-1 whitespace-pre-wrap overflow-x-auto w-full resize-none h-[calc(100%-77px)] @[34rem]:h-[calc(100%-41px)] ${stateClasses[inputState]}`}
+      {name}
       oninput={(event) => {
         onInput(event);
         updatedValue = event.currentTarget.value;
