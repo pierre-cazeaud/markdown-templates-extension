@@ -1,20 +1,21 @@
 <script lang="ts">
-  import type { State } from './types';
   import type { Template } from '../../types';
+  import type { State } from './types';
   import Form from './Form.svelte';
 
   type Props = {
     content: Template['content'];
-    isSaveDisabled: boolean;
+    formChangesCounter: number | undefined;
+    formState: State | undefined;
     title: Template['title'];
   };
 
   let {
     content = $bindable(),
-    isSaveDisabled = $bindable(),
+    formChangesCounter = $bindable(),
+    formState = $bindable(),
     title = $bindable(),
   }: Props = $props();
-  let formState = $state<State>('neutral');
   let originalContent = content;
   let originalTitle = title;
 
@@ -25,14 +26,9 @@
   const handleContentInput = (event: Event) => {
     content = (event.target as HTMLTextAreaElement).value;
   };
-
-  $effect(() => {
-    isSaveDisabled = formState === 'invalid';
-  });
 </script>
 
 <Form
-  bind:formState
   inputs={[
     {
       label: 'Title',
@@ -51,4 +47,6 @@
       value: originalContent,
     },
   ]}
+  onFormChangesCounterChange={(newCount) => (formChangesCounter = newCount)}
+  onFormStateChange={(newState) => (formState = newState)}
 ></Form>

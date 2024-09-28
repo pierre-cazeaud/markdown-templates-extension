@@ -1,3 +1,7 @@
+<script module lang="ts">
+  export const FORM_RESET_EVENT = 'resetForm';
+</script>
+
 <script lang="ts">
   import type { State } from './types';
   import InputError from './InputError.svelte';
@@ -15,11 +19,17 @@
       type: 'markdown' | 'text';
       value: string;
     }[];
-    formState: State;
+    onFormChangesCounterChange?: (newCount: number) => {};
+    onFormStateChange?: (newState: State) => {};
   };
 
-  let { formState = $bindable(), inputs = $bindable() }: Props = $props();
-  let changesCounter = $state<number>(0);
+  let {
+    inputs = $bindable(),
+    onFormChangesCounterChange,
+    onFormStateChange,
+  }: Props = $props();
+  let formChangesCounter = $state<number>(0);
+  let formState = $state<State>('neutral');
   let inputsState = $state<State[]>([]);
   let originalFormData = $state<FormData>();
   let ref = $state<HTMLFormElement>();
@@ -29,6 +39,7 @@
       ? 'valid'
       : 'invalid';
     updateChangesCounter();
+    onFormStateChange?.(formState);
   };
 
   const handleFormSubmit = (event: Event) => {
@@ -44,6 +55,20 @@
       : 'invalid';
   };
 
+  const resetForm = () => {
+    if (!originalFormData) return;
+
+    originalFormData.keys().forEach((key) => {
+      const input = document.querySelector(`[name=${key}]`) as HTMLInputElement;
+      const inputOriginalValue = originalFormData?.get(key);
+      if (!input || !inputOriginalValue) return;
+
+      input.value = inputOriginalValue.toString();
+      // Trigger event to ensure states are updated
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  };
+
   const updateChangesCounter = () => {
     let newChangesCounter = 0;
     const currentFormData = new FormData(ref);
@@ -51,11 +76,17 @@
       if (currentFormData.get(key) !== originalFormData?.get(key))
         newChangesCounter++;
     });
-    changesCounter = newChangesCounter;
+    formChangesCounter = newChangesCounter;
+    onFormChangesCounterChange?.(newChangesCounter);
   };
 
   $effect(() => {
     if (!originalFormData && ref) originalFormData = new FormData(ref);
+  });
+
+  $effect(() => {
+    document.addEventListener(FORM_RESET_EVENT, resetForm);
+    return () => document.removeEventListener(FORM_RESET_EVENT, resetForm);
   });
 </script>
 
