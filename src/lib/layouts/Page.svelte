@@ -14,8 +14,8 @@
 
 <div class={`flex flex-col grow gap-4 ${classes || ''}`} in:fade={{duration: 150}}>
   {#if header}
-    <!-- empty:hidden is used as a work around because a snippet can not be wrapped in a if statement, only its content -->
-    <header class="flex justify-between w-full empty:hidden">
+    <!-- empty:hidden is used as a work around because a snippet can not be wrapped in a if statement and passed down, only its content (see List) -->
+    <header class="sticky top-2 flex justify-between items-center w-full p-2 bg-surface/30 text-on-surface backdrop-blur-sm shadow-sm rounded empty:hidden">
       {@render header()}
     </header>
   {/if}
