@@ -96,7 +96,9 @@
           title='Save changes'
         >
           {#if formChangesCounter}
-            <Badge class="absolute -bottom-1.5 -right-1.5" colorVariant="successful" text={formChangesCounter.toString()} />
+            <Badge colorVariant="successful">
+              {formChangesCounter.toString()}
+            </Badge>
           {/if}
         </Button>
           
