@@ -4,7 +4,7 @@
     inputState?: State;
     name: string;
     onInput: (event: Event) => void;
-    required: boolean;
+    required: boolean | undefined;
     value: string;
   };
 </script>

@@ -9,14 +9,17 @@
   import MarkdownEditor from './MarkdownEditor.svelte';
   import TextInput from './TextInput.svelte';
   import { fly } from 'svelte/transition';
+  import ColorPicker from './ColorPicker.svelte';
+  import IconPicker from './IconPicker.svelte';
+  import TemplatePicker from './TemplatePicker.svelte';
 
   type Props = {
     inputs: {
       label: string;
       onInput: (event: Event) => void;
-      required: boolean;
-      requiredError: string;
-      type: 'markdown' | 'text';
+      required?: boolean;
+      requiredError?: string;
+      type: 'color' | 'icon' | 'markdown' | 'template' | 'text';
       value: string;
     }[];
     onFormChangesCounterChange?: (newCount: number) => {};
@@ -63,9 +66,20 @@
       const inputOriginalValue = originalFormData?.get(key);
       if (!input || !inputOriginalValue) return;
 
-      input.value = inputOriginalValue.toString();
-      // Trigger event to ensure states are updated
-      input.dispatchEvent(new Event('input', { bubbles: true }));
+      if(input.type === 'radio') {
+        const currentInput = document.querySelector(`[name=${key}]:checked`) as HTMLInputElement;
+        const originalInput = document.querySelector(`[name=${key}][value=${inputOriginalValue}]`) as HTMLInputElement;
+        // Swap checked attributes to be retrieved by FormData
+        currentInput.checked = false;
+        originalInput.checked = true;
+        // Trigger event to ensure states are updated
+        originalInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      else {
+        input.value = inputOriginalValue.toString();
+        // Trigger event to ensure states are updated
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      }
     });
   };
 
@@ -100,7 +114,19 @@
     <div class="flex flex-col gap-2 group">
       <Label state={inputsState[index]} text={input.label} />
 
-      {#if input.type === 'markdown'}
+      {#if input.type === 'color'}
+        <ColorPicker 
+          name={input.label}
+          onInput={(event) => handleInputInput(event, index)}
+          value={input.value}
+        />
+      {:else if input.type === 'icon'}
+        <IconPicker 
+          name={input.label}
+          onInput={(event) => handleInputInput(event, index)}
+          value={input.value}
+        />
+      {:else if input.type === 'markdown'}
         <MarkdownEditor
           inputState={inputsState[index]}
           name={input.label}
@@ -108,6 +134,11 @@
           required={input.required}
           value={input.value}
         />
+      {:else if input.type === 'template'}
+        <!-- <TemplatePicker
+          bind:groupedTemplateIds={templateIds}
+          bind:ungroupedTemplateIds
+        /> -->
       {:else if input.type === 'text'}
         <TextInput
           name={input.label}
@@ -115,13 +146,13 @@
           state={inputsState[index]}
           required={input.required}
           value={input.value}
-        />
+          />
+      {/if}
 
-        {#if input.requiredError && inputsState[index] === 'invalid'}
-          <div transition:fly={{ y: -10 }}>
-            <InputError text={input.requiredError} />
-          </div>
-        {/if}
+      {#if input.requiredError && inputsState[index] === 'invalid'}
+        <div transition:fly={{ y: -10 }}>
+          <InputError text={input.requiredError} />
+        </div>
       {/if}
     </div>
   {/each}

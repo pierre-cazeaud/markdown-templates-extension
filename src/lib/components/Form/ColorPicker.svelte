@@ -1,34 +1,44 @@
 <script lang="ts">
   import { CheckIcon } from 'lucide-svelte';
   import { COLOR_PICKER_LIST } from '../../constants';
-  import { fade } from 'svelte/transition';
-  import PickerContainer from '../../layouts/PickerContainer.svelte';
+  import Badge from '../Badge.svelte';
 
   type Props = {
-    activeColor?: string;
+    name: string;
+    onInput: (event: Event) => void;
+    value: string;
   };
 
-  let { activeColor = $bindable() }: Props = $props();
+  let { name, onInput, value }: Props = $props();
+  let currentColor = $state(value);
+
+  const handleInput = (event: Event) => {
+    currentColor = (event.target as HTMLInputElement).value;
+  };
 </script>
 
-<PickerContainer title="Color">
-  {#each COLOR_PICKER_LIST as color}
-    <div class="relative">
-      <button
-        class={`bg-${color}-300 border rounded-full size-8`}
-        disabled={activeColor === color}
-        onclick={() => (activeColor = color)}
-      ></button>
+<div
+  class="p-4 rounded-lg bg-surface text-on-surface border"
+  oninput={handleInput}
+>
+  <div class="flex flex-wrap gap-4">
+    {#each COLOR_PICKER_LIST as color}
+      <label class={`relative bg-${color}-300 border rounded-full size-8`}>
+        <input
+          checked={value === color}
+          class="absolute opacity-0"
+          {name}
+          oninput={onInput}
+          type="radio"
+          value={color}
+        />
 
-      {#if activeColor === color}
-        <span
-          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white"
-          class:!text-slate-300={activeColor === 'white'}
-          transition:fade={{ duration: 200 }}
-        >
-          <CheckIcon size="20" />
-        </span>
-      {/if}
-    </div>
-  {/each}
-</PickerContainer>
+        {#if currentColor === color}
+          <Badge colorVariant="successful" styleVariant="filled">
+            <CheckIcon size="10" />
+          </Badge>
+        {/if}
+      </label>
+    {/each}
+  </div>
+</div>
