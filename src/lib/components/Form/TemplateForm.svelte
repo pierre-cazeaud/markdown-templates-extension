@@ -19,12 +19,12 @@
   let originalContent = content;
   let originalTitle = title;
 
-  const handleTitleInput = (event: Event) => {
-    title = (event.target as HTMLInputElement).value;
-  };
-
   const handleContentInput = (event: Event) => {
     content = (event.target as HTMLTextAreaElement).value;
+  };
+
+  const handleTitleInput = (event: Event) => {
+    title = (event.target as HTMLInputElement).value;
   };
 </script>
 
@@ -49,4 +49,4 @@
   ]}
   onFormChangesCounterChange={(newCount) => (formChangesCounter = newCount)}
   onFormStateChange={(newState) => (formState = newState)}
-></Form>
+/>

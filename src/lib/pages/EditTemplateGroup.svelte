@@ -1,16 +1,14 @@
 <script lang="ts">
-  import { ArrowLeftIcon, CheckIcon, Trash2Icon, XIcon } from 'lucide-svelte';
+  import type { State } from '../components/Form/types';
+  import type { StoredTemplatesData, TemplateGroup, UUID } from '../types';
+  import { ArrowLeftIcon, CheckIcon, RotateCcwIcon, Trash2Icon } from 'lucide-svelte';
   import { appStore } from '../stores/appStore.svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
   import Button from '../components/Button.svelte';
-  import ColorPicker from '../components/Form/ColorPicker.svelte';
-  import IconPicker from '../components/Form/IconPicker.svelte';
-  import Label from '../components/Form/Label.svelte';
   import Page from '../layouts/Page.svelte';
-  import TextInput from '../components/Form/TextInput.svelte';
-  import TemplatePicker from '../components/Form/TemplatePicker.svelte';
-  import type { StoredTemplatesData, TemplateGroup, UUID } from '../types';
-  import type { FormEventHandler } from 'svelte/elements';
+  import { FORM_RESET_EVENT } from '../components/Form/Form.svelte';
+  import TemplateGroupForm from '../components/Form/TemplateGroupForm.svelte';
+  import Badge from '../components/Badge.svelte';
 
   const { editPageTemplateGroupProps, renderListPage } = appStore;
   const {
@@ -42,12 +40,10 @@
   );
   let title: TemplateGroup['title'] = $state(loadedTemplateGroup?.title || '');
   let ungroupedTemplateIds: UUID[] = $state(getUngroupedTemplates());
+  let formChangesCounter = $state<number | undefined>();
+    let formState = $state<State | undefined>();
 
   const onBackClick = () => {
-    renderListPage();
-  };
-
-  const onCancelClick = () => {
     renderListPage();
   };
 
@@ -56,6 +52,10 @@
       deleteTemplateGroup(templateGroupId);
       renderListPage();
     }
+  };
+
+  const onResetClick = () => {
+    document.dispatchEvent(new CustomEvent(FORM_RESET_EVENT));
   };
 
   const onSaveClick = () => {
@@ -85,12 +85,6 @@
     renderListPage();
   };
 
-  const onTitleChange: FormEventHandler<HTMLInputElement> = ({
-    currentTarget,
-  }) => {
-    title = currentTarget?.value;
-  };
-
   $effect(() => {
     // Push ungrouped templates back to newOrderedTemplateList
     for (const id of ungroupedTemplateIds) {
@@ -109,55 +103,70 @@
       if (templateIndex > -1) newOrderedTemplateList.splice(templateIndex, 1);
     }
   });
+
+  const isSaveDisbled = $derived(!formChangesCounter || formState === 'invalid')
 </script>
 
 <Page>
   {#snippet header()}
-    <div>
-      <Button
-        colorVariant="secondary"
-        icon={ArrowLeftIcon}
-        onClick={onBackClick}
-        title="Go back"
-      />
-    </div>
+    <Button
+      colorVariant="neutral"
+      icon={ArrowLeftIcon}
+      onClick={onBackClick}
+      sizeVariant="small"
+      title="Go back"
+    />
+  
+    <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-semibold">
+      {title || 'New template group'}
+    </span>
 
+    
     <div class="flex gap-2">
+      {#if templateGroupId}
+        <Button
+          colorVariant='neutral'
+          disabled={isSaveDisbled}
+          icon={RotateCcwIcon}
+          onClick={onResetClick}
+          sizeVariant="small"
+          title='Reset changes'
+        />
+      {/if}
+        
+      <Button
+        class="relative"
+        colorVariant='successful'
+        disabled={isSaveDisbled}
+        icon={CheckIcon}
+        onClick={onSaveClick} 
+        sizeVariant="small"
+        title='Save changes'
+      >
+        {#if templateGroupId && formChangesCounter}
+          <Badge colorVariant="successful">
+            {formChangesCounter.toString()}
+          </Badge>
+        {/if}
+      </Button>
+        
       {#if templateGroupId}
         <Button
           colorVariant="destructive"
           icon={Trash2Icon}
           onClick={onDeleteClick}
+          sizeVariant="small"
           title="Delete template"
         />
       {/if}
     </div>
   {/snippet}
 
-  <section class="flex flex-col gap-4">
-    <div class="flex flex-col gap-2">
-      <Label text='Title' />
-      <TextInput onchange={onTitleChange} bind:value={title} />
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <ColorPicker bind:activeColor={color} />
-      <IconPicker bind:activeIcon={icon} />
-    </div>
-
-    <TemplatePicker
-      bind:groupedTemplateIds={templateIds}
-      bind:ungroupedTemplateIds
-    />
-  </section>
-
-
-  {#snippet footer()}
-    <Button icon={XIcon} onClick={onCancelClick} colorVariant={'destructive'}
-      >Cancel changes</Button
-    >
-    <Button icon={CheckIcon} onClick={onSaveClick} colorVariant={'successful'}
-      >Save changes</Button
-    >
-  {/snippet}
+  <TemplateGroupForm 
+    bind:color
+    bind:icon
+    bind:formChangesCounter
+    bind:formState
+    bind:title
+  />
 </Page>
