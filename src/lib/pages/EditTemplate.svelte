@@ -58,7 +58,7 @@
     renderListPage();
   };
   
-  const isSaveDisbled = $derived(formChangesCounter === 0 || formState === 'invalid')
+  const isSaveDisbled = $derived(!formChangesCounter || formState === 'invalid');
 </script>
 
 <Page>
@@ -75,8 +75,8 @@
       {title || 'New template'}
     </span>
 
-    {#if templateId}
-      <div class="flex gap-2">
+    <div class="flex gap-2">
+      {#if templateId}
         <Button
           colorVariant='neutral'
           disabled={isSaveDisbled}
@@ -85,23 +85,25 @@
           sizeVariant="small"
           title='Reset changes'
         />
-          
-        <Button
-          class="relative"
-          colorVariant='successful'
-          disabled={isSaveDisbled}
-          icon={CheckIcon}
-          onClick={onSaveClick} 
-          sizeVariant="small"
-          title='Save changes'
-        >
-          {#if formChangesCounter}
-            <Badge colorVariant="successful">
-              {formChangesCounter.toString()}
-            </Badge>
-          {/if}
-        </Button>
-          
+      {/if}
+
+      <Button
+        class="relative"
+        colorVariant='successful'
+        disabled={isSaveDisbled}
+        icon={CheckIcon}
+        onClick={onSaveClick} 
+        sizeVariant="small"
+        title='Save changes'
+      >
+        {#if templateId && formChangesCounter}
+          <Badge colorVariant="successful">
+            {formChangesCounter.toString()}
+          </Badge>
+        {/if}
+      </Button>
+      
+      {#if templateId}
         <Button
           colorVariant="destructive"
           icon={Trash2Icon}
@@ -109,8 +111,8 @@
           sizeVariant="small"
           title="Delete template"
         />
-      </div>
-    {/if}
+      {/if}
+    </div>
   {/snippet}
 
   <TemplateForm
