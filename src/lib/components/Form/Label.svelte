@@ -3,6 +3,7 @@
   import type { State } from './types';
 
   export type LabelProps = TitleProps & {
+    isRequired?: boolean;
     state?: State;
   };
 </script>
@@ -23,7 +24,11 @@
     large: 'text-lg',
   };
 
-  let { class: classes, state = 'neutral', variant = 'default', ...props }: LabelProps = $props();
+  let { children, class: classes, isRequired, state = 'neutral', variant = 'default', ...props }: LabelProps = $props();
 </script>
 
-<Title class={`font-semibold ${stateClasses[state]} ${variantClasses[variant]} ${classes || ''}`} {...props} />
+
+<Title class={`font-semibold ${stateClasses[state]} ${variantClasses[variant]} ${classes || ''}`} {...props}>
+  {@render children()}{#if isRequired}<span class="text-xs align-text-top">*</span>{/if}
+</Title>
+

@@ -36,7 +36,9 @@
         />
       {/if}
 
-      <Title text={templateGroup.title} variant="large" />
+      <Title variant="large">
+        {templateGroup.title}
+      </Title>
     </div>
 
     <Button

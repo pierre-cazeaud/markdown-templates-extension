@@ -1,8 +1,9 @@
 <script module lang="ts">
+  import type { Snippet } from 'svelte';
   import type { TextVariant } from './types';
   
   export type TitleProps = HTMLAttributes<HTMLParagraphElement> & {
-    text: string;
+    children: Snippet;
     variant?: TextVariant;
   };
 </script>
@@ -16,12 +17,12 @@
     large: 'text-lg',
   };
 
-  let { class: classes, text, variant = 'default', ...props }: TitleProps = $props();
+  let { children, class: classes, variant = 'default', ...props }: TitleProps = $props();
 </script>
 
 <p
   class={`font-semibold ${variantClasses[variant]} ${classes || ''}`}
   {...props}
 >
-  {text}
+  {@render children()}
 </p>

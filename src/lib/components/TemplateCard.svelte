@@ -38,7 +38,9 @@
   {...props}
 >
   <header>
-    <Title text={title} />
+    <Title>
+      {title}
+    </Title>
   </header>
 
   {#if content}

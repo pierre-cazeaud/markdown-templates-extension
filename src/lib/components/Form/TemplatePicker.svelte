@@ -36,11 +36,11 @@
 </script>
 
 <section class="flex flex-col gap-2">
-  <Title text="Templates" variant="large" />
+  <Title variant="large">Templates</Title>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="flex flex-col gap-2">
-      <Label text="In this group" />
+      <Label>In this group</Label>
 
       <div
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"
@@ -69,7 +69,7 @@
     </div>
 
     <div class="flex flex-col gap-2">
-      <Label text="Ungrouped" />
+      <Label>Ungrouped</Label>
 
       <div
         class="flex flex-col gap-2 p-4 bg-surface text-on-surface rounded-lg border h-full"

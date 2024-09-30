@@ -112,7 +112,9 @@
 >
   {#each inputs as input, index}
     <div class="flex flex-col gap-2 group">
-      <Label state={inputsState[index]} text={input.label} />
+      <Label isRequired={input.required} state={inputsState[index]}>
+        {input.label}
+      </Label>
 
       {#if input.type === 'color'}
         <ColorPicker 
