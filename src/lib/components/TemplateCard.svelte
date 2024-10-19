@@ -1,14 +1,17 @@
 <script lang="ts">
   import type { HTMLAttributes } from 'svelte/elements';
-  import type { UUID } from '../types';
-  import { ClipboardIcon, Edit2Icon } from 'lucide-svelte';
+  import type { TemplateGroup, UUID } from '../types';
+  import { ClipboardIcon, Edit2Icon, CheckIcon } from 'lucide-svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
   import { appStore } from '../stores/appStore.svelte';
   import Button from './Button.svelte';
   import markdownit from 'markdown-it';
   import Title from './Text/Title.svelte';
+  import Badge from './Badge.svelte';
+  import { iconsStore } from '../stores/iconsStore.svelte';
 
   type Props = HTMLAttributes<HTMLElement> & {
+    groupBadge?: Pick<TemplateGroup, 'color' | 'icon' | 'title'>;
     hasActions?: boolean;
     templateId: UUID;
   };
@@ -16,6 +19,7 @@
   let {
     class: classes,
     hasActions = true,
+    groupBadge,
     templateId,
     ...props
   }: Props = $props();
@@ -37,10 +41,27 @@
   class={`template-card flex flex-col gap-3 bg-surface text-on-surface border rounded-md p-3 ${classes || ''}`}
   {...props}
 >
-  <header>
+  <header class="flex items-start">
     <Title>
       {title}
     </Title>
+
+    {#if groupBadge}
+      <Badge
+        class={`flex items-center gap-1 ml-auto ${groupBadge?.color === 'white' ? 'border' : ''}`}
+        colorVariant={groupBadge.color}
+        positionVariant="relative"
+      >
+        {#if groupBadge.icon}
+          <svelte:component
+            this={iconsStore.list[groupBadge.icon]}
+            size="12"
+            strokeWidth="1"
+          />
+        {/if}
+        {groupBadge.title}
+      </Badge>
+    {/if}
   </header>
 
   {#if content}

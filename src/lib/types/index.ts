@@ -15,13 +15,29 @@ export type Template = {
 };
 
 export type TemplateGroup = {
-  color?: string;
+  color?: TemplateGroupColors;
   creationTimestamp: Timestamp;
   editTimestamp: Timestamp;
   icon?: string;
   templateIds?: UUID[];
   title: string;
 };
+
+export type TemplateGroupColors =
+  | 'amber'
+  | 'blue'
+  | 'cyan'
+  | 'fuchsia'
+  | 'green'
+  | 'indigo'
+  | 'lime'
+  | 'orange'
+  | 'red'
+  | 'slate'
+  | 'teal'
+  | 'violet'
+  | 'yellow'
+  | 'white';
 
 type Timestamp = number;
 

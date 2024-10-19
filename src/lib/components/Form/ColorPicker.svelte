@@ -34,7 +34,7 @@
         />
 
         {#if currentColor === color}
-          <Badge colorVariant="successful" styleVariant="filled">
+          <Badge colorVariant="successful">
             <CheckIcon size="10" />
           </Badge>
         {/if}
