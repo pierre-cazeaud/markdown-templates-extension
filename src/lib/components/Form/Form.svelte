@@ -4,6 +4,7 @@
 
 <script lang="ts">
   import type { State } from './types';
+  import type { UUID } from '@/lib/types';
   import InputError from './InputError.svelte';
   import Label from './Label.svelte';
   import MarkdownEditor from './MarkdownEditor.svelte';
@@ -16,7 +17,8 @@
   type Props = {
     inputs: {
       label: string;
-      onInput: (event: Event) => void;
+      onInput?: (event: Event) => void;
+      onTemplatesInput?: (event: Event, value: UUID[]) => void;
       required?: boolean;
       requiredError?: string;
       type: 'color' | 'icon' | 'markdown' | 'template' | 'text';
@@ -51,32 +53,64 @@
 
   const handleInputInput = (event: Event, index: number) => {
     inputs[index]?.onInput?.(event);
-    inputsState[index] = (
-      event.currentTarget as HTMLInputElement
-    ).checkValidity()
-      ? 'valid'
-      : 'invalid';
+
+    if(inputs[index].required) {
+      inputsState[index] = (
+        event.currentTarget as HTMLInputElement
+      ).checkValidity()
+        ? 'valid'
+        : 'invalid';
+    }
+  };
+
+  const handleTemplatesPickerInput = (event: Event, index: number) => {
+    const currentFormData = new FormData(ref);
+    const key = inputs[index].label;
+    const data = currentFormData.getAll(key) as UUID[];
+    inputs[index]?.onTemplatesInput?.(event, data);
+
+    if(inputs[index].required) {
+      inputsState[index] = data.length > 0 ? 'valid' : 'invalid';
+    }
   };
 
   const resetForm = () => {
-    if (!originalFormData) return;
+    const currentFormData = new FormData(ref);
+    const uniqueFormDataKeys = new Set([...currentFormData.keys(), ...originalFormData?.keys() || []]);
+    if (!uniqueFormDataKeys) return;
 
-    originalFormData.keys().forEach((key) => {
-      const input = document.querySelector(`[name=${key}]`) as HTMLInputElement;
-      const inputOriginalValue = originalFormData?.get(key);
-      if (!input || !inputOriginalValue) return;
+    uniqueFormDataKeys.forEach((key) => {
+      const input = document.querySelector(`[name="${key}"]`) as HTMLInputElement;
+      if (!input) return;
 
       if(input.type === 'radio') {
-        const currentInput = document.querySelector(`[name=${key}]:checked`) as HTMLInputElement;
-        const originalInput = document.querySelector(`[name=${key}][value=${inputOriginalValue}]`) as HTMLInputElement;
+        const inputOriginalValue = originalFormData?.get(key);
+        const currentInput = document.querySelector(`[name="${key}"]:checked`) as HTMLInputElement;
+        const originalInput = document.querySelector(`[name="${key}"][value=${inputOriginalValue}]`) as HTMLInputElement;
         // Swap checked attributes to be retrieved by FormData
         currentInput.checked = false;
         originalInput.checked = true;
         // Trigger event to ensure states are updated
         originalInput.dispatchEvent(new Event('input', { bubbles: true }));
       }
+      else if(input.type === 'checkbox') {
+        const originalValues = originalFormData?.getAll(key) || [];
+        const currentValues = currentFormData?.getAll(key);
+        const mergedValues = new Set([...originalValues , ...currentValues]);
+
+        mergedValues.forEach(value => {
+          const input = document.querySelector(`[name="${key}"][value="${value}"]`) as HTMLInputElement;
+          const isInputChecked = originalValues.includes(value);
+          if(input.checked !== isInputChecked) {
+            input.checked = isInputChecked;
+            // Trigger event to ensure states are updated
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+        })
+      }
       else {
-        input.value = inputOriginalValue.toString();
+        const inputOriginalValue = originalFormData?.get(key);
+        if(inputOriginalValue) input.value = inputOriginalValue.toString();
         // Trigger event to ensure states are updated
         input.dispatchEvent(new Event('input', { bubbles: true }));
       }
@@ -86,9 +120,21 @@
   const updateChangesCounter = () => {
     let newChangesCounter = 0;
     const currentFormData = new FormData(ref);
-    currentFormData.keys().forEach((key) => {
-      if (currentFormData.get(key) !== originalFormData?.get(key))
+    // Ensure we have a unique set of keys as: 
+    //   - two similar formData.keys() are being merged 
+    //   - input like checkboxes are stored multiple times with the same key
+    const uniqueFormDataKeys = new Set([...currentFormData.keys(), ...originalFormData?.keys() || []]);
+
+    uniqueFormDataKeys.forEach((key) => {
+      if(!originalFormData?.get(key)) {
         newChangesCounter++;
+        return;
+      };
+
+      // Use getAll for checkboxes special case and toString as two arrays are never equal
+      if (currentFormData.getAll(key).toString() !== originalFormData?.getAll(key).toString()) {
+        newChangesCounter++;
+      }
     });
     formChangesCounter = newChangesCounter;
     onFormChangesCounterChange?.(newChangesCounter);
@@ -137,10 +183,11 @@
           value={input.value}
         />
       {:else if input.type === 'template'}
-        <!-- <TemplatePicker
-          bind:groupedTemplateIds={templateIds}
-          bind:ungroupedTemplateIds
-        /> -->
+        <TemplatePicker 
+          name={input.label}
+          onInput={(event) => handleTemplatesPickerInput(event, index)}
+          value={input.value}
+        />
       {:else if input.type === 'text'}
         <TextInput
           name={input.label}
@@ -148,7 +195,7 @@
           state={inputsState[index]}
           required={input.required}
           value={input.value}
-          />
+        />
       {/if}
 
       {#if input.requiredError && inputsState[index] === 'invalid'}
