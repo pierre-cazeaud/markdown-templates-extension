@@ -7,6 +7,55 @@ import type {
   UUID,
 } from '../types';
 
+const handleTemplateGroupUpdateOfTemplateIds = (
+  data: StoredTemplatesData,
+  groupId: UUID,
+  newTemplateIds: UUID[]
+) => {
+  // Stored and new template ids are the same
+  const storedTemplateIds = data.templateGroups[groupId].templateIds;
+  if (
+    JSON.stringify(data.templateGroups[groupId].templateIds) ===
+    JSON.stringify(newTemplateIds)
+  )
+    return;
+
+  // Make sure we take care of stored and new templates
+  const templateIds = new Set([
+    ...(storedTemplateIds || []),
+    ...newTemplateIds,
+  ]);
+
+  templateIds.forEach((id) => {
+    // Template is already in group but is not inside newly defined templates
+    if (
+      !newTemplateIds.includes(id) &&
+      data.templateGroups[groupId].templateIds
+    ) {
+      removeItemFromArray(data.templateGroups[groupId].templateIds, id);
+      data.orderedTemplateList.push({ id, type: 'template' });
+    }
+    // Template is inside data.orderedTemplateList (ungrouped)
+    else if (data.orderedTemplateList.some((template) => template.id === id)) {
+      removeItemFromArray(data.orderedTemplateList, id);
+      data.templateGroups[groupId].templateIds
+        ? data.templateGroups[groupId].templateIds.push(id)
+        : (data.templateGroups[groupId].templateIds = [id]);
+    }
+    // Template is inside another group
+    else {
+      Object.keys(data.templateGroups).forEach((key) => {
+        if (data.templateGroups[key as UUID].templateIds?.includes(id)) {
+          removeItemFromArray(data.templateGroups[key as UUID].templateIds, id);
+          data.templateGroups[groupId].templateIds
+            ? data.templateGroups[groupId].templateIds.push(id)
+            : (data.templateGroups[groupId].templateIds = [id]);
+        }
+      });
+    }
+  });
+};
+
 const initTemplatesStore = async () => {
   let isLoading = $state(true);
   let data = $state<StoredTemplatesData>({
@@ -82,6 +131,12 @@ const initTemplatesStore = async () => {
       setTemplatesStorage(data);
     },
 
+    getGroupIdOfTemplate(templateId: UUID) {
+      return Object.keys(data.templateGroups).find((groupId) =>
+        data.templateGroups[groupId as UUID].templateIds?.includes(templateId)
+      );
+    },
+
     readTemplate(templateId: UUID) {
       return data.templates?.[templateId];
     },
@@ -98,12 +153,14 @@ const initTemplatesStore = async () => {
 
     // Templates groups
     createTemplateGroup(
-      newGroup: Omit<TemplateGroup, 'creationTimestamp' | 'editTimestamp'>
+      newGroupData: Omit<TemplateGroup, 'creationTimestamp' | 'editTimestamp'>
     ) {
       const id = crypto.randomUUID();
       const timestamp = Date.now();
+      const { templateIds: newTemplateIds, ...newGroupDataRest } = newGroupData;
+
       data.templateGroups[id] = {
-        ...newGroup,
+        ...newGroupDataRest,
         creationTimestamp: timestamp,
         editTimestamp: timestamp,
       };
@@ -112,6 +169,9 @@ const initTemplatesStore = async () => {
         id,
         type: 'templateGroup',
       });
+
+      if (newTemplateIds)
+        handleTemplateGroupUpdateOfTemplateIds(data, id, newTemplateIds);
 
       setTemplatesStorage(data);
     },
@@ -136,11 +196,19 @@ const initTemplatesStore = async () => {
     },
 
     updateTemplateGroup(groupId: UUID, newGroupData: Partial<TemplateGroup>) {
+      const { templateIds: newTemplateIds, ...newGroupDataRest } = newGroupData;
+
       data.templateGroups[groupId] = {
         ...data.templateGroups[groupId],
-        ...newGroupData,
+        ...newGroupDataRest,
         editTimestamp: Date.now(),
       };
+
+      handleTemplateGroupUpdateOfTemplateIds(
+        data,
+        groupId,
+        newTemplateIds as UUID[]
+      );
 
       setTemplatesStorage(data);
     },
