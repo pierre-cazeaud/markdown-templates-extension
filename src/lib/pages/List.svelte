@@ -48,17 +48,6 @@
 </script>
 
 <Page>
-  {#snippet header()}    
-    {#if appOrigin === 'popup'}
-      <Button
-        class='ml-auto'
-        colorVariant="secondary"
-        icon={Maximize2Icon}
-        onClick={() => browser.runtime.openOptionsPage()}
-      />
-    {/if}
-  {/snippet}
-
   {#if isLoading}
     Loading
   {:else if !hasTemplates && !hasTemplateGroups}
@@ -78,10 +67,11 @@
     </section>
   {/if}
   
-  {#snippet footer()}    
+  {#snippet footer()}
+    {#if appOrigin === 'popup'}
+      <Button icon={Maximize2Icon} onClick={() => browser.runtime.openOptionsPage()}>Open fullwidth</Button>
+    {/if}
     <Button icon={FilePlusIcon} onClick={onCreateClick}>Create template</Button>
-    <Button icon={PackagePlusIcon} onClick={onCreateGroupClick}
-      >Create group</Button
-    >
+    <Button icon={PackagePlusIcon} onClick={onCreateGroupClick}>Create group</Button>
   {/snippet}
 </Page>
