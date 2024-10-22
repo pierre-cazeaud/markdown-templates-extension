@@ -16,6 +16,7 @@
 
   type Props = {
     inputs: {
+      isHalfWidth?: boolean;
       label: string;
       onInput?: (event: Event) => void;
       onTemplatesInput?: (event: Event, value: UUID[]) => void;
@@ -152,12 +153,12 @@
 
 <form
   bind:this={ref}
-  class="flex flex-col gap-4"
+  class="grid grid-cols-4 gap-4"
   oninput={handleFormInput}
   onsubmit={handleFormSubmit}
 >
   {#each inputs as input, index}
-    <div class="flex flex-col gap-2 group">
+    <div class="flex flex-col gap-2 group col-span-4" class:md:col-span-2={input.isHalfWidth}>
       <Label isRequired={input.required} state={inputsState[index]}>
         {input.label}
       </Label>

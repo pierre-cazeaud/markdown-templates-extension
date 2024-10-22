@@ -18,7 +18,7 @@
 </script>
 
 <div
-  class="p-4 rounded-lg bg-surface text-on-surface border"
+  class="h-full p-4 rounded-lg bg-surface text-on-surface border"
   oninput={handleInput}
 >
   <div class="flex flex-wrap gap-4">

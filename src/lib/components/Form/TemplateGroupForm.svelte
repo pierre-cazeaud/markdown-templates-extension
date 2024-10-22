@@ -56,12 +56,14 @@
       value: originalTitle,
     },
     {
+      isHalfWidth: true,
       label: 'Color',
       onInput: handleColorInput,
       type: 'color',
       value: originalColor,
     },
     {
+      isHalfWidth: true,
       label: 'Icon',
       onInput: handleIconInput,
       type: 'icon',
