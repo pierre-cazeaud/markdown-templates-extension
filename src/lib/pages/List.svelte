@@ -39,7 +39,7 @@
         onUpdate: function (event: SortableEvent) {
           const { oldIndex, newIndex } = event;
           const newOrderTemplateList = [...data.orderedTemplateList];
-          moveItemInArray(newOrderTemplateList, oldIndex, newIndex);
+          moveItemInArray(newOrderTemplateList, oldIndex as number, newIndex as number);
           updateOrderedTemplateList(newOrderTemplateList);
         },
       });

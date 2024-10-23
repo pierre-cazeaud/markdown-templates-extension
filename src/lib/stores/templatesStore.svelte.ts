@@ -26,6 +26,8 @@ const handleTemplateGroupUpdateOfTemplateIds = (
     ...newTemplateIds,
   ]);
 
+  let countSimilarTemplatesAtDifferentIndex = 0;
+
   templateIds.forEach((id) => {
     // Template is already in group but is not inside newly defined templates
     if (
@@ -34,6 +36,14 @@ const handleTemplateGroupUpdateOfTemplateIds = (
     ) {
       removeItemFromArray(data.templateGroups[groupId].templateIds, id);
       data.orderedTemplateList.push({ id, type: 'template' });
+    }
+    // Template is already in group but at a different index
+    else if (
+      data.templateGroups[groupId].templateIds?.includes(id) &&
+      data.templateGroups[groupId].templateIds?.indexOf(id) !==
+        newTemplateIds.indexOf(id)
+    ) {
+      countSimilarTemplatesAtDifferentIndex++;
     }
     // Template is inside data.orderedTemplateList (ungrouped)
     else if (data.orderedTemplateList.some((template) => template.id === id)) {
@@ -58,6 +68,15 @@ const handleTemplateGroupUpdateOfTemplateIds = (
       });
     }
   });
+
+  // Handle the case where templateIds were just reordered
+  if (
+    countSimilarTemplatesAtDifferentIndex > 0 &&
+    countSimilarTemplatesAtDifferentIndex ===
+      data.templateGroups[groupId].templateIds?.length
+  ) {
+    data.templateGroups[groupId].templateIds = newTemplateIds;
+  }
 };
 
 const initTemplatesStore = async () => {

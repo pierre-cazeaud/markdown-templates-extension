@@ -1,6 +1,8 @@
 <script lang="ts">
+  import type { SortableEvent } from 'sortablejs';
   import type { HTMLAttributes } from 'svelte/elements';
   import type { UUID } from '../types';
+  import Sortable from 'sortablejs';
   import { Edit2Icon, FilePlus2Icon } from 'lucide-svelte';
   import { appStore } from '../stores/appStore.svelte';
   import Button from './Button.svelte';
@@ -8,18 +10,44 @@
   import { iconsStore } from '../stores/iconsStore.svelte';
   import { templatesStore } from '../stores/templatesStore.svelte';
   import Title from './Text/Title.svelte';
+  import { moveItemInArray } from '../utils/array';
 
   type Props = HTMLAttributes<HTMLElement> & {
     templateGroupId: UUID;
   };
 
   let { class: classes, templateGroupId, ...props }: Props = $props();
+  let templateList = $state<HTMLElement>();
   const { renderEditTemplateGroupPage } = appStore;
-  const { readTemplateGroup } = templatesStore;
+  const { readTemplateGroup, updateTemplateGroup } = templatesStore;
 
   const templateGroup = readTemplateGroup(templateGroupId);
   const dynamicColor =
     templateGroup.color === 'white' ? 'slate' : templateGroup.color;
+
+  $effect(() => {
+    if (templateList) {
+      Sortable.create(templateList, {
+        animation: 150,
+        easing: 'cubic-bezier(1, 0, 0, 1)',
+        ghostClass: 'ring-2',
+
+        onUpdate: function (event: SortableEvent) {
+          const { oldIndex, newIndex } = event;
+          const newTemplatesIds = [...(templateGroup.templateIds as UUID[])];
+          moveItemInArray(
+            newTemplatesIds,
+            oldIndex as number,
+            newIndex as number
+          );
+          updateTemplateGroup(templateGroupId, {
+            ...templateGroup,
+            templateIds: newTemplatesIds,
+          });
+        },
+      });
+    }
+  });
 </script>
 
 <article
@@ -53,6 +81,7 @@
 
   {#if templateGroup.templateIds && templateGroup.templateIds?.length > 0}
     <div
+      bind:this={templateList}
       class="grid grid-cols-1 sm:has-[.template-card:nth-last-child(n+2)]:grid-cols-2 md:has-[.template-card:nth-last-child(n+3)]:grid-cols-3 lg:has-[.template-card:nth-last-child(n+4)]:grid-cols-4 gap-2 h-full"
     >
       {#each templateGroup.templateIds as templateId}
