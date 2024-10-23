@@ -37,7 +37,11 @@ const handleTemplateGroupUpdateOfTemplateIds = (
     }
     // Template is inside data.orderedTemplateList (ungrouped)
     else if (data.orderedTemplateList.some((template) => template.id === id)) {
-      removeItemFromArray(data.orderedTemplateList, id);
+      const templateIndex = data.orderedTemplateList.findIndex(
+        (item) => item.id === id
+      );
+      if (templateIndex > -1) data.orderedTemplateList.splice(templateIndex, 1);
+
       data.templateGroups[groupId].templateIds
         ? data.templateGroups[groupId].templateIds.push(id)
         : (data.templateGroups[groupId].templateIds = [id]);
