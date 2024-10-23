@@ -19,7 +19,7 @@
 </script>
 
 <input
-  class={`border bg-surface  rounded text-base p-2 transition ${stateClasses[state]} ${classes || ''}`}
+  class="border bg-surface  rounded text-base p-2 transition {stateClasses[state]} {classes || ''}"
   type="text"
   {value}
   {...props}

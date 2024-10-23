@@ -23,7 +23,7 @@
 >
   <div class="flex flex-wrap gap-4">
     {#each COLOR_PICKER_LIST as color}
-      <label class={`relative bg-${color}-300 border rounded-full size-8`}>
+      <label class="relative bg-{color}-300 border rounded-full size-8">
         <input
           checked={value === color}
           class="absolute opacity-0"

@@ -57,7 +57,7 @@
 </script>
 
 <span
-  class={`flex justify-center items-center p-1 rounded-full text-on-surface text-[0.625rem] ${getPositionClasses(positionVariant)} ${getStyleClasses(colorVariant)} ${classes || ''}`}
+  class="flex justify-center items-center p-1 rounded-full text-on-surface text-[0.625rem] {getPositionClasses(positionVariant)} {getStyleClasses(colorVariant)} {classes || ''}"
   transition:fly={{ y: 4 }}
   {...props}
 >

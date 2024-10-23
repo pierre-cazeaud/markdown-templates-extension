@@ -16,7 +16,7 @@
 </script>
 
 <Container footer={footer} header={header} isFullWidth={appOrigin !== 'popup'}>
-  <div class={`flex flex-col grow gap-4 ${classes || ''}`} in:fade={{duration: 150}}>
+  <div class="flex flex-col grow gap-4 {classes || ''}" in:fade={{duration: 150}}>
     {@render children()}
   </div>
 </Container>

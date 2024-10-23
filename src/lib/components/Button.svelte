@@ -57,7 +57,7 @@
 
 <button
   onclick={onClick}
-  class={`flex items-center gap-1 rounded transition select-none ${colorClasses[colorVariant]} ${classes || ''}`}
+  class="flex items-center gap-1 rounded transition select-none {colorClasses[colorVariant]} {classes || ''}"
   class:cursor-not-allowed={props.disabled}
   class:opacity-50={props.disabled}
   {title}

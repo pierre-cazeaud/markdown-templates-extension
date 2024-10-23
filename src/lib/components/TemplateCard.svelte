@@ -38,7 +38,8 @@
 </script>
 
 <article
-  class={`template-card flex flex-col gap-3 bg-surface text-on-surface border rounded-md p-3 ${classes || ''}`}
+  class="template-card flex flex-col gap-3 bg-surface text-on-surface border rounded-md p-3 {classes ||
+    ''}"
   {...props}
 >
   <header class="flex items-start">
@@ -48,7 +49,9 @@
 
     {#if groupBadge}
       <Badge
-        class={`flex items-center gap-1 ml-auto ${groupBadge?.color === 'white' ? 'border' : ''}`}
+        class="flex items-center gap-1 ml-auto {groupBadge?.color === 'white'
+          ? 'border'
+          : ''}"
         colorVariant={groupBadge.color}
         positionVariant="relative"
       >

@@ -42,7 +42,7 @@
         />
 
         <TemplateCard
-          class={`h-full outline-${groupData?.color} peer-checked:outline peer-checked:outline-successful`}
+          class="h-full outline-{groupData?.color} peer-checked:outline peer-checked:outline-successful"
           {...groupData && {
             groupBadge: {
               color: groupData.color,

@@ -23,11 +23,12 @@
 </script>
 
 <article
-  class={`flex flex-col gap-2 p-3 bg-${templateGroup.color}-100 rounded border sm:has-[.template-card:nth-last-child(n+2)]:col-span-2 md:has-[.template-card:nth-last-child(n+3)]:col-span-3 lg:has-[.template-card:nth-last-child(n+4)]:col-span-4 ${classes || ''}`}
+  class="flex flex-col gap-2 p-3 bg-{templateGroup.color}-100 rounded border sm:has-[.template-card:nth-last-child(n+2)]:col-span-2 md:has-[.template-card:nth-last-child(n+3)]:col-span-3 lg:has-[.template-card:nth-last-child(n+4)]:col-span-4 {classes ||
+    ''}"
   {...props}
 >
   <header class="flex items-center justify-between">
-    <div class={`flex items-center gap-2 text-${dynamicColor}-600`}>
+    <div class="flex items-center gap-2 text-{dynamicColor}-600">
       {#if templateGroup.icon}
         <svelte:component
           this={iconsStore.list[templateGroup.icon]}
@@ -56,13 +57,13 @@
     >
       {#each templateGroup.templateIds as templateId}
         <TemplateCard
-          class={`${templateGroup.color !== 'white' && 'border-0'}`}
+          class={templateGroup.color !== 'white' ? 'border-0' : ''}
           {templateId}
         />
       {/each}
     </div>
   {:else}
-    <div class={`flex flex-col gap-4 py-12 grow items-center justify-center`}>
+    <div class="flex flex-col gap-4 py-12 grow items-center justify-center">
       <p class="text-sm text-center text-slate-500">
         No template is linked to this group.
       </p>

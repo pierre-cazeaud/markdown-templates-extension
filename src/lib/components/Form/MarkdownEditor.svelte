@@ -36,7 +36,7 @@
     <!-- height calculated by removing widget bar height -->
     <textarea
       bind:this={codeRef}
-      class={`flex p-4 min-h-80 text-base transition-all outline-1 whitespace-pre-wrap overflow-x-auto w-full resize-none h-[calc(100%-77px)] @[34rem]:h-[calc(100%-41px)] ${stateClasses[inputState]}`}
+      class="flex p-4 min-h-80 text-base transition-all outline-1 whitespace-pre-wrap overflow-x-auto w-full resize-none h-[calc(100%-77px)] @[34rem]:h-[calc(100%-41px)] {stateClasses[inputState]}"
       {name}
       oninput={(event) => {
         onInput(event);
