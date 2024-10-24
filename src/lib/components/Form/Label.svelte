@@ -28,7 +28,7 @@
 </script>
 
 
-<Title class="font-semibold {stateClasses[state]} {variantClasses[variant]} {classes || ''}" {...props}>
+<Title class="font-semibold {stateClasses[state]} {variantClasses[variant]} {classes}" {...props}>
   {@render children()}{#if isRequired}<span class="text-xs align-text-top">*</span>{/if}
 </Title>
 

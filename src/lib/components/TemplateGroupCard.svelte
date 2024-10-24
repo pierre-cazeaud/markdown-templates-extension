@@ -51,8 +51,7 @@
 </script>
 
 <article
-  class="flex flex-col gap-2 p-3 bg-{templateGroup.color}-100 rounded border sm:has-[.template-card:nth-last-child(n+2)]:col-span-2 md:has-[.template-card:nth-last-child(n+3)]:col-span-3 lg:has-[.template-card:nth-last-child(n+4)]:col-span-4 {classes ||
-    ''}"
+  class="flex flex-col gap-2 p-3 bg-{templateGroup.color}-100 rounded border sm:has-[.template-card:nth-last-child(n+2)]:col-span-2 md:has-[.template-card:nth-last-child(n+3)]:col-span-3 lg:has-[.template-card:nth-last-child(n+4)]:col-span-4 {classes}"
   {...props}
 >
   <header class="flex items-center justify-between">

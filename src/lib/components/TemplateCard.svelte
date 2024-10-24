@@ -38,8 +38,7 @@
 </script>
 
 <article
-  class="template-card flex flex-col gap-3 bg-surface text-on-surface border rounded-md p-3 {classes ||
-    ''}"
+  class="template-card flex flex-col gap-3 bg-surface text-on-surface border rounded-md p-3 {classes}"
   {...props}
 >
   <header class="flex items-start">

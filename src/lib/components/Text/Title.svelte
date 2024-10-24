@@ -21,7 +21,7 @@
 </script>
 
 <p
-  class="font-semibold {variantClasses[variant]} {classes || ''}"
+  class="font-semibold {variantClasses[variant]} {classes}"
   {...props}
 >
   {@render children()}
