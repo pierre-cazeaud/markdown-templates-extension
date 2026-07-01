@@ -7,7 +7,7 @@ import type {
   UUID,
 } from '../types';
 
-const initTemplatesStore = async () => {
+export const initTemplatesStore = async () => {
   let isLoading = $state(true);
   let data = $state<StoredTemplatesData>({
     orderedTemplateList: [],
@@ -64,7 +64,7 @@ const initTemplatesStore = async () => {
     deleteTemplate(templateId: UUID) {
       delete data?.templates?.[templateId];
 
-      templatesStore.deleteOrderedTemplateItem(templateId);
+      this.deleteOrderedTemplateItem(templateId);
 
       let targetGroupId;
       for (const id of Object.keys(data.templateGroups)) {
@@ -119,7 +119,7 @@ const initTemplatesStore = async () => {
     deleteTemplateGroup(groupId: UUID) {
       const { templateIds } = data.templateGroups[groupId];
 
-      templatesStore.deleteOrderedTemplateItem(groupId);
+      this.deleteOrderedTemplateItem(groupId);
       delete data?.templateGroups?.[groupId];
 
       if (templateIds) {
@@ -169,6 +169,7 @@ const initTemplatesStore = async () => {
       data.orderedTemplateList = newOrderedTemplateList;
       setTemplatesStorage(data);
     },
+
   };
 };
 
