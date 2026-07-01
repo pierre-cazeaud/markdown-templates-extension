@@ -32,7 +32,7 @@
     injectMarkdown(textEditorRef, element);
 
     // Ensure the content is updated
-    textEditorRef.dispatchEvent(new Event('input'));
+    textEditorRef.dispatchEvent(new InputEvent('input', { bubbles: true }));
   };
 </script>
 
